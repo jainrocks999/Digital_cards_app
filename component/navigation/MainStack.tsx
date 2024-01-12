@@ -6,6 +6,7 @@ import Splash from '../screens/Splash';
 import Login from '../screens/Login';
 import SignUp from '../screens/SignUp';
 import DrawerNavigation from './drawerNavigation';
+import CreateVcard from '../screens/createVcard';
 
 export default function MainStack() {
 
@@ -20,6 +21,9 @@ export default function MainStack() {
     <Stack.Screen name="Login" component={Login} />
     <Stack.Screen name="SignUp" component={SignUp} />
     <Stack.Screen name="home" component={DrawerNavigation} />
+
+    
+    
 
   </Stack.Navigator>
   )

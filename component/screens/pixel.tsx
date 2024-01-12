@@ -79,6 +79,10 @@ import {
               paddingVertical: 5,
             }}>
             <TouchableOpacity
+
+            onPress={()=>{
+              navigation.navigate('CreatePixel')
+            }}
               style={{
                 flexDirection: 'row',
                 borderWidth: 1,

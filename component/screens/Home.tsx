@@ -57,6 +57,9 @@ export default function Home() {
           renderItem={({item}) => (
             <View style={{flex: 1}}>
               <TouchableOpacity
+              onPress={() => {
+                navigation.navigate(item.navigate);
+             }}
                 style={{
                   height: hp(30),
                   shadowColor: '#000',
@@ -131,7 +134,10 @@ export default function Home() {
             </Text>
           </View>
 
-          <TouchableOpacity
+          <TouchableOpacity 
+           onPress={() => {
+            navigation.navigate('CreatVCard');
+         }}
             style={{
               flexDirection: 'row',
               borderWidth: 1,
@@ -201,17 +207,21 @@ const data = [
   {
     name: 'vcards',
     count: 0,
+    navigate:'Vcard'
   },
   {
     name: 'projects',
     count: 0,
+    navigate:'Project'
   },
   {
     name: 'pixels',
     count: 0,
+    navigate:'Pixel'
   },
   {
     name: 'domains',
     count: 0,
+    navigate:'CustomDomains'
   },
 ];

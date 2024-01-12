@@ -79,6 +79,10 @@ import {
               paddingVertical: 5,
             }}>
             <TouchableOpacity
+
+            onPress={()=>{
+              navigation.navigate('ConnectDomain')
+            }}
               style={{
                 flexDirection: 'row',
                 borderWidth: 1,
@@ -96,7 +100,7 @@ import {
                   fontSize: 16,
                   color: '#ed2f95',
                 }}>
-                Create Custom domains
+                Connect Custom domains
               </Text>
             </TouchableOpacity>
   
@@ -126,22 +130,7 @@ import {
             </TouchableOpacity>
           </View>
   
-          {/* <View style={{backgroundColor:'#fff',
-        marginTop:10,height:45,marginHorizontal:10,
-        flexDirection:'row',justifyContent:'space-between'}}>
-  
-  
-  <View style={{width:'40%',
-  justifyContent:'center',
-  alignItems:'center'}}>
-      <Text style={{fontSize:18,color:'#000'}}>Vcard</Text>
-  </View>
-  <View style={{width:'40%',
-  justifyContent:'center',
-  alignItems:'center'}}>
-    <Text style={{fontSize:18,color:'#000'}}>Status</Text>
-  </View>
-        </View> */}
+
   
           <View
             style={{

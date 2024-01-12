@@ -9,6 +9,10 @@ import Vcard from '../screens/Vcard';
 import Project from '../screens/project';
 import Pixels from '../screens/pixel';
 import CustomDomains from '../screens/Customdomains';
+import CreateVcard from '../screens/createVcard';
+import CreateProject from '../screens/createProject';
+import CreatePixel from '../screens/createPixels';
+import ConnectDomain from '../screens/ConnectDomain';
 
 
 
@@ -17,7 +21,9 @@ const Drawer = createDrawerNavigator();
 const DrawerNavigation = () => {
   
   return (
-    <Drawer.Navigator 
+    <Drawer.Navigator screenOptions={{
+      headerShown:false
+    }}
      drawerContent={(props) => <DrawerContent {...props} />}
     >
       <Drawer.Screen 
@@ -26,7 +32,7 @@ const DrawerNavigation = () => {
       <Drawer.Screen 
       options={{headerShown:false}}
       name="Vcard" component={Vcard} />
-      <Drawer.Screen 
+      <Drawer.Screen  
       options={{headerShown:false}}
       name="Project" component={Project} />
       <Drawer.Screen 
@@ -35,7 +41,21 @@ const DrawerNavigation = () => {
       <Drawer.Screen 
       options={{headerShown:false}}
       name="CustomDomains" component={CustomDomains} />
-      
+      <Drawer.Screen 
+      options={{headerShown:false}}
+      name="CreateProject" component={CreateProject} />
+      <Drawer.Screen 
+      options={{headerShown:false}}
+      name="CreatePixel" component={CreatePixel} />
+      <Drawer.Screen 
+      options={{headerShown:false}}
+      name="ConnectDomain" component={ConnectDomain} />
+ <Drawer.Screen 
+ 
+ options={{
+
+ }}
+ name="CreatVCard" component={CreateVcard} />
     </Drawer.Navigator>
   );
 };

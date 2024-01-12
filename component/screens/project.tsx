@@ -79,6 +79,9 @@ export default function Project() {
             paddingVertical: 5,
           }}>
           <TouchableOpacity
+     onPress={()=>{
+      navigation.navigate('CreatePixel')
+     }}
             style={{
               flexDirection: 'row',
               borderWidth: 1,
@@ -187,21 +190,3 @@ alignItems:'center'}}>
   );
 }
 
-const data = [
-  {
-    name: 'vcards',
-    count: 0,
-  },
-  {
-    name: 'projects',
-    count: 0,
-  },
-  {
-    name: 'pixels',
-    count: 0,
-  },
-  {
-    name: 'domains',
-    count: 0,
-  },
-];

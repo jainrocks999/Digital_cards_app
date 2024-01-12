@@ -64,7 +64,7 @@ import {
                 fontWeight: '600',
                 marginHorizontal: 20,
               }}>
-              Projects
+              Vcards
             </Text>
             <AntDesign name="infocirlce" size={20} color={'#000'} />
           </View>
@@ -79,6 +79,9 @@ import {
               paddingVertical: 5,
             }}>
             <TouchableOpacity
+             onPress={() => {
+              navigation.navigate('CreatVCard');
+           }}
               style={{
                 flexDirection: 'row',
                 borderWidth: 1,
