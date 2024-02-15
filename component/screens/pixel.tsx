@@ -22,21 +22,36 @@ import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
   } from 'react-native-responsive-screen';
+import { useDispatch, useSelector } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { changeTheme } from '../redux/feature/ThemeSlice';
   export default function Pixels() {
     const navigation = useNavigation();
+    const theme = useSelector(state =>  state.theme.data);
+    const dispatch =useDispatch();
+    
+    
+      let textColor = theme == 'light' ? '#000' : '#fff';
+      let bgColor = theme == 'light' ? '#fff' : '#575757';
+    
+      const changeTheame = async () => {
+        await AsyncStorage.setItem('theme', theme == 'light' ? 'dark' : 'light');
+        dispatch(changeTheme(theme == 'light' ? 'dark' : 'light'));
+      };
+
     return (
-      <View style={{flex: 1, backgroundColor: '#fff'}}>
+      <View style={{flex: 1, backgroundColor:theme=='light'?'#fff':'#333'}}>
         <ScrollView>
           <View
             style={{
               flexDirection: 'row',
               alignItems: 'center',
-              backgroundColor: '#fff',
+              backgroundColor:bgColor,
             }}>
             <TouchableOpacity
               onPress={() => navigation.openDrawer()}
               style={{width: '20%'}}>
-              <Entypo size={40} name="menu" />
+              <Entypo size={40} name="menu"  color={textColor}/>
             </TouchableOpacity>
             <View
               style={{
@@ -44,29 +59,44 @@ import {
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
-              <Text style={{fontSize: 22, fontWeight: '600'}}>Pixels</Text>
+              <Text style={{fontSize: 22, fontWeight: '600',color:textColor}}>Pixels</Text>
             </View>
             <TouchableOpacity
+            onPress={() => {
+              changeTheame();
+            }}
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Feather
+              name="sun"
+              size={25}
+              color={theme == 'light' ? 'orange' : 'black'}
+            />
+            <Text
               style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
+                marginLeft: 5,
+                color: theme == 'light' ? 'orange' : '#fff',
               }}>
-              <Feather name="sun" size={25} color={'#000'} />
-              <Text style={{marginLeft: 5, color: '#000'}}>Light</Text>
-            </TouchableOpacity>
+              Light
+            </Text>
+          </TouchableOpacity>
           </View>
           <View
-            style={{flexDirection: 'row', alignItems: 'center', marginTop: 20}}>
+            style={{flexDirection: 'row',height:hp(8),backgroundColor:bgColor,
+             alignItems: 'center', marginTop: 20}}>
             <Text
               style={{
                 fontSize: 22,
                 fontWeight: '600',
                 marginHorizontal: 20,
+                color:textColor
               }}>
               Pixels
             </Text>
-            <AntDesign name="infocirlce" size={20} color={'#000'} />
+            <AntDesign name="infocirlce" size={20} color={textColor} />
           </View>
   
           <View
@@ -77,6 +107,7 @@ import {
               height: hp(8),
               paddingHorizontal: 10,
               paddingVertical: 5,
+              backgroundColor:bgColor
             }}>
             <TouchableOpacity
 
@@ -113,39 +144,25 @@ import {
                 justifyContent: 'center',
                 borderRadius: 5,
                 borderWidth: 1,
+                borderColor:textColor
               }}>
-              <Foundation name="download" size={30} />
+              <Foundation name="download" size={30} color={textColor} />
             </TouchableOpacity>
             <TouchableOpacity
               style={{
                 height: 45,
                 width: 45,
-  
+                borderColor:textColor,
                 alignItems: 'center',
                 justifyContent: 'center',
                 borderRadius: 5,
                 borderWidth: 1,
               }}>
-              <FontAwesome name="filter" size={30} />
+              <FontAwesome name="filter" size={30}  color={textColor}/>
             </TouchableOpacity>
           </View>
   
-          {/* <View style={{backgroundColor:'#fff',
-        marginTop:10,height:45,marginHorizontal:10,
-        flexDirection:'row',justifyContent:'space-between'}}>
-  
-  
-  <View style={{width:'40%',
-  justifyContent:'center',
-  alignItems:'center'}}>
-      <Text style={{fontSize:18,color:'#000'}}>Vcard</Text>
-  </View>
-  <View style={{width:'40%',
-  justifyContent:'center',
-  alignItems:'center'}}>
-    <Text style={{fontSize:18,color:'#000'}}>Status</Text>
-  </View>
-        </View> */}
+
   
           <View
             style={{
@@ -153,7 +170,7 @@ import {
               paddingHorizontal: 10,
               alignItems: 'center',
               marginVertical: 20,
-              backgroundColor: '#fff',
+              backgroundColor: bgColor,
             }}>
             <View style={{height: hp(40), width: '100%', marginVertical: 20}}>
               <Image
@@ -162,10 +179,10 @@ import {
                 resizeMode="contain"
               />
             </View>
-            <Text style={{fontSize: 22, fontWeight: '600', color: '#000'}}>
+            <Text style={{fontSize: 22, fontWeight: '600', color: textColor}}>
               There are no Pixels for now
             </Text>
-            <Text style={{fontSize: 16, color: '#000', marginVertical: 10}}>
+            <Text style={{fontSize: 16, color: textColor, marginVertical: 10}}>
               Start by creating your first Pixels.
             </Text>
           </View>
@@ -179,7 +196,7 @@ import {
               />
             </View>
             <View style={{marginTop: 10}}>
-              <Text>Copyright © 2024 Bluestone Smart Card.</Text>
+              <Text style={{color:textColor}}>Copyright © 2024 Bluestone Smart Card.</Text>
             </View>
             <TouchableOpacity style={{marginTop: 5}}>
               <Text style={{color: 'blue'}}>blog</Text>

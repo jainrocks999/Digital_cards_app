@@ -23,10 +23,23 @@ import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
   } from 'react-native-responsive-screen';
+import { useDispatch, useSelector } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { changeTheme } from '../redux/feature/ThemeSlice';
   export default function ConnectDomain() {
     const navigation = useNavigation();
+    const theme = useSelector(state =>  state.theme.data);
+    const dispatch = useDispatch();
+  
+    let textColor = theme == 'light' ? '#000' : '#fff';
+    let bgColor = theme == 'light' ? '#fff' : '#575757';
+  
+    const changeTheame = async () => {
+      await AsyncStorage.setItem('theme', theme == 'light' ? 'dark' : 'light');
+      dispatch(changeTheme(theme == 'light' ? 'dark' : 'light'));
+    };
     return (
-      <View style={{flex: 1, backgroundColor: '#fff'}}>
+      <View style={{flex: 1, backgroundColor:theme=='light'?'#fff':'#333'}}>
         <ScrollView
           style={{paddingHorizontal: 5}}
           showsVerticalScrollIndicator={false}>
@@ -34,12 +47,12 @@ import {
             style={{
               flexDirection: 'row',
               alignItems: 'center',
-              backgroundColor: '#fff',
+              backgroundColor: bgColor,
             }}>
             <TouchableOpacity
               onPress={() => navigation.openDrawer()}
               style={{width: '20%'}}>
-              <Entypo size={40} name="menu" />
+              <Entypo size={40} name="menu" color={textColor} />
             </TouchableOpacity>
             <View
               style={{
@@ -47,17 +60,30 @@ import {
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
-              <Text style={{fontSize: 22, fontWeight: '600'}}>Create Vcard </Text>
+              <Text style={{fontSize: 22, fontWeight: '600',color:textColor}}>Custom Domain </Text>
             </View>
             <TouchableOpacity
+            onPress={() => {
+              changeTheame();
+            }}
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Feather
+              name="sun"
+              size={25}
+              color={theme == 'light' ? 'orange' : 'black'}
+            />
+            <Text
               style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
+                marginLeft: 5,
+                color: theme == 'light' ? 'orange' : '#fff',
               }}>
-              <Feather name="sun" size={25} color={'#000'} />
-              <Text style={{marginLeft: 5, color: '#000'}}>Light</Text>
-            </TouchableOpacity>
+              Light
+            </Text>
+          </TouchableOpacity>
           </View>
           <View
             style={{ justifyContent: 'center', marginTop: 20}}>
@@ -66,13 +92,15 @@ import {
                 fontSize: 22,
                 fontWeight: '600',
                 marginHorizontal: 20,
+                color:textColor
               }}>
             Connect custom domain
             </Text>
        
           </View>
           <View style={{marginHorizontal:20,marginTop:10}}>
-            <Text>Make sure that your domain or subdomain has an A record pointing to 162.254.39.14 or CNAME record pointing to bluestonecard.com.</Text>
+            <Text 
+            style={{color:textColor}}>Make sure that your domain or subdomain has an A record pointing to 162.254.39.14 or CNAME record pointing to bluestonecard.com.</Text>
           </View>
   
           <View
@@ -85,17 +113,17 @@ import {
               },
               shadowOpacity: 0.25,
               shadowRadius: 3.84,
-              backgroundColor: '#fff',
+              backgroundColor:bgColor,
               elevation: 5,
               marginTop: 15,
-              height: hp(80),
+              height: hp(85),
               borderRadius: 5,
             }}>
             <View style={{marginTop: 25, paddingHorizontal: 10}}>
               <View style={{flexDirection: 'row', marginHorizontal: 10}}>
-                <FontAwesome name="bolt" size={20} color={'#000'} />
+                <FontAwesome name="bolt" size={20} color={textColor} />
                 <Text
-                  style={{fontSize: 18, marginHorizontal: 10, fontWeight: '600'}}>
+                  style={{fontSize: 18, marginHorizontal: 10,color:textColor, fontWeight: '600'}}>
                   {' '}
                   Domain or subdomain
                 </Text>
@@ -121,9 +149,10 @@ import {
                 }}>
            
                 <View
-                  style={{backgroundColor: '#fff', height: '100%', width: '100%'}}>
+                  style={{backgroundColor:theme=='light'?'#fff':'#333', height: '100%', width: '100%'}}>
                   <TextInput
                     placeholder="domain.com"
+                    placeholderTextColor={textColor}
                     style={{fontSize: 14, paddingHorizontal: 10}}
                   />
                 </View>
@@ -132,9 +161,9 @@ import {
             </View>
             <View style={{marginTop: 25, paddingHorizontal: 10}}>
               <View style={{flexDirection: 'row', marginHorizontal: 10}}>
-                <FontAwesome5 name="signature" size={19} color={'#000'} />
+                <FontAwesome5 name="signature" size={19} color={textColor} />
                 <Text
-                  style={{fontSize: 18, marginHorizontal: 10, fontWeight: '600'}}>
+                  style={{fontSize: 18, marginHorizontal: 10,color:textColor, fontWeight: '600'}}>
                   Custom index URL
                 </Text>
               </View>
@@ -152,7 +181,7 @@ import {
                   shadowRadius: 3.84,
   
                   elevation: 8,
-                  backgroundColor: '#fff',
+                  backgroundColor: bgColor,
                   marginTop: 15,
   
                   borderRadius: 10,
@@ -160,19 +189,20 @@ import {
                 }}>
                 <View
                   style={{
-                    backgroundColor: '#fff',
+                    backgroundColor: theme=='light'?'#fff':'#333',
                     height: '100%',
                     width: '100%',
                   }}>
                   <TextInput
                     placeholder="https://domain.com"
-                    style={{fontSize: 14, paddingHorizontal: 10}}
+                    placeholderTextColor={textColor}
+                    style={{fontSize: 14, paddingHorizontal: 10,color:textColor}}
                   />
                 </View>
               </View>
             </View>
             <View style={{marginHorizontal: 10, marginVertical: 5}}>
-              <Text style={{marginHorizontal:10}}>Redirect to a specific URL when visitors land on the index of the domain, in case you don't want to use the custom domain for a single vcard.</Text>
+              <Text style={{marginHorizontal:10,color:textColor}}>Redirect to a specific URL when visitors land on the index of the domain, in case you don't want to use the custom domain for a single vcard.</Text>
 
             </View>
             <View style={{marginTop: 25, paddingHorizontal: 10}}>
@@ -182,9 +212,9 @@ import {
                   marginHorizontal: 10,
                   alignItems: 'center',
                 }}>
-                <Entypo name="pencil" size={19} color={'#000'} />
+                <Entypo name="pencil" size={19} color={textColor} />
                 <Text
-                  style={{fontSize: 18, marginHorizontal: 10, fontWeight: '600'}}>
+                  style={{fontSize: 18, marginHorizontal: 10,color:textColor, fontWeight: '600'}}>
                   Custom 404 not found URL
                 </Text>
               </View>
@@ -210,19 +240,20 @@ import {
                 }}>
                 <View
                   style={{
-                    backgroundColor: '#fff',
+                    backgroundColor: theme=='light'?'#fff':'#333',
                     height: '100%',
                     width: '100%',
                   }}>
                   <TextInput
                     placeholder="https://domain.com/404-page"
-                    style={{fontSize: 14, paddingHorizontal: 10}}
+                    placeholderTextColor={textColor}
+                    style={{fontSize: 14, paddingHorizontal: 10,color:textColor}}
                   />
                 </View>
               </View>
             </View>
             <View style={{marginHorizontal: 10, marginVertical: 5}}>
-              <Text style={{marginHorizontal:10}}>
+              <Text style={{marginHorizontal:10,color:textColor}}>
               Redirect to a specific URL when visitors land on a not found page of the domain.</Text>
             </View>
   
@@ -233,7 +264,7 @@ import {
                 height: hp(6),
                 alignItems: 'center',
                 justifyContent: 'center',
-                backgroundColor: '#1034a6',
+                backgroundColor: theme=='light'?'#1034a6':'#333',
                 borderRadius: 10,marginTop:50,
                 marginVertical:10
               }}>
@@ -250,7 +281,7 @@ import {
               />
             </View>
             <View style={{marginTop: 10}}>
-              <Text>Copyright © 2024 Bluestone Smart Card.</Text>
+              <Text style={{color:textColor}}>Copyright © 2024 Bluestone Smart Card.</Text>
             </View>
             <TouchableOpacity style={{marginTop: 5}}>
               <Text style={{color: 'blue'}}>blog</Text>

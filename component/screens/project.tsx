@@ -22,21 +22,36 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { changeTheme } from '../redux/feature/ThemeSlice';
+import { useDispatch, useSelector } from 'react-redux';
 export default function Project() {
   const navigation = useNavigation();
+  const theme = useSelector(state =>  state.theme.data);
+  const dispatch =useDispatch();
+  
+  
+    let textColor = theme == 'light' ? '#000' : '#fff';
+    let bgColor = theme == 'light' ? '#fff' : '#575757';
+  
+    const changeTheame = async () => {
+      await AsyncStorage.setItem('theme', theme == 'light' ? 'dark' : 'light');
+      dispatch(changeTheme(theme == 'light' ? 'dark' : 'light'));
+    };
+
   return (
-    <View style={{flex: 1, backgroundColor: '#fff'}}>
+    <View style={{flex: 1,backgroundColor:theme=='light'?'#fff':'#333'}}>
       <ScrollView>
         <View
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            backgroundColor: '#fff',
+            backgroundColor:bgColor,
           }}>
           <TouchableOpacity
             onPress={() => navigation.openDrawer()}
             style={{width: '20%'}}>
-            <Entypo size={40} name="menu" />
+            <Entypo size={40} name="menu" color={textColor} />
           </TouchableOpacity>
           <View
             style={{
@@ -44,20 +59,35 @@ export default function Project() {
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <Text style={{fontSize: 22, fontWeight: '600'}}>Projects</Text>
+            <Text style={{fontSize: 22, fontWeight: '600',color:textColor}}>Projects</Text>
           </View>
           <TouchableOpacity
+            onPress={() => {
+              changeTheame();
+            }}
             style={{
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <Feather name="sun" size={25} color={'#000'} />
-            <Text style={{marginLeft: 5, color: '#000'}}>Light</Text>
+            <Feather
+              name="sun"
+              size={25}
+              color={theme == 'light' ? 'orange' : 'black'}
+            />
+            <Text
+              style={{
+                marginLeft: 5,
+                color: theme == 'light' ? 'orange' : '#fff',
+              }}>
+              Light
+            </Text>
           </TouchableOpacity>
         </View>
         <View
-          style={{flexDirection: 'row', alignItems: 'center', marginTop: 20}}>
+          style={{flexDirection: 'row', 
+          backgroundColor:bgColor,height:hp(8),
+          alignItems: 'center', marginTop: 20}}>
           <Text
             style={{
               fontSize: 22,
@@ -80,7 +110,7 @@ export default function Project() {
           }}>
           <TouchableOpacity
      onPress={()=>{
-      navigation.navigate('CreatePixel')
+      navigation.navigate('CreateProject')
      }}
             style={{
               flexDirection: 'row',
@@ -104,47 +134,33 @@ export default function Project() {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={{
-              height: 45,
-              width: 45,
-              marginHorizontal: 10,
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 5,
-              borderWidth: 1,
-            }}>
-            <Foundation name="download" size={30} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              height: 45,
-              width: 45,
-
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 5,
-              borderWidth: 1,
-            }}>
-            <FontAwesome name="filter" size={30} />
-          </TouchableOpacity>
+              style={{
+                height: 45,
+                width: 45,
+                marginHorizontal: 10,
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: 5,
+                borderWidth: 1,
+                borderColor:textColor
+              }}>
+              <Foundation name="download" size={30} color={textColor} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                height: 45,
+                width: 45,
+                borderColor:textColor,
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: 5,
+                borderWidth: 1,
+              }}>
+              <FontAwesome name="filter" size={30}  color={textColor}/>
+            </TouchableOpacity>
         </View>
 
-        {/* <View style={{backgroundColor:'#fff',
-      marginTop:10,height:45,marginHorizontal:10,
-      flexDirection:'row',justifyContent:'space-between'}}>
-
-
-<View style={{width:'40%',
-justifyContent:'center',
-alignItems:'center'}}>
-    <Text style={{fontSize:18,color:'#000'}}>Vcard</Text>
-</View>
-<View style={{width:'40%',
-justifyContent:'center',
-alignItems:'center'}}>
-  <Text style={{fontSize:18,color:'#000'}}>Status</Text>
-</View>
-      </View> */}
+  
 
         <View
           style={{
@@ -152,7 +168,7 @@ alignItems:'center'}}>
             paddingHorizontal: 10,
             alignItems: 'center',
             marginVertical: 20,
-            backgroundColor: '#fff',
+            backgroundColor: bgColor,
           }}>
           <View style={{height: hp(40), width: '100%', marginVertical: 20}}>
             <Image
@@ -161,10 +177,10 @@ alignItems:'center'}}>
               resizeMode="contain"
             />
           </View>
-          <Text style={{fontSize: 22, fontWeight: '600', color: '#000'}}>
+          <Text style={{fontSize: 22, fontWeight: '600', color: textColor}}>
             There are no projects for now
           </Text>
-          <Text style={{fontSize: 16, color: '#000', marginVertical: 10}}>
+          <Text style={{fontSize: 16, color: textColor, marginVertical: 10}}>
             Start by creating your first project.
           </Text>
         </View>
@@ -178,7 +194,7 @@ alignItems:'center'}}>
             />
           </View>
           <View style={{marginTop: 10}}>
-            <Text>Copyright © 2024 Bluestone Smart Card.</Text>
+            <Text style={{color:textColor}}>Copyright © 2024 Bluestone Smart Card.</Text>
           </View>
           <TouchableOpacity style={{marginTop: 5}}>
             <Text style={{color: 'blue'}}>blog</Text>

@@ -23,10 +23,27 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import { useDispatch, useSelector } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { changeTheme } from '../redux/feature/ThemeSlice';
 export default function CreateVcard() {
   const navigation = useNavigation();
+  const theme = useSelector(state =>  state.theme.data);
+  const selector =useSelector(state=> state.theme.data.createCard)
+  console.log('create ,,,,,,,card ...sss',selector);
+  
+const dispatch =useDispatch();
+
+
+  let textColor = theme == 'light' ? '#000' : '#fff';
+  let bgColor = theme == 'light' ? '#fff' : '#575757';
+
+  const changeTheame = async () => {
+    await AsyncStorage.setItem('theme', theme == 'light' ? 'dark' : 'light');
+    dispatch(changeTheme(theme == 'light' ? 'dark' : 'light'));
+  };
   return (
-    <View style={{flex: 1, backgroundColor: '#fff'}}>
+    <View style={{flex: 1, backgroundColor:theme=='light'?'#fff':'#333'}}>
       <ScrollView
         style={{paddingHorizontal: 5}}
         showsVerticalScrollIndicator={false}>
@@ -34,12 +51,12 @@ export default function CreateVcard() {
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            backgroundColor: '#fff',
+            backgroundColor: bgColor,
           }}>
           <TouchableOpacity
             onPress={() => navigation.openDrawer()}
             style={{width: '20%'}}>
-            <Entypo size={40} name="menu" />
+            <Entypo size={40} name="menu" color={textColor} />
           </TouchableOpacity>
           <View
             style={{
@@ -47,42 +64,48 @@ export default function CreateVcard() {
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <Text style={{fontSize: 22, fontWeight: '600'}}>Create Vcard </Text>
+            <Text style={{fontSize: 22, fontWeight: '600',color:textColor}}>Create Vcard </Text>
           </View>
           <TouchableOpacity
+          onPress={()=>{
+            changeTheame()
+          }}
             style={{
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <Feather name="sun" size={25} color={'#000'} />
-            <Text style={{marginLeft: 5, color: '#000'}}>Light</Text>
+            <Feather name="sun" size={25} color={theme == 'light' ? 'orange' : '#000'} />
+            <Text style={{marginLeft: 5,  color: theme == 'light' ? 'orange' : '#fff',}}>Light</Text>
           </TouchableOpacity>
         </View>
         <View
-          style={{flexDirection: 'row', alignItems: 'center', marginTop: 20}}>
+          style={{flexDirection: 'row', 
+          backgroundColor:bgColor,height:hp(8),
+          alignItems: 'center', marginTop: 20}}>
           <Text
             style={{
               fontSize: 22,
               fontWeight: '600',
               marginHorizontal: 20,
+              color:textColor
             }}>
             Create a new vcard
           </Text>
-          <AntDesign name="infocirlce" size={20} color={'#000'} />
+          <AntDesign name="infocirlce" size={20} color={textColor} />
         </View>
 
         <View
           style={{
             marginHorizontal: 5,
-            shadowColor: '#000',
+            shadowcolor:textColor,
             shadowOffset: {
               width: 0,
               height: 2,
             },
             shadowOpacity: 0.25,
             shadowRadius: 3.84,
-            backgroundColor: '#fff',
+            backgroundColor:bgColor,
             elevation: 5,
             marginTop: 15,
             height: hp(80),
@@ -90,9 +113,9 @@ export default function CreateVcard() {
           }}>
           <View style={{marginTop: 25, paddingHorizontal: 10}}>
             <View style={{flexDirection: 'row', marginHorizontal: 10}}>
-              <FontAwesome name="bolt" size={20} color={'#000'} />
+              <FontAwesome name="bolt" size={20} color={textColor} />
               <Text
-                style={{fontSize: 18, marginHorizontal: 10, fontWeight: '600'}}>
+                style={{fontSize: 18,color:textColor, marginHorizontal: 10, fontWeight: '600'}}>
                 {' '}
                 URL Alias
               </Text>
@@ -101,7 +124,7 @@ export default function CreateVcard() {
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                shadowColor: '#000',
+                shadowcolor:textColor,
                 shadowOffset: {
                   width: 0,
                   height: 2,
@@ -110,7 +133,7 @@ export default function CreateVcard() {
                 shadowRadius: 3.84,
 
                 elevation: 5,
-                backgroundColor: '#fff',
+                backgroundColor: bgColor,
                 marginTop: 15,
 
                 borderRadius: 5,
@@ -118,33 +141,36 @@ export default function CreateVcard() {
               }}>
               <View
                 style={{
-                  backgroundColor: '#f0f0f0',
+                  backgroundColor:theme=='light'?'#fff':'#333',
                   height: '100%',
                   width: '40%',
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}>
-                <Text style={{fontSize: 14}}>bluestonecard.com/</Text>
+                <Text style={{fontSize: 14,color:textColor,}}>bluestonecard.com/</Text>
               </View>
               <View
-                style={{backgroundColor: '#fff', height: '100%', width: '60%'}}>
+                style={{backgroundColor:theme=='light'?'#fff':'#333', height: '100%', width: '60%'}}>
                 <TextInput
                   placeholder="my-page-url "
-                  style={{fontSize: 14, paddingHorizontal: 10}}
+                placeholderTextColor={textColor}
+                  style={{fontSize: 14, paddingHorizontal: 10,color:textColor,}}
                 />
               </View>
             </View>
             <View style={{marginHorizontal: 10, marginVertical: 5}}>
-              <Text>
+              <Text style={{color:textColor,}}>
                 The main URL that your vcard is going to be able accessed from.
               </Text>
             </View>
           </View>
           <View style={{marginTop: 25, paddingHorizontal: 10}}>
             <View style={{flexDirection: 'row', marginHorizontal: 10}}>
-              <FontAwesome5 name="signature" size={19} color={'#000'} />
+              <FontAwesome5 name="signature" size={19} color={textColor} />
               <Text
-                style={{fontSize: 18, marginHorizontal: 10, fontWeight: '600'}}>
+                style={{fontSize: 18, marginHorizontal: 10,
+                color:textColor,
+                fontWeight: '600'}}>
                 Name
               </Text>
             </View>
@@ -152,7 +178,7 @@ export default function CreateVcard() {
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                shadowColor: '#000',
+                shadowcolor:textColor,
 
                 shadowOffset: {
                   width: 0,
@@ -162,7 +188,7 @@ export default function CreateVcard() {
                 shadowRadius: 3.84,
 
                 elevation: 8,
-                backgroundColor: '#fff',
+                backgroundColor: theme=='light'?'#fff':'#333',
                 marginTop: 15,
 
                 borderRadius: 10,
@@ -170,13 +196,14 @@ export default function CreateVcard() {
               }}>
               <View
                 style={{
-                  backgroundColor: '#fff',
+                  backgroundColor: theme=='light'?'#fff':'#333',
                   height: '100%',
                   width: '100%',
                 }}>
                 <TextInput
+                placeholderTextColor={textColor}
                   placeholder="name"
-                  style={{fontSize: 14, paddingHorizontal: 10}}
+                  style={{fontSize: 14, paddingHorizontal: 10,color:textColor}}
                 />
               </View>
             </View>
@@ -188,9 +215,9 @@ export default function CreateVcard() {
                 marginHorizontal: 10,
                 alignItems: 'center',
               }}>
-              <Entypo name="pencil" size={19} color={'#000'} />
+              <Entypo name="pencil" size={19} color={textColor} />
               <Text
-                style={{fontSize: 18, marginHorizontal: 10, fontWeight: '600'}}>
+                style={{fontSize: 18,color:textColor, marginHorizontal: 10, fontWeight: '600'}}>
                 Description
               </Text>
             </View>
@@ -198,7 +225,7 @@ export default function CreateVcard() {
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                shadowColor: '#000',
+                shadowcolor:textColor,
 
                 shadowOffset: {
                   width: 0,
@@ -208,7 +235,7 @@ export default function CreateVcard() {
                 shadowRadius: 3.84,
 
                 elevation: 8,
-                backgroundColor: '#fff',
+                backgroundColor: theme=='light'?'#fff':'#333',
                 marginTop: 15,
 
                 borderRadius: 10,
@@ -216,19 +243,20 @@ export default function CreateVcard() {
               }}>
               <View
                 style={{
-                  backgroundColor: '#fff',
+                  backgroundColor: theme=='light'?'#fff':'#333',
                   height: '100%',
                   width: '100%',
                 }}>
                 <TextInput
                   placeholder="description"
-                  style={{fontSize: 14, paddingHorizontal: 10}}
+                  placeholderTextColor={textColor}
+                  style={{fontSize: 14, paddingHorizontal: 10,color:textColor}}
                 />
               </View>
             </View>
           </View>
           <View style={{marginHorizontal: 10, marginVertical: 5}}>
-            <Text>Short description of your vcard.</Text>
+            <Text style={{color:textColor}}>Short description of your vcard.</Text>
           </View>
 
           <View
@@ -238,9 +266,9 @@ export default function CreateVcard() {
               marginHorizontal: 10,
               flexDirection: 'row',
             }}>
-            <AntDesign name="infocirlce" size={18} />
+            <AntDesign name="infocirlce" size={18}  color={textColor}/>
             <View style={{width: '80%', marginLeft: 10}}>
-              <Text>
+              <Text style={{color:textColor}}>
                 You can set up more details about the vcard after the creation.
               </Text>
             </View>
@@ -252,7 +280,7 @@ export default function CreateVcard() {
               height: hp(6),
               alignItems: 'center',
               justifyContent: 'center',
-              backgroundColor: '#1034a6',
+              backgroundColor:theme=='light'?'#1034a6':'#333',
               borderRadius: 10,
               marginVertical:10
             }}>
@@ -269,7 +297,7 @@ export default function CreateVcard() {
             />
           </View>
           <View style={{marginTop: 10}}>
-            <Text>Copyright © 2024 Bluestone Smart Card.</Text>
+            <Text style={{color:textColor}}>Copyright © 2024 Bluestone Smart Card.</Text>
           </View>
           <TouchableOpacity style={{marginTop: 5}}>
             <Text style={{color: 'blue'}}>blog</Text>
