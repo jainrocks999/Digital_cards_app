@@ -19,9 +19,7 @@ import {
   import Feather from 'react-native-vector-icons/Feather';
   import AntDesign from 'react-native-vector-icons/AntDesign';
   import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
   import AsyncStorage from '@react-native-async-storage/async-storage';
-
   import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
