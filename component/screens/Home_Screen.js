@@ -90,6 +90,12 @@ export default function Home_Screen() {
     }
   }, [dashboardData]);
 
+
+  const Qr_Show =()=>{
+
+    navigation.navigate(ScreenNameEnum.VCARD_QR)
+   hideMenu()
+  }
   return (
     <View
       style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
@@ -470,7 +476,7 @@ export default function Home_Screen() {
                             Views
                           </Text>
                         </MenuItem>
-                        <MenuItem onPress={hideMenu} style={{marginTop:5}}>
+                        <MenuItem onPress={Qr_Show} style={{marginTop:5}}>
                           <FontAwesome6
                             name="qrcode"
                             size={20}

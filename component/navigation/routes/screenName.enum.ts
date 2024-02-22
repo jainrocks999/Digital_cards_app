@@ -27,7 +27,8 @@ enum ScreenNameEnum {
     CONNECT_DOMAIN ='CONNECT_DOMAIN',
     CREATE_VCARD='CREATE_VCARD',
     EDIT_VCARD='EDIT_VCARD',
-    ACCOUNT_SCREEN='Account_Screen'
+    ACCOUNT_SCREEN='Account_Screen',
+    VCARD_QR ='Vcard_QR'
 
 
 
