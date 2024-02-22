@@ -26,7 +26,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {changeTheme} from '../redux/feature/ThemeSlice';
 import {PixlsList} from '../redux/feature/featuresSlice';
 import Loader from '../Loader';
-
+import ScreenNameEnum from '../navigation/routes/screenName.enum'
 export default function PIXELS_SCREEN() {
   const isLoading = useSelector(state => state.feature.isLoading);
   const navigation = useNavigation();
@@ -145,7 +145,7 @@ export default function PIXELS_SCREEN() {
           }}>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('CreatePixel');
+              navigation.navigate(ScreenNameEnum.CREATE_PIXEL);
             }}
             style={{
               flexDirection: 'row',

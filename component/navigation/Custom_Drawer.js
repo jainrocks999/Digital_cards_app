@@ -49,7 +49,10 @@ const DrawerContent = ({navigation}) => {
 
   const hideMenu = () => setVisible(false);
   const showMenu = () => setVisible(true);
-
+const Account_check =()=>{
+  hideMenu()
+  navigation.navigate(ScreenNameEnum.ACCOUNT_SCREEN)
+}
   const navigati = useNavigation();
   return (
     <View
@@ -152,7 +155,7 @@ const DrawerContent = ({navigation}) => {
             {userData?.name}
           </Text>
           <Text style={{color: textColor}}>{userData?.email}</Text>
-        </View>
+        </View> 
       </TouchableOpacity>
       <View style={{height: '50%', 
 marginTop:20}}>
@@ -165,7 +168,7 @@ marginTop:20}}>
             justifyContent: 'center',
             backgroundColor: bgColor,
           }}>
-          <MenuItem onPress={hideMenu} style={{}}>
+          <MenuItem onPress={Account_check} style={{}}>
             <Feather name="tool" size={20} color={textColor} />
             <Text style={{fontSize: 16, fontWeight: '400', color: textColor}}>  Account
             </Text>

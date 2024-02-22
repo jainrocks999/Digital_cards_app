@@ -26,6 +26,7 @@ import {changeTheme} from '../redux/feature/ThemeSlice';
 import {useDispatch, useSelector} from 'react-redux';
 import {ProjectList} from '../redux/feature/featuresSlice';
 import Loader from '../Loader';
+import ScreenNameEnum from '../navigation/routes/screenName.enum'
 export default function PROJECT_SCREEN() {
   const navigation = useNavigation();
   const isLoading = useSelector(state => state.feature.isLoading);
@@ -146,7 +147,7 @@ export default function PROJECT_SCREEN() {
           }}>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('CreateProject');
+              navigation.navigate(ScreenNameEnum.CREATE_PROJECT);
             }}
             style={{
               flexDirection: 'row',

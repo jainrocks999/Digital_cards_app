@@ -28,6 +28,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {changeTheme} from '../redux/feature/ThemeSlice';
 import {DomainList} from '../redux/feature/featuresSlice';
 import Loading from '../Loader';
+import ScreenNameEnum from '../navigation/routes/screenName.enum'
+
 export default function CUSTOMDOMAIN_SCREEN() {
   const navigation = useNavigation();
   const theme = useSelector(state => state.theme.data);
@@ -139,7 +141,7 @@ export default function CUSTOMDOMAIN_SCREEN() {
           }}>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('ConnectDomain');
+              navigation.navigate(ScreenNameEnum.CONNECT_DOMAIN);
             }}
             style={{
               flexDirection: 'row',

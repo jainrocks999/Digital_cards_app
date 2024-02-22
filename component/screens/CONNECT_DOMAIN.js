@@ -27,7 +27,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { changeTheme } from '../redux/feature/ThemeSlice';
 
-
   export default function CONNECT_DOMAIN() {
     const navigation = useNavigation();
     const theme = useSelector(state =>  state.theme.data);
@@ -295,22 +294,5 @@ import { changeTheme } from '../redux/feature/ThemeSlice';
     );
   }
   
-  const data = [
-    {
-      name: 'vcards',
-      count: 0,
-    },
-    {
-      name: 'projects',
-      count: 0,
-    },
-    {
-      name: 'pixels',
-      count: 0,
-    },
-    {
-      name: 'domains',
-      count: 0,
-    },
-  ];
+
   

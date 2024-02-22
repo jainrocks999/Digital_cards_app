@@ -16,6 +16,7 @@ import CONNECT_DOMAIN from "../../screens/CONNECT_DOMAIN";
 
 import RegistrationRoutes from "../RegistrationRoutes";
 import EDIT_VCARD from "../../screens/EDIT_VCARD";
+import Account_Screen from "../../screens/Account_Screen";
 
 
 const _routes = {
@@ -43,6 +44,7 @@ const _routes = {
     { name: ScreenNameEnum.CREATE_PROJECT, Component: CREATE_PROJECT, },
     { name: ScreenNameEnum.CONNECT_DOMAIN, Component: CONNECT_DOMAIN, },
     { name: ScreenNameEnum.EDIT_VCARD, Component: EDIT_VCARD, },
+    { name: ScreenNameEnum.ACCOUNT_SCREEN, Component: Account_Screen, },
 
   ],
 };

@@ -27,7 +27,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { changeTheme } from '../redux/feature/ThemeSlice';
 import Loading from '../Loader';
-
+import ScreenNameEnum from '../navigation/routes/screenName.enum'
   export default function VCARD_SCREEN() {
     
     const navigation = useNavigation();
@@ -132,7 +132,7 @@ import Loading from '../Loader';
             }}>
             <TouchableOpacity
              onPress={() => { 
-               navigation.navigate('CreatVCard');
+               navigation.navigate(ScreenNameEnum.CREATE_VCARD);
            }}
               style={{
                 flexDirection: 'row',
