@@ -26,7 +26,9 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { changeTheme } from '../redux/feature/ThemeSlice';
-  export default function ConnectDomain() {
+
+
+  export default function CONNECT_DOMAIN() {
     const navigation = useNavigation();
     const theme = useSelector(state =>  state.theme.data);
     const dispatch = useDispatch();

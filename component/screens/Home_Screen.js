@@ -7,18 +7,19 @@ import {
   ScrollView,
   Appearance,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
-import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import ScreenNameEnum from '../navigation/routes/screenName.enum';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -26,29 +27,74 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {changeTheme} from '../redux/feature/ThemeSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Loading from '../Loader';
+import {dashboard} from '../redux/feature/featuresSlice';
+import Loader from '../Loader';
 
+import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
 export default function Home_Screen() {
-
   const dispatch = useDispatch();
-  const isFoucs = useIsFocused();
-  const theme = useSelector(state =>  state.theme.data);
-
+  const isFocused = useIsFocused();
+  const theme = useSelector(state => state.theme.data);
   const navigation = useNavigation();
   let textColor = theme == 'light' ? '#000' : '#fff';
   let bgColor = theme == 'light' ? '#fff' : '#575757';
-
-
+  const user = useSelector(state => state.auth.userData);
+  const isLoading = useSelector(state => state.feature.isLoading);
+  const dashboardData = useSelector(state => state.feature.DashBoardData);
+  const [updatedData, setUpdatedData] = useState(data);
+  const [visible, setVisible] = useState(false);
+  const [visibleMenuIndex, setVisibleMenuIndex] = useState(null);
   const changeTheame = async () => {
-    await AsyncStorage.setItem('theme', theme == 'light' ? 'dark' : 'light');
-   
-   
-    dispatch(changeTheme(theme == 'light' ? 'dark' : 'light'));
+    await AsyncStorage.setItem('theme', theme === 'light' ? 'dark' : 'light');
+    dispatch(changeTheme(theme === 'light' ? 'dark' : 'light'));
   };
 
+  const showMenu = index => {
+    setVisible(true);
+    setVisibleMenuIndex(index);
+  };
+
+  const hideMenu = () => {
+    setVisible(false);
+    setVisibleMenuIndex(null);
+  };
+
+  const getDataApi = useCallback(async () => {
+    const params = {
+      user_id: user?.data.id,
+      authToken: user?.data.token,
+    };
+    dispatch(dashboard(params));
+  }, [dispatch, user?.data.id, user?.data.token]);
+
+  useEffect(() => {
+    getDataApi();
+  }, [isFocused, getDataApi]);
+
+  useEffect(() => {
+    if (dashboardData) {
+      const apiCounts = {
+        vcards: dashboardData.vcardlists.length,
+        projects: dashboardData.projects,
+        pixels: dashboardData.pixels,
+        domains: dashboardData.connectCustomDomains,
+      };
+
+      const updatedDataCopy = data.map(item =>
+        apiCounts.hasOwnProperty(item.name)
+          ? {...item, count: apiCounts[item.name]}
+          : item,
+      );
+      
+      setUpdatedData(updatedDataCopy);
+    }
+  }, [dashboardData]);
+
   return (
-    <View style={{flex: 1, backgroundColor:theme=='light'?'#fff':'#333'}}>
-    
+    <View
+      style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
+      {isLoading ? <Loader /> : null}
+
       <ScrollView showsVerticalScrollIndicator={false}>
         <View
           style={{
@@ -95,9 +141,10 @@ export default function Home_Screen() {
           </TouchableOpacity>
         </View>
 
-        <View style={{marginTop: 20}}>
+        <View style={{marginTop: 20,height:hp(75)}}>
+          <View style={{marginTop:10}}>
           <FlatList
-            data={data}
+            data={updatedData}
             numColumns={2}
             renderItem={({item}) => (
               <View style={{flex: 1}}>
@@ -164,12 +211,12 @@ export default function Home_Screen() {
               </View>
             )}
           />
-
+</View>
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
-              marginTop: 10,
+           
               marginHorizontal: 10,
               backgroundColor: bgColor,
               height: '10%',
@@ -196,7 +243,7 @@ export default function Home_Screen() {
 
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate('CreatVCard');
+                navigation.navigate(ScreenNameEnum.CREATE_VCARD);
               }}
               style={{
                 flexDirection: 'row',
@@ -224,36 +271,319 @@ export default function Home_Screen() {
         <View
           style={{
             backgroundColor: bgColor,
-            marginTop: 10,
+         
             height: 45,
             marginHorizontal: 10,
             flexDirection: 'row',
-            justifyContent: 'space-between',
+            borderBottomWidth: 2,
+            borderTopWidth: 2,
+            borderColor: '#f0f0f0',
           }}>
           <View
             style={{
-              width: '40%',
+              width: '70%',
               justifyContent: 'center',
-              alignItems: 'center',
+
+              paddingHorizontal: 10,
             }}>
-            <Text style={{fontSize: 18, color: textColor}}>Vcard</Text>
+            <Text style={{fontSize: 18, color: textColor}}>Name</Text>
           </View>
           <View
             style={{
-              width: '40%',
+              width: '15%',
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Text style={{fontSize: 18, color: textColor}}>Status</Text>
+            <Text style={{fontSize: 18, color: textColor}}>Stats</Text>
           </View>
+          <View
+            style={{
+              width: '15%',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text style={{fontSize: 18, color: textColor}}>Action</Text>
+          </View>
+        </View>
+        <View >
+          {dashboardData && (
+            <FlatList
+              data={dashboardData?.vcardlists}
+              renderItem={({item, index}) => (
+                <View style={{flex: 1}}>
+                  <View
+                    onPress={() => {
+                      //navigation.navigate(item.navigate);
+                    }}
+                    style={{
+                      height: hp(15),
+                      shadowColor: '#000',
+                      shadowOffset: {
+                        width: 0,
+                        height: 3,
+                      },
+                      shadowOpacity: 0.27,
+                      shadowRadius: 4.65,
+
+                      elevation: 6,
+                      borderRadius: 10,
+                      backgroundColor: bgColor,
+                      alignItems: 'center',
+
+                      margin: hp(1),
+                      flexDirection: 'row',
+                      paddingHorizontal: 10,
+                    }}>
+                    <View
+                      style={{
+                        height: 80,
+                        width: 80,
+                        borderRadius: 40,
+                      }}>
+                      <Image
+                        source={{uri: item?.logo?.url}}
+                        style={{height: 80, width: 80, borderRadius: 40}}
+                      />
+                    </View>
+                    <View
+                      style={{
+                        width: '45%',
+                        height: 80,
+                        marginLeft: 15,
+                      }}>
+                      <Text
+                        style={{
+                          fontSize: 20,
+                          fontWeight: '500',
+                          color: textColor,
+                        }}>
+                        {item.name}
+                      </Text>
+                      {/*
+                    <Text style={{}}>
+                      https://cards.forebearpro.co.in/cards/{item.url_alias}
+                    </Text> */}
+                      {!item.project_data?.name == '' && (
+                        <TouchableOpacity
+                          style={{
+                            borderWidth: 1,
+                            padding: 5,
+                            borderColor:theme=='light'?'blue':'#fff',
+                            borderRadius: 5,
+                            marginTop: 10,
+                          }}>
+                          <Text style={{color: textColor}}>
+                            {item.project_data?.name}
+                          </Text>
+                        </TouchableOpacity>
+                      )}
+                    </View>
+
+                    <View
+                      style={{
+                        width: '30%',
+                        justifyContent: 'space-between',
+                        paddingHorizontal: 5,
+                        flexDirection: 'row',
+                      }}>
+                      <TouchableOpacity
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          padding: 5,
+                          borderRadius: 5,
+                        }}>
+                        <FontAwesome5
+                          name="chart-bar"
+                          size={25}
+                          color={theme=='light'?'#4582e6':'#fff'}
+                        />
+                        <Text
+                          style={{
+                            marginLeft: 5,
+                            color:theme=='light'?'#4582e6':'#fff',
+                            fontSize: 18,
+                          }}>
+                          7
+                        </Text>
+                      </TouchableOpacity>
+
+                      <TouchableOpacity
+                        onPress={() => {
+                          showMenu(index);
+                        }}
+                        style={{
+                          flexDirection: 'row',
+                          width: '45%',
+                          borderWidth: 1,
+                          alignItems: 'center',
+                          padding: 5,
+                          marginLeft: 10,
+                          borderRadius: 5,
+                          backgroundColor: '#f0f0f0',
+                        }}>
+                        <Entypo
+                          name="dots-three-vertical"
+                          size={20}
+                          color={'#333'}
+                        />
+                        <AntDesign name="caretdown" size={15} color={'#333'} />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+
+                  {visibleMenuIndex == index && (
+                  
+                    <View style={{height: '40%'}}>
+                     
+                      <Menu
+                        visible={visible}
+                        onRequestClose={() => hideMenu(index)}
+                        style={{
+                          marginLeft: '55%',
+                          width: '17%',
+                          justifyContent: 'center',
+                          backgroundColor: bgColor,
+                          marginTop:hp(12),
+                        }}>
+                        <MenuItem
+                          onPress={hideMenu}
+                          style={{
+                            marginLeft: -5,
+                            justifyContent: 'center',
+                            height: 30,
+                            marginTop:5
+                          }}>
+                          <Entypo
+                            name="share-alternative"
+                            size={25}
+                            color={textColor}
+                          />
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              fontWeight: '400',
+
+                              color: textColor,
+                            }}>
+                            {' '}
+                            Views
+                          </Text>
+                        </MenuItem>
+                        <MenuItem onPress={hideMenu} style={{marginTop:5}}>
+                          <FontAwesome6
+                            name="qrcode"
+                            size={20}
+                            color={textColor}
+                          />
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              fontWeight: '400',
+                              color: textColor,
+                            }}>
+                            {' '}
+                            QR Code
+                          </Text>
+                        </MenuItem>
+                        <MenuItem onPress={hideMenu} style={{}}>
+                          <FontAwesome5
+                            name="chart-bar"
+                            size={20}
+                            color={textColor}
+                          />
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              fontWeight: '400',
+                              color: textColor,
+                            }}>
+                            {' '}
+                            Statistics
+                          </Text>
+                        </MenuItem>
+                        <MenuItem onPress={hideMenu} style={{}}>
+                          <FontAwesome
+                            name="bars"
+                            size={20}
+                            color={textColor}
+                          />
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              fontWeight: '400',
+                              color: textColor,
+                            }}>
+                            {' '}
+                            VCard Blocks
+                          </Text>
+                        </MenuItem>
+                        <MenuItem onPress={hideMenu} style={{}}>
+                          <Ionicons name="copy" size={20} color={textColor} />
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              fontWeight: '400',
+                              color: textColor,
+                            }}>
+                            {' '}
+                            Duplicate
+                          </Text>
+                        </MenuItem>
+                        <MenuItem
+                          onPress={hideMenu}
+                          style={{justifyContent: 'center'}}>
+                          <FontAwesome5
+                            name="pencil-alt"
+                            size={20}
+                            color={textColor}
+                          />
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              fontWeight: '400',
+                              color: textColor,
+                            }}>
+                            {' '}
+                            Edit
+                          </Text>
+                        </MenuItem>
+                        <MenuItem style={{}}>
+                          {/* <TouchableOpacity onPress={()=>console.log('fsfssafs')
+            }> */}
+                          <MaterialCommunityIcons
+                            name="logout"
+                            size={25}
+                            color={textColor}
+                          />
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              fontWeight: '400',
+                              color: textColor,
+                            }}>
+                            {' '}
+                            Delete
+                          </Text>
+                          {/* </TouchableOpacity> */}
+                        </MenuItem>
+                      </Menu>
+                      
+                    </View>
+                  )}
+                </View>
+              )}
+            />
+          )}
         </View>
 
         <View
           style={{
-            marginTop: 10,
+          
             paddingHorizontal: 10,
             marginHorizontal: 10,
             backgroundColor: bgColor,
+            paddingVertical:10
           }}>
           <View
             style={{
@@ -277,7 +607,7 @@ export default function Home_Screen() {
             <Text style={{color: '#038dff'}}>blog</Text>
           </TouchableOpacity>
 
-          <View style={{height: hp(10)}} />
+          <View style={{height: hp(25)}} />
         </View>
       </ScrollView>
     </View>
@@ -288,21 +618,21 @@ const data = [
   {
     name: 'vcards',
     count: 0,
-    navigate: 'Vcard',
+    navigate: ScreenNameEnum.VCARD_SCREEN,
   },
   {
     name: 'projects',
     count: 0,
-    navigate: 'Project',
+    navigate: ScreenNameEnum.PROJECT_SCREEN,
   },
   {
     name: 'pixels',
     count: 0,
-    navigate: 'Pixel',
+    navigate: ScreenNameEnum.PIXELS_SCREEN,
   },
   {
     name: 'domains',
     count: 0,
-    navigate: 'CustomDomains',
+    navigate: ScreenNameEnum.CUSTOMDOMAIN_SCREEN,
   },
 ];

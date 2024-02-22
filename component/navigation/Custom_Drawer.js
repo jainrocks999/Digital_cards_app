@@ -17,12 +17,15 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
 import Feather from 'react-native-vector-icons/Feather';
+
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDispatch, useSelector} from 'react-redux';
-import {clearLoginState, logout} from '../redux/feature/authSlice';
+import ScreenNameEnum from '../navigation/routes/screenName.enum'
 import Loader from '../Loader';
+import { logout } from '../redux/feature/authSlice';
 
 const DrawerContent = ({navigation}) => {
+  
   const [visible, setVisible] = useState(false);
   const theme = useSelector(state => state.theme.data);
   const userData = useSelector(state => state.auth?.userData?.data);
@@ -33,12 +36,13 @@ const DrawerContent = ({navigation}) => {
   const dispatch = useDispatch();
 
   const UserLogOut = async () => {
+    console.log('called logout');
     const params = {
       data: {
         email: userData.email,
-      }, navigation: navigation,
+      },
+      navigation: navigation,
     };
-
 
     dispatch(logout(params));
   };
@@ -50,8 +54,8 @@ const DrawerContent = ({navigation}) => {
   return (
     <View
       style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
-     {isLoading ? <Loader /> : null}
-    
+      {isLoading ? <Loader /> : null}
+
       <View style={[styles.head, {backgroundColor: bgColor}]}>
         <Image
           source={require('../image/logo.png')}
@@ -62,7 +66,7 @@ const DrawerContent = ({navigation}) => {
 
       <TouchableOpacity
         onPress={() => {
-          navigati.navigate('Dashboard');
+          navigati.navigate(ScreenNameEnum.HOME_TAB_SCREEN);
         }}
         style={[styles.screen1, {marginTop: 25, backgroundColor: bgColor}]}>
         <View style={styles.logo}>
@@ -72,7 +76,7 @@ const DrawerContent = ({navigation}) => {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          navigati.navigate('Vcard');
+          navigati.navigate(ScreenNameEnum.VCARD_SCREEN);
         }}
         style={[styles.screen1, {marginTop: 25, backgroundColor: bgColor}]}>
         <View style={styles.logo}>
@@ -82,7 +86,7 @@ const DrawerContent = ({navigation}) => {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          navigati.navigate('Project');
+          navigati.navigate(ScreenNameEnum.PROJECT_SCREEN);
         }}
         style={[styles.screen1, {marginTop: 25, backgroundColor: bgColor}]}>
         <View style={styles.logo}>
@@ -92,7 +96,7 @@ const DrawerContent = ({navigation}) => {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          navigati.navigate('Pixel');
+          navigati.navigate(ScreenNameEnum.PIXELS_SCREEN);
         }}
         style={[styles.screen1, {marginTop: 25, backgroundColor: bgColor}]}>
         <View style={styles.logo}>
@@ -102,7 +106,7 @@ const DrawerContent = ({navigation}) => {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          navigati.navigate('CustomDomains');
+          navigati.navigate(ScreenNameEnum.CUSTOMDOMAIN_SCREEN);
         }}
         style={[styles.screen1, {marginTop: 25, backgroundColor: bgColor}]}>
         <View style={{width: '20%', alignItems: 'center'}}>
@@ -145,12 +149,13 @@ const DrawerContent = ({navigation}) => {
 
         <View style={styles.name}>
           <Text style={{fontWeight: '600', color: textColor, fontSize: 16}}>
-            {userData.name}
+            {userData?.name}
           </Text>
-          <Text style={{color: textColor}}>{userData.email}</Text>
+          <Text style={{color: textColor}}>{userData?.email}</Text>
         </View>
       </TouchableOpacity>
-      <View style={{height: '30%'}}>
+      <View style={{height: '50%', 
+marginTop:20}}>
         <Menu
           visible={visible}
           onRequestClose={hideMenu}
@@ -162,9 +167,7 @@ const DrawerContent = ({navigation}) => {
           }}>
           <MenuItem onPress={hideMenu} style={{}}>
             <Feather name="tool" size={20} color={textColor} />
-            <Text style={{fontSize: 16, fontWeight: '400', color: textColor}}>
-              {' '}
-              Account
+            <Text style={{fontSize: 16, fontWeight: '400', color: textColor}}>  Account
             </Text>
           </MenuItem>
           <MenuItem onPress={hideMenu} style={{}}>
@@ -175,10 +178,13 @@ const DrawerContent = ({navigation}) => {
             </Text>
           </MenuItem>
           <MenuItem onPress={hideMenu} style={{}}>
+            <FontAwesome6 name="scroll" size={20} color={textColor} />
+            <Text style={{fontSize: 16, fontWeight: '400', color: textColor}}>  Logs
+            </Text>
+          </MenuItem>
+          <MenuItem onPress={hideMenu} style={{}}>
             <Entypo name="code" size={20} color={textColor} />
-            <Text style={{fontSize: 16, fontWeight: '400', color: textColor}}>
-              {' '}
-              Api
+            <Text style={{fontSize: 16, fontWeight: '400', color: textColor}}>  Api
             </Text>
           </MenuItem>
           <MenuItem
@@ -208,6 +214,34 @@ const DrawerContent = ({navigation}) => {
             <Text style={{fontSize: 16, fontWeight: '400', color: textColor}}>
               {' '}
               Logout
+            </Text>
+            {/* </TouchableOpacity> */}
+          </MenuItem>
+          <MenuItem
+            onPress={() => {
+              Alert.alert(
+                'Logout',
+                'Are you sure you want to log out?',
+                [
+                  {
+                    text: 'Cancel',
+                    style: 'cancel',
+                  },
+                  {
+                    text: 'Logout',
+                    onPress: () => {
+                      UserLogOut();
+                    },
+                  },
+                ],
+                {cancelable: false},
+              );
+            }}
+            style={{}}>
+            {/* <TouchableOpacity onPress={()=>console.log('fsfssafs')
+            }> */}
+            <Entypo name="cross" size={20} color={textColor} />
+            <Text style={{fontSize: 16, fontWeight: '400', color: textColor}}> Delete Account
             </Text>
             {/* </TouchableOpacity> */}
           </MenuItem>

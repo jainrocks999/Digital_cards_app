@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React, {useState} from 'react';
+import ScreenNameEnum from '../navigation/routes/screenName.enum';
+
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -15,7 +17,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import Loading from '../Loader';
-import { register } from '../redux/feature/RegisterSlice';
+import {register} from '../redux/feature/RegisterSlice';
 
 export default function REGISTER_SCREEN() {
   const navigation = useNavigation();
@@ -25,9 +27,8 @@ export default function REGISTER_SCREEN() {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const dispatch = useDispatch();
-  const isFatching = useSelector(state => state.theme.data.isLoading);
+  const isLoading = useSelector(state => state.register.isLoading);
   const [error, setError] = useState('');
-
 
   const validateEmail = email => {
     // Regular expression for basic email validation
@@ -36,8 +37,8 @@ export default function REGISTER_SCREEN() {
   };
 
   const validatePassword = password => {
-    
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const passwordRegex =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
     return passwordRegex.test(password);
   };
@@ -54,7 +55,7 @@ export default function REGISTER_SCREEN() {
     }
 
     if (!validatePassword(password)) {
-      alert(password)
+      alert(password);
       setError(
         'Password must contain at least 8 characters, including  letters ,least one special character,  and numbers.',
       );
@@ -65,18 +66,21 @@ export default function REGISTER_SCREEN() {
       setError('Password and Confirm Password do not match.');
       return;
     }
-const params = {
-  data:{
-    name:name,email: email,password: password
-  },
-  navigation:navigation
-}
-    dispatch(register())
+    const params = {
+      data: {
+        name: name,
+        email: email,
+        password: password,
+        password_confirmation:password
+      },
+      navigation: navigation,
+    };
+    dispatch(register(params));
   };
 
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
-      {isFatching ? <Loading /> : null}
+      {isLoading ? <Loading /> : null}
       <ScrollView showsVerticalScrollIndicator={false}>
         <View
           style={{
@@ -174,7 +178,6 @@ const params = {
                 placeholder="Enter Confirm Password "
                 value={confirmPassword}
                 onChangeText={txt => setConfirmPassword(txt)}
-               
               />
             </View>
             {error ? (
@@ -230,7 +233,7 @@ const params = {
             </Text>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate('Login');
+                navigation.navigate(ScreenNameEnum.LOGIN_SCREEN);
               }}
               style={{marginHorizontal: 10}}>
               <Text style={{fontSize: 16, fontWeight: '600', color: '#1034a6'}}>

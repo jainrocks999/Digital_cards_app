@@ -5,12 +5,14 @@ import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {persistReducer, persistStore} from 'redux-persist';
 import RegisterReducer  from "./feature/RegisterSlice";
+import  FeatureReducer  from "./feature/featuresSlice";
 
 
 const reducers = combineReducers({
     theme:ThemeReducer,
     auth:AuthReducer,
-    register:RegisterReducer
+    register:RegisterReducer,
+    feature:FeatureReducer
   
 });
 

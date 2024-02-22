@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native'
 import React from 'react'
-import DrawerNavigation from '../Navigation/drawerNavigation'
+import DrawerNavigation from '../navigation/Drawer_Navigation'
 
 
 export default function drawer() {

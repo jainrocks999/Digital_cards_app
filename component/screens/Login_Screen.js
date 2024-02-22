@@ -20,7 +20,7 @@ import ScreenNameEnum from '../navigation/routes/screenName.enum';
 
 export default function Login_Screen() {
 
-  
+  const [rememberMe, setRememberMe] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
@@ -38,10 +38,11 @@ export default function Login_Screen() {
     validateEmail();
 
     if (isValidEmail) {
+      const passwordWithoutSpaces = password.replace(/\s/g, '');
       const params = {
         data: {
           email: email,
-          password: password,
+          password: passwordWithoutSpaces,
         },
         navigation: navigation,
       };
@@ -137,10 +138,16 @@ export default function Login_Screen() {
               alignItems: 'center',
               marginTop: 25,
             }}>
-            <TouchableOpacity>
+            <TouchableOpacity 
+            onPress={()=>setRememberMe(!rememberMe)}
+            >
               <Text> Remember me</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity
+             onPress={() => {
+              navigation.navigate(ScreenNameEnum.FORGOT_PASSWORD);
+            }}
+            >
               <Text>Lost Password</Text>
             </TouchableOpacity>
           </View>

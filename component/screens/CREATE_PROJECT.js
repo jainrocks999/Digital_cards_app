@@ -6,34 +6,49 @@ import {
   FlatList,
   ScrollView,
   TextInput,
+  StyleSheet,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Foundation from 'react-native-vector-icons/Foundation';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import ColorPicker, {
+  Preview,
+  OpacitySlider,
+  BrightnessSlider,
+  HueSlider,
+  SaturationSlider,
+} from 'reanimated-color-picker';
+
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { changeTheme } from '../redux/feature/ThemeSlice';
-export default function CreateVcard() {
-  const navigation = useNavigation();
-  const theme = useSelector(state =>  state.theme.data);
-  const selector =useSelector(state=> state.theme.data.createCard)
-  console.log('create ,,,,,,,card ...sss',selector);
-  
-const dispatch =useDispatch();
+import {changeTheme} from '../redux/feature/ThemeSlice';
 
+
+export default function CREATE_PROJECT () {
+  const navigation = useNavigation();
+
+  const [choiceColor, setchoiceColor] = useState(false);
+  const [selectedColor, setSelectedColor] = useState('red'); // Initial color
+
+  const handleColorChange = color => {
+    setSelectedColor(color.hex);
+  };
+
+  const theme = useSelector(state =>  state.theme.data);
+  const dispatch = useDispatch();
 
   let textColor = theme == 'light' ? '#000' : '#fff';
   let bgColor = theme == 'light' ? '#fff' : '#575757';
@@ -56,7 +71,7 @@ const dispatch =useDispatch();
           <TouchableOpacity
             onPress={() => navigation.openDrawer()}
             style={{width: '20%'}}>
-            <Entypo size={40} name="menu" color={textColor} />
+            <Entypo size={40} name="menu" color={textColor}/>
           </TouchableOpacity>
           <View
             style={{
@@ -64,7 +79,9 @@ const dispatch =useDispatch();
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <Text style={{fontSize: 22, fontWeight: '600',color:textColor}}>Create Vcard </Text>
+            <Text style={{fontSize: 22, fontWeight: '600',color:textColor}}>
+              Create project{' '}
+            </Text>
           </View>
           <TouchableOpacity
           onPress={()=>{
@@ -90,7 +107,7 @@ const dispatch =useDispatch();
               marginHorizontal: 20,
               color:textColor
             }}>
-            Create a new vcard
+            Create a new project
           </Text>
           <AntDesign name="infocirlce" size={20} color={textColor} />
         </View>
@@ -98,7 +115,7 @@ const dispatch =useDispatch();
         <View
           style={{
             marginHorizontal: 5,
-            shadowcolor:textColor,
+            shadowColor: '#000',
             shadowOffset: {
               width: 0,
               height: 2,
@@ -113,64 +130,9 @@ const dispatch =useDispatch();
           }}>
           <View style={{marginTop: 25, paddingHorizontal: 10}}>
             <View style={{flexDirection: 'row', marginHorizontal: 10}}>
-              <FontAwesome name="bolt" size={20} color={textColor} />
-              <Text
-                style={{fontSize: 18,color:textColor, marginHorizontal: 10, fontWeight: '600'}}>
-                {' '}
-                URL Alias
-              </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                shadowcolor:textColor,
-                shadowOffset: {
-                  width: 0,
-                  height: 2,
-                },
-                shadowOpacity: 0.25,
-                shadowRadius: 3.84,
-
-                elevation: 5,
-                backgroundColor: bgColor,
-                marginTop: 15,
-
-                borderRadius: 5,
-                height: hp(8),
-              }}>
-              <View
-                style={{
-                  backgroundColor:theme=='light'?'#fff':'#333',
-                  height: '100%',
-                  width: '40%',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Text style={{fontSize: 14,color:textColor,}}>bluestonecard.com/</Text>
-              </View>
-              <View
-                style={{backgroundColor:theme=='light'?'#fff':'#333', height: '100%', width: '60%'}}>
-                <TextInput
-                  placeholder="my-page-url "
-                placeholderTextColor={textColor}
-                  style={{fontSize: 14, paddingHorizontal: 10,color:textColor,}}
-                />
-              </View>
-            </View>
-            <View style={{marginHorizontal: 10, marginVertical: 5}}>
-              <Text style={{color:textColor,}}>
-                The main URL that your vcard is going to be able accessed from.
-              </Text>
-            </View>
-          </View>
-          <View style={{marginTop: 25, paddingHorizontal: 10}}>
-            <View style={{flexDirection: 'row', marginHorizontal: 10}}>
               <FontAwesome5 name="signature" size={19} color={textColor} />
               <Text
-                style={{fontSize: 18, marginHorizontal: 10,
-                color:textColor,
-                fontWeight: '600'}}>
+                style={{fontSize: 18,color:textColor, marginHorizontal: 10, fontWeight: '600'}}>
                 Name
               </Text>
             </View>
@@ -178,7 +140,7 @@ const dispatch =useDispatch();
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                shadowcolor:textColor,
+                shadowColor: '#000',
 
                 shadowOffset: {
                   width: 0,
@@ -188,7 +150,7 @@ const dispatch =useDispatch();
                 shadowRadius: 3.84,
 
                 elevation: 8,
-                backgroundColor: theme=='light'?'#fff':'#333',
+                backgroundColor: bgColor,
                 marginTop: 15,
 
                 borderRadius: 10,
@@ -201,77 +163,111 @@ const dispatch =useDispatch();
                   width: '100%',
                 }}>
                 <TextInput
-                placeholderTextColor={textColor}
                   placeholder="name"
-                  style={{fontSize: 14, paddingHorizontal: 10,color:textColor}}
-                />
-              </View>
-            </View>
-          </View>
-          <View style={{marginTop: 25, paddingHorizontal: 10}}>
-            <View
-              style={{
-                flexDirection: 'row',
-                marginHorizontal: 10,
-                alignItems: 'center',
-              }}>
-              <Entypo name="pencil" size={19} color={textColor} />
-              <Text
-                style={{fontSize: 18,color:textColor, marginHorizontal: 10, fontWeight: '600'}}>
-                Description
-              </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                shadowcolor:textColor,
-
-                shadowOffset: {
-                  width: 0,
-                  height: 2,
-                },
-                shadowOpacity: 0.25,
-                shadowRadius: 3.84,
-
-                elevation: 8,
-                backgroundColor: theme=='light'?'#fff':'#333',
-                marginTop: 15,
-
-                borderRadius: 10,
-                height: hp(8),
-              }}>
-              <View
-                style={{
-                  backgroundColor: theme=='light'?'#fff':'#333',
-                  height: '100%',
-                  width: '100%',
-                }}>
-                <TextInput
-                  placeholder="description"
                   placeholderTextColor={textColor}
                   style={{fontSize: 14, paddingHorizontal: 10,color:textColor}}
                 />
               </View>
             </View>
           </View>
-          <View style={{marginHorizontal: 10, marginVertical: 5}}>
-            <Text style={{color:textColor}}>Short description of your vcard.</Text>
-          </View>
-
           <View
             style={{
-              marginVertical: 5,
-              alignItems: 'center',
-              marginHorizontal: 10,
-              flexDirection: 'row',
+              marginTop: 25,
+              paddingHorizontal: 10,
+              justifyContent: 'center',
             }}>
-            <AntDesign name="infocirlce" size={18}  color={textColor}/>
-            <View style={{width: '80%', marginLeft: 10}}>
-              <Text style={{color:textColor}}>
-                You can set up more details about the vcard after the creation.
+            <View
+              style={{
+                flexDirection: 'row',
+                margin: 10,
+                alignItems: 'center',
+              }}>
+              <Ionicons name="color-palette" size={19} color={textColor} />
+              <Text
+                style={{fontSize: 18,color:textColor, marginHorizontal: 10, fontWeight: '600'}}>
+                Color
               </Text>
             </View>
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: 25,
+                borderRadius: 10,
+                height: hp(choiceColor ? 25 : 8),
+              }}>
+              <View
+                style={{
+                  height: '100%',
+                  width: '100%',
+                  marginTop: 10,
+                }}>
+                <ColorPicker
+                  style={{width: '100%', justifyContent: 'center'}}
+                  sliderThickness={30}
+                  thumbSize={40}
+                  value={selectedColor}
+                  onChange={handleColorChange}
+                  thumbShape="pill">
+                  <TouchableOpacity
+                    onPress={() => {
+                      setchoiceColor(true);
+                    }}>
+                    <Preview
+                      style={[styles.previewStyle, styles.shadow]}
+                      hideText={true}
+                      hideInitialColor
+                    />
+                  </TouchableOpacity>
+
+                  {choiceColor && (
+                    <>
+                      <HueSlider
+                        style={[
+                          {
+                            borderRadius: 5,
+                            marginBottom: 25,
+                            marginHorizontal: 20,
+                          },
+                          styles.shadow,
+                        ]}
+                        thumbShape="line"
+                        thumbInnerStyle={{
+                          width: 15,
+                          borderRadius: 0,
+                          backgroundColor: '#f0f0f0',
+                        }}
+                        thumbColor="#f0f0f0"
+                      />
+
+                      <TouchableOpacity
+                        onPress={() => {
+                          setchoiceColor(false);
+                        }}
+                        style={{
+                          height: '30%',
+                          backgroundColor: theme=='light'?'#1034a6':'#333',
+                          borderRadius: 5,
+                          width: '40%',
+                          alignSelf: 'center',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}>
+                        <Text style={{fontSize: 18, color:textColor}}>Save</Text>
+                      </TouchableOpacity>
+                    </>
+                  )}
+                </ColorPicker>
+              </View>
+            </View>
+          </View>
+          <View
+            style={{
+              marginHorizontal: 10,
+              marginTop: choiceColor ? 25 : 10,
+              marginBottom: 10,
+            }}>
+            <Text style={{color:textColor}}>The color is used to help differentiate projects.</Text>
           </View>
 
           <TouchableOpacity
@@ -280,11 +276,13 @@ const dispatch =useDispatch();
               height: hp(6),
               alignItems: 'center',
               justifyContent: 'center',
-              backgroundColor:theme=='light'?'#1034a6':'#333',
+              backgroundColor:  theme=='light'?'#1034a6':'#333',
               borderRadius: 10,
-              marginVertical:10
+              marginVertical: 10,
             }}>
-            <Text style={{fontWeight:'400',fontSize:20,color:'#fff'}}>Create</Text>
+            <Text style={{fontWeight: '400', fontSize: 20, color: '#fff'}}>
+              Create
+            </Text>
           </TouchableOpacity>
         </View>
 
@@ -309,21 +307,33 @@ const dispatch =useDispatch();
   );
 }
 
-const data = [
-  {
-    name: 'vcards',
-    count: 0,
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#e8e8e8',
+    paddingBottom: 0,
+    width: '100%',
+    maxWidth: 500,
+    margin: 'auto',
   },
-  {
-    name: 'projects',
-    count: 0,
+  sliderLabel: {
+    fontSize: 20,
+    color: '#000',
+    marginBottom: 10,
   },
-  {
-    name: 'pixels',
-    count: 0,
+  previewStyle: {
+    height: 55,
+    borderRadius: 5,
+    marginBottom: 30,
   },
-  {
-    name: 'domains',
-    count: 0,
+  shadow: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
-];
+});

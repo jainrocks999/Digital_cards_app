@@ -12,13 +12,34 @@ import {
 } from 'react-native-responsive-screen';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import ScreenNameEnum from '../navigation/routes/screenName.enum';
-
+import {useSelector} from 'react-redux';
+import Loader from '../Loader';
 export default function WelcomeSliderScreen() {
+  const isAuthenticated = useSelector(state => state.auth.isLogOut);
+  const isLogin = useSelector(state => state.auth.isLogin);
+
+console.log(!isAuthenticated && isLogin);
   const navigation = useNavigation();
+const isFoucs = useIsFocused();
+
+  useEffect(()=>{
+checkLogout();
+
+  },[isFoucs,isAuthenticated])
+
+  const checkLogout =()=>{
+    if(isAuthenticated){
+
+      navigation.navigate(ScreenNameEnum.LOGIN_SCREEN)
+    }
+    if(!isAuthenticated && isLogin){
+      navigation.navigate(ScreenNameEnum.DRAWER_NAVIGATION)
+    }
+  }
   
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
-   
+    {!isAuthenticated && isLogin || isAuthenticated ? <Loader /> : <>
 
           <View
             style={{
@@ -50,7 +71,7 @@ export default function WelcomeSliderScreen() {
 
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate(ScreenNameEnum.LOGIN_SCRENN);
+              navigation.navigate(ScreenNameEnum.LOGIN_SCREEN);
             }}
             style={{
               alignItems: 'center',
@@ -67,7 +88,7 @@ export default function WelcomeSliderScreen() {
             </Text>
           </TouchableOpacity>
        
-      
+          </>}
     </View>
   );
 }

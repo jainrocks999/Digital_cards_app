@@ -6,9 +6,8 @@ import {
   FlatList,
   ScrollView,
   TextInput,
-  StyleSheet,
 } from 'react-native';
-import React, {useState} from 'react';
+import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -19,20 +18,19 @@ import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import ScreenNameEnum from '../navigation/routes/screenName.enum';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {Dropdown} from 'react-native-element-dropdown';
 import {useDispatch, useSelector} from 'react-redux';
-import {changeTheme} from '../redux/feature/ThemeSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {changeTheme} from '../redux/feature/ThemeSlice';
 
-export default function CreatePixel() {
-  const [value, setValue] = useState(null);
+export default function CREATE_VCARD() {
   const navigation = useNavigation();
-  const theme = useSelector(state =>  state.theme.data);
+  const theme = useSelector(state => state.theme.data);
+
   const dispatch = useDispatch();
 
   let textColor = theme == 'light' ? '#000' : '#fff';
@@ -66,7 +64,7 @@ export default function CreatePixel() {
               justifyContent: 'center',
             }}>
             <Text style={{fontSize: 22, fontWeight: '600', color: textColor}}>
-              Create pixel{' '}
+              Create Vcard{' '}
             </Text>
           </View>
           <TouchableOpacity
@@ -95,8 +93,8 @@ export default function CreatePixel() {
         <View
           style={{
             flexDirection: 'row',
-            height: hp(8),
             backgroundColor: bgColor,
+            height: hp(8),
             alignItems: 'center',
             marginTop: 20,
           }}>
@@ -107,7 +105,7 @@ export default function CreatePixel() {
               marginHorizontal: 20,
               color: textColor,
             }}>
-            Create a new pixel
+            Create a new vcard
           </Text>
           <AntDesign name="infocirlce" size={20} color={textColor} />
         </View>
@@ -115,7 +113,7 @@ export default function CreatePixel() {
         <View
           style={{
             marginHorizontal: 5,
-            shadowColor: '#000',
+            shadowcolor: textColor,
             shadowOffset: {
               width: 0,
               height: 2,
@@ -128,6 +126,79 @@ export default function CreatePixel() {
             height: hp(80),
             borderRadius: 5,
           }}>
+          <View style={{marginTop: 25, paddingHorizontal: 10}}>
+            <View style={{flexDirection: 'row', marginHorizontal: 10}}>
+              <FontAwesome name="bolt" size={20} color={textColor} />
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: textColor,
+                  marginHorizontal: 10,
+                  fontWeight: '600',
+                }}>
+                {' '}
+                URL Alias
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                shadowcolor: textColor,
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+
+                elevation: 5,
+                backgroundColor: bgColor,
+                marginTop: 15,
+
+                borderRadius: 5,
+                height: hp(8),
+                
+              }}>
+              <View
+                style={{
+                  backgroundColor: theme == 'light' ? '#f0f0f0' : '#757575',
+                  height: '100%',
+                  width: '45%',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius:5
+                  
+                }}>
+                <Text style={{fontSize: 14, color: textColor}}>
+                cards.forebearpro.co.in/
+                </Text>
+              </View>
+              <View
+                style={{
+                  backgroundColor: theme == 'light' ? '#fff' : '#474747',
+                  height: '100%',
+                  width: '55%',
+            
+                  justifyContent: 'center',
+                }}>
+                <TextInput
+                  placeholder="my-page-url "
+                  placeholderTextColor={textColor}
+                  style={{
+                    fontSize: 14,
+                    paddingHorizontal: 10,
+                    color: textColor,
+                  }}
+                />
+              </View>
+            </View>
+            <View style={{marginHorizontal: 10, marginVertical: 5}}>
+              <Text style={{color: textColor}}>
+                The main URL that your vcard is going to be able accessed from.
+              </Text>
+            </View>
+          </View>
           <View style={{marginTop: 25, paddingHorizontal: 10}}>
             <View style={{flexDirection: 'row', marginHorizontal: 10}}>
               <FontAwesome5 name="signature" size={19} color={textColor} />
@@ -145,7 +216,7 @@ export default function CreatePixel() {
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                shadowColor: '#000',
+                shadowcolor: textColor,
 
                 shadowOffset: {
                   width: 0,
@@ -155,7 +226,7 @@ export default function CreatePixel() {
                 shadowRadius: 3.84,
 
                 elevation: 8,
-                backgroundColor: '#fff',
+                backgroundColor: theme == 'light' ? '#fff' : '#333',
                 marginTop: 15,
 
                 borderRadius: 10,
@@ -163,86 +234,18 @@ export default function CreatePixel() {
               }}>
               <View
                 style={{
-                  backgroundColor: theme == 'light' ? '#fff' : '#333',
+                  backgroundColor: theme == 'light' ? '#fff' : '#474747',
                   height: '100%',
                   width: '100%',
+                  justifyContent:'center'
                 }}>
                 <TextInput
-                  placeholder="name"
                   placeholderTextColor={textColor}
+                  placeholder="name"
                   style={{
                     fontSize: 14,
                     paddingHorizontal: 10,
                     color: textColor,
-                  }}
-                />
-              </View>
-            </View>
-          </View>
-          <View style={{marginTop: 25, paddingHorizontal: 10}}>
-            <View style={{flexDirection: 'row', marginHorizontal: 10}}>
-              <Ionicons name="invert-mode" size={25} color={textColor} />
-              <Text
-                style={{
-                  fontSize: 18,
-                  marginHorizontal: 10,
-                  color: textColor,
-                  fontWeight: '600',
-                }}>
-                Type
-              </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                shadowColor: '#000',
-
-                shadowOffset: {
-                  width: 0,
-                  height: 2,
-                },
-                shadowOpacity: 0.25,
-                shadowRadius: 3.84,
-
-                elevation: 8,
-                backgroundColor: '#fff',
-                marginTop: 15,
-
-                borderRadius: 10,
-                height: hp(8),
-              }}>
-              <View
-                style={{
-                  backgroundColor: theme == 'light' ? '#fff' : '#333',
-                  height: '100%',
-                  width: '100%',
-                }}>
-                <Dropdown
-                  style={[
-                    styles.dropdown,
-                    {backgroundColor: theme == 'light' ? '#fff' : '#333'},
-                  ]}
-                  placeholderStyle={styles.placeholderStyle}
-                  selectedTextStyle={[styles.selectedTextStyle]}
-                  showsVerticalScrollIndicator={false}
-                  itemContainerStyle={{
-                    backgroundColor:bgColor,
-                    
-                  }}
-                  activeColor={theme=='light'?'#fff':'#333'}
-                itemTextStyle={{
-                  color:textColor
-                }}
-                  data={data}
-                  maxHeight={200}
-                  labelField="label"
-                  valueField="value"
-                  placeholder={'Select item'}
-                  searchPlaceholder="Search..."
-                  value={value}
-                  onChange={item => {
-                    setValue(item.value);
                   }}
                 />
               </View>
@@ -255,7 +258,7 @@ export default function CreatePixel() {
                 marginHorizontal: 10,
                 alignItems: 'center',
               }}>
-              <Entypo name="code" size={25} color={textColor} />
+              <Entypo name="pencil" size={19} color={textColor} />
               <Text
                 style={{
                   fontSize: 18,
@@ -263,14 +266,14 @@ export default function CreatePixel() {
                   marginHorizontal: 10,
                   fontWeight: '600',
                 }}>
-                Pixel ID
+                Description
               </Text>
             </View>
             <View
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                shadowColor: '#000',
+                shadowcolor: textColor,
 
                 shadowOffset: {
                   width: 0,
@@ -280,7 +283,7 @@ export default function CreatePixel() {
                 shadowRadius: 3.84,
 
                 elevation: 8,
-                backgroundColor: '#fff',
+                backgroundColor: theme == 'light' ? '#fff' : '#333',
                 marginTop: 15,
 
                 borderRadius: 10,
@@ -288,35 +291,55 @@ export default function CreatePixel() {
               }}>
               <View
                 style={{
-                  backgroundColor: theme == 'light' ? '#fff' : '#333',
+                  backgroundColor: theme == 'light' ? '#fff' : '#474747',
                   height: '100%',
                   width: '100%',
+                  justifyContent:'center'
                 }}>
                 <TextInput
-                  placeholder="Pixel"
+                  placeholder="description"
                   placeholderTextColor={textColor}
                   style={{
                     fontSize: 14,
-                    color: textColor,
                     paddingHorizontal: 10,
+                    color: textColor,
                   }}
                 />
               </View>
             </View>
           </View>
-          <View style={{marginHorizontal: 10, marginVertical: 25}}>
+          <View style={{marginHorizontal: 10, marginVertical: 5}}>
             <Text style={{color: textColor}}>
-              Enter the pixel id from this specific pixel type you chose.
+              Short description of your vcard.
             </Text>
           </View>
 
+          <View
+            style={{
+              marginVertical: 5,
+              alignItems: 'center',
+              marginHorizontal: 10,
+              flexDirection: 'row',
+            }}>
+            <AntDesign name="infocirlce" size={18} color={textColor} />
+            <View style={{width: '80%', marginLeft: 10}}>
+              <Text style={{color: textColor}}>
+                You can set up more details about the vcard after the creation.
+              </Text>
+            </View>
+          </View>
+
           <TouchableOpacity
+
+          onPress={()=>{
+            navigation.navigate(ScreenNameEnum.EDIT_VCARD)
+          }}
             style={{
               marginHorizontal: 20,
               height: hp(6),
               alignItems: 'center',
               justifyContent: 'center',
-              backgroundColor:theme=='light'?'#1034a6':'#333',
+              backgroundColor: theme == 'light' ? '#1034a6' : '#363636',
               borderRadius: 10,
               marginVertical: 10,
             }}>
@@ -330,12 +353,14 @@ export default function CreatePixel() {
           <View style={{height: hp(10), width: '40%'}}>
             <Image
               source={require('../image/logo.png')}
-              style={{height: '100%', width: '100%'}}
+              style={{height: '100%', width: '100%',backgroundColor:'#fff'}}
               resizeMode="contain"
             />
           </View>
           <View style={{marginTop: 10}}>
-            <Text style={{color:textColor}}>Copyright © 2024 Bluestone Smart Card.</Text>
+            <Text style={{color: textColor}}>
+              Copyright © 2024 Bluestone Smart Card.
+            </Text>
           </View>
           <TouchableOpacity style={{marginTop: 5}}>
             <Text style={{color: 'blue'}}>blog</Text>
@@ -348,37 +373,20 @@ export default function CreatePixel() {
 }
 
 const data = [
-  {label: 'Facebook', value: '1'},
-  {label: 'Google Analytics', value: '2'},
-  {label: 'Google Tag Manager', value: '3'},
-  {label: 'Linkedln', value: '4'},
-  {label: 'Pinterest', value: '5'},
-  {label: 'Twitter', value: '6'},
-  {label: 'Quora', value: '7'},
-  {label: 'Tik-Tok', value: '8'},
-  {label: 'Snapchat', value: '8'},
+  {
+    name: 'vcards',
+    count: 0,
+  },
+  {
+    name: 'projects',
+    count: 0,
+  },
+  {
+    name: 'pixels',
+    count: 0,
+  },
+  {
+    name: 'domains',
+    count: 0,
+  },
 ];
-const styles = StyleSheet.create({
-  dropdown: {
-    height: 50,
-    borderColor: 'gray',
-    borderRadius: 10,
-    paddingHorizontal: 8,
-  },
-
-  label: {
-    position: 'absolute',
-    backgroundColor: 'white',
-    left: 22,
-    top: 8,
-    zIndex: 999,
-    paddingHorizontal: 8,
-    fontSize: 14,
-  },
-  placeholderStyle: {
-    fontSize: 16,
-  },
-  selectedTextStyle: {
-    fontSize: 16,
-  },
-});
