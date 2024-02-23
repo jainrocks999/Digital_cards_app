@@ -7,6 +7,7 @@ import {
   ScrollView,
   Appearance,
   StyleSheet,
+  TextInput,
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
@@ -39,6 +40,7 @@ import ColorPicker, {
   HueSlider,
   SaturationSlider,
 } from 'reanimated-color-picker';
+import { launchImageLibrary } from 'react-native-image-picker';
 export default function Vcard_QR() {
   const isLoading = useSelector(state => state.feature.isLoading);
   const theme = useSelector(state => state.theme.data);
@@ -55,10 +57,47 @@ export default function Vcard_QR() {
   const [selectedColor, setSelectedColor] = useState('red'); // Initial color
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-
+  const [QrTypetxt, setQrTypetxt] = useState(false);
+  const [QrTypeLogo, setQrTypeLogo] = useState(false);
+  const[QrType,setQrType] =useState('')
+  const[images,setImages] = useState('')
+  const[imageName,setImageName] = useState('')
   const handleColorChange = color => {
     setSelectedColor(color.hex);
   };
+
+
+  const check_type =(label)=>{
+    setQrType(label)
+    if(label === 'Insert Custom text'){
+      setQrTypetxt(true)
+      setQrTypeLogo(false)
+    }
+    else if(label === 'Insert Custom logo'){
+      setQrTypetxt(false)
+      setQrTypeLogo(true)
+    }
+    else{
+      setQrTypetxt(false)
+      setQrTypeLogo(false)
+    }
+  }
+
+  const openImageLibrary = () => {
+
+    launchImageLibrary({mediaType: 'photo'}, async response => {
+
+      if (!response.didCancel && !response.error) {
+
+        setImageName(response.assets[0].fileName)
+        setImages(response.assets[0].uri);
+
+       
+      }
+    });
+  };
+
+
   return (
     <View
       style={{flex: 1, backgroundColor: theme == 'light' ? '#f0f0f0' : '#333'}}>
@@ -168,8 +207,7 @@ export default function Vcard_QR() {
           style={[
             styles.contentContainer,
             {
-              height: hp(50),
-
+              paddingBottom: 20,
               backgroundColor: bgColor,
             },
           ]}>
@@ -381,20 +419,22 @@ export default function Vcard_QR() {
                 styles.inputP,
                 {
                   shadowcolor: textColor,
-                  backgroundColor: theme == 'light' ? '#fff' : '#333',
+             
                 },
               ]}>
               <View
                 style={[
-                  {backgroundColor: theme == 'light' ? '#fff' : '#474747',marginTop:10},
+                  {
+                    backgroundColor: theme == 'light' ? '#fff' : '#333',
+                    marginTop: 10,
+                  },
                 ]}>
                 <Slider
-                  style={{width:'100%',height:45,}}
+                  style={{width: '100%', height: 45}}
                   minimumValue={0}
                   maximumValue={1}
-                  minimumTrackTintColor="#FFFFFF"
+                  minimumTrackTintColor="green"
                   maximumTrackTintColor="#000000"
-                  
                 />
               </View>
             </View>
@@ -403,6 +443,7 @@ export default function Vcard_QR() {
             <View
               style={{
                 marginHorizontal: 10,
+                marginVertical:10
               }}>
               <Text style={[styles.txtName, {color: textColor}]}>QR Type</Text>
             </View>
@@ -411,13 +452,13 @@ export default function Vcard_QR() {
                 styles.inputP,
                 {
                   shadowcolor: textColor,
-                  backgroundColor: theme == 'light' ? '#fff' : '#333',
+
                 },
               ]}>
               <View
                 style={[
                   styles.inputBox,
-                  {backgroundColor: theme == 'light' ? '#fff' : '#474747'},
+                  {backgroundColor: theme == 'light' ? '#fff' : '#333'},
                 ]}>
                 <Dropdown
                   style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
@@ -428,6 +469,283 @@ export default function Vcard_QR() {
                   selectedTextStyle={styles.selectedTextStyle}
                   data={data}
                   maxHeight={200}
+                  itemContainerStyle={{backgroundColor: bgColor}}
+                  itemTextStyle={{color: textColor}}
+                  labelField="label"
+                  valueField="value"
+                  placeholder={!isFocus ? 'Select' : '...'}
+                  value={QrType}
+                  onBlur={() => setIsFocus(false)}
+                  onChange={item => {
+                    check_type(item.label);
+
+                  }}
+                />
+              </View>
+            </View>
+          </View>
+
+          {QrTypetxt&& (
+            <>
+              <View style={{marginTop: 25, paddingHorizontal: 10}}>
+                <View style={{marginHorizontal: 10}}>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      color: textColor,
+                      marginHorizontal: 10,
+                      fontWeight: '600',
+                    }}>
+                    Custom text
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    shadowColor: '#000',
+
+                    shadowOffset: {
+                      width: 0,
+                      height: 2,
+                    },
+                    shadowOpacity: 0.25,
+                    shadowRadius: 3.84,
+
+                    elevation: 8,
+                    backgroundColor: bgColor,
+                    marginTop: 15,
+
+                    borderRadius: 10,
+                    height: hp(8),
+                  }}>
+                  <View
+                    style={{
+                      backgroundColor: theme == 'light' ? '#fff' : '#333',
+                    }}>
+                    <TextInput
+                      placeholder="enter"
+                      placeholderTextColor={textColor}
+                      style={{
+                        fontSize: 14,
+                        paddingHorizontal: 10,
+                        color: textColor,
+                      }}
+                    />
+                  </View>
+                </View>
+              </View>
+              <View style={{marginTop: 10}}>
+                <View
+                  style={{
+                    margin: 10,
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      color: textColor,
+                      marginHorizontal: 10,
+                      fontWeight: '600',
+                    }}>
+                    Text color
+                  </Text>
+                </View>
+
+                <View
+                  style={{
+                    paddingHorizontal: 10,
+                    width: '100%',
+                  }}>
+                  <View
+                    style={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: 10,
+                      height: hp(choiceColor ? 25 : 8),
+                    }}>
+                    <View
+                      style={{
+                        height: '100%',
+                        width: '100%',
+                        marginTop: 10,
+                      }}>
+                      <ColorPicker
+                        style={{width: '100%', justifyContent: 'center'}}
+                        sliderThickness={30}
+                        thumbSize={40}
+                        value={selectedColor}
+                        onChange={handleColorChange}
+                        thumbShape="pill">
+                        <TouchableOpacity
+                          onPress={() => {
+                            setchoiceColor(true);
+                          }}>
+                          <Preview
+                            style={[styles.previewStyle, styles.shadow]}
+                            hideText={true}
+                            hideInitialColor
+                          />
+                        </TouchableOpacity>
+
+                        {choiceColor && (
+                          <>
+                            <HueSlider
+                              style={[
+                                {
+                                  borderRadius: 5,
+                                  marginBottom: 25,
+                                  marginHorizontal: 20,
+                                },
+                                styles.shadow,
+                              ]}
+                              thumbShape="line"
+                              thumbInnerStyle={{
+                                width: 15,
+                                borderRadius: 0,
+                                backgroundColor: '#f0f0f0',
+                              }}
+                              thumbColor="#f0f0f0"
+                            />
+
+                            <TouchableOpacity
+                              onPress={() => {
+                                setchoiceColor(false);
+                              }}
+                              style={{
+                                height: '30%',
+                                backgroundColor:
+                                  theme == 'light' ? '#1034a6' : '#333',
+                                borderRadius: 5,
+                                width: '40%',
+                                alignSelf: 'center',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                              }}>
+                              <Text style={{fontSize: 18, color: textColor}}>
+                                Save
+                              </Text>
+                            </TouchableOpacity>
+                          </>
+                        )}
+                      </ColorPicker>
+                    </View>
+                  </View>
+                </View>
+              </View>
+              <View style={{marginTop: 25, paddingHorizontal: 10}}>
+                <View
+                  style={{
+                    marginHorizontal: 10,
+                  }}>
+                  <Text style={[styles.txtName, {color: textColor}]}>
+                    Text size
+                  </Text>
+                </View>
+                <View
+                  style={[
+                    styles.inputP,
+                    {
+                      shadowcolor: textColor,
+                      backgroundColor: theme == 'light' ? '#fff' : '#333',
+                    },
+                  ]}>
+                  <View
+                    style={[
+                      {
+                        backgroundColor: theme == 'light' ? '#fff' : '#474747',
+                        marginTop: 10,
+                      },
+                    ]}>
+                    <Slider
+                      style={{width: '100%', height: 45}}
+                      minimumValue={0}
+                      maximumValue={1}
+                      minimumTrackTintColor="green"
+                      maximumTrackTintColor="#000000"
+                    />
+                  </View>
+                </View>
+              </View>
+            </>
+          )}
+
+          {QrTypeLogo&& (
+            <>
+              <View
+                style={{
+                  marginHorizontal: 20,
+                  marginTop: 20,
+                }}>
+                <Text style={[styles.txtName, {color: textColor}]}>Image</Text>
+              </View>
+              <View
+                style={{
+                  backgroundColor: '#f0f0f0',
+
+                  height: hp(12),
+                  marginHorizontal: 10,
+                  marginTop: 10,
+                  borderRadius: 10,
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                }}>
+                <View style={{width: '40%', marginHorizontal: 20}}>
+                  <TouchableOpacity
+
+                  onPress={()=>{
+                    openImageLibrary()
+                  }}
+                    style={{
+                      borderWidth: 1,
+                      height: 45,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: '#fff',
+                      borderRadius: 5,
+                    }}>
+                    <Text style={{fontSize: 18, fontWeight: '500'}}>
+                      Choose file
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <View>
+                  <Text style={{fontSize:12}}>{imageName.substring(50,80)}</Text>
+                </View>
+              </View>
+            </>
+          )}
+          <View style={{marginTop: 25, paddingHorizontal: 10}}>
+            <View
+              style={{
+                marginHorizontal: 10,
+                marginVertical:10
+              }}>
+              <Text style={[styles.txtName, {color: textColor}]}>
+                Error correction capability
+              </Text>
+            </View>
+            <View
+              style={[
+                styles.inputP,
+                {
+                  shadowcolor: textColor,
+                 
+                },
+              ]}>
+              <View
+                style={[
+                  styles.inputBox,
+                  {backgroundColor: theme == 'light' ? '#fff' : '#333'},
+                ]}>
+                <Dropdown
+                  style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
+                  placeholderStyle={[
+                    styles.placeholderStyle,
+                    {color: textColor},
+                  ]}
+                  selectedTextStyle={styles.selectedTextStyle}
+                  data={Error_CC}
+                  maxHeight={150}
                   itemContainerStyle={{backgroundColor: bgColor}}
                   itemTextStyle={{color: textColor}}
                   labelField="label"
@@ -515,4 +833,10 @@ const data = [
   {label: 'Noramal', value: '1'},
   {label: 'Insert Custom text', value: '2'},
   {label: 'Insert Custom logo', value: '3'},
+];
+const Error_CC = [
+  {label: 'L-low (7%)', value: '1'},
+  {label: 'M-medium (15%)', value: '2'},
+  {label: 'Q-high (23%)', value: '3'},
+  {label: 'H-best (30%)', value: '4'},
 ];

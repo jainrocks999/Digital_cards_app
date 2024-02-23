@@ -27,7 +27,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {changeTheme} from '../redux/feature/ThemeSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {dashboard} from '../redux/feature/featuresSlice';
+import {Vcard_delete, dashboard} from '../redux/feature/featuresSlice';
 import Loader from '../Loader';
 
 import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
@@ -41,6 +41,7 @@ export default function Home_Screen() {
   const user = useSelector(state => state.auth.userData);
   const isLoading = useSelector(state => state.feature.isLoading);
   const dashboardData = useSelector(state => state.feature.DashBoardData);
+  const VcardList = useSelector(state => state.feature.VcardList);
   const [updatedData, setUpdatedData] = useState(data);
   const [visible, setVisible] = useState(false);
   const [visibleMenuIndex, setVisibleMenuIndex] = useState(null);
@@ -69,12 +70,23 @@ export default function Home_Screen() {
 
   useEffect(() => {
     getDataApi();
-  }, [isFocused, getDataApi]);
+  }, [isFocused]);
 
+
+  const VcardDelete =(id)=>{
+    const params = {
+      user_id: user?.data.id,
+      authToken: user?.data.token,
+      id:id
+    };
+    dispatch(Vcard_delete(params));
+
+    hideMenu();
+  }
   useEffect(() => {
     if (dashboardData) {
       const apiCounts = {
-        vcards: dashboardData.vcardlists.length,
+        vcards: VcardList.length,
         projects: dashboardData.projects,
         pixels: dashboardData.pixels,
         domains: dashboardData.connectCustomDomains,
@@ -312,9 +324,9 @@ export default function Home_Screen() {
           </View>
         </View>
         <View >
-          {dashboardData && (
+          {VcardList && (
             <FlatList
-              data={dashboardData?.vcardlists}
+              data={VcardList}
               renderItem={({item, index}) => (
                 <View style={{flex: 1}}>
                   <View
@@ -524,7 +536,9 @@ export default function Home_Screen() {
                             VCard Blocks
                           </Text>
                         </MenuItem>
-                        <MenuItem onPress={hideMenu} style={{}}>
+                        <MenuItem onPress={()=>{
+                         
+                        }} style={{}}>
                           <Ionicons name="copy" size={20} color={textColor} />
                           <Text
                             style={{
@@ -537,7 +551,10 @@ export default function Home_Screen() {
                           </Text>
                         </MenuItem>
                         <MenuItem
-                          onPress={hideMenu}
+                          onPress={()=>{
+                            hideMenu()
+                            navigation.navigate(ScreenNameEnum.EDIT_VCARD)
+                          }}
                           style={{justifyContent: 'center'}}>
                           <FontAwesome5
                             name="pencil-alt"
@@ -554,11 +571,15 @@ export default function Home_Screen() {
                             Edit
                           </Text>
                         </MenuItem>
-                        <MenuItem style={{}}>
+                        <MenuItem 
+                        onPress={()=>{
+                          VcardDelete(item.id)
+                        }}
+                        style={{}}>
                           {/* <TouchableOpacity onPress={()=>console.log('fsfssafs')
             }> */}
-                          <MaterialCommunityIcons
-                            name="logout"
+                          <AntDesign
+                            name="delete"
                             size={25}
                             color={textColor}
                           />
@@ -594,7 +615,7 @@ export default function Home_Screen() {
           <View
             style={{
               height: hp(10),
-              width: '40%',
+              width: '45%',
 
               backgroundColor: '#fff',
             }}>

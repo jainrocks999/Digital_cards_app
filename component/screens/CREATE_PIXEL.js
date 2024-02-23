@@ -155,7 +155,7 @@ export default function CREATE_PIXEL() {
                 shadowRadius: 3.84,
 
                 elevation: 8,
-                backgroundColor: '#fff',
+               backgroundColor: theme=='light'?'#fff':'#333',
                 marginTop: 15,
 
                 borderRadius: 10,
@@ -164,8 +164,8 @@ export default function CREATE_PIXEL() {
               <View
                 style={{
                   backgroundColor: theme == 'light' ? '#fff' : '#333',
-                  height: '100%',
-                  width: '100%',
+                  paddingHorizontal:10,
+                  width:'100%'
                 }}>
                 <TextInput
                   placeholder="name"
@@ -206,7 +206,7 @@ export default function CREATE_PIXEL() {
                 shadowRadius: 3.84,
 
                 elevation: 8,
-                backgroundColor: '#fff',
+                backgroundColor: theme=='light'?'#fff':'#333',
                 marginTop: 15,
 
                 borderRadius: 10,
@@ -215,7 +215,7 @@ export default function CREATE_PIXEL() {
               <View
                 style={{
                   backgroundColor: theme == 'light' ? '#fff' : '#333',
-                  height: '100%',
+                  paddingHorizontal:10,
                   width: '100%',
                 }}>
                 <Dropdown
@@ -234,11 +234,13 @@ export default function CREATE_PIXEL() {
                 itemTextStyle={{
                   color:textColor
                 }}
+                placeholderTextColor={textColor}
                   data={data}
                   maxHeight={200}
                   labelField="label"
                   valueField="value"
                   placeholder={'Select item'}
+        
                   searchPlaceholder="Search..."
                   value={value}
                   onChange={item => {
@@ -280,7 +282,7 @@ export default function CREATE_PIXEL() {
                 shadowRadius: 3.84,
 
                 elevation: 8,
-                backgroundColor: '#fff',
+                backgroundColor: theme=='light'?'#fff':'#333',
                 marginTop: 15,
 
                 borderRadius: 10,
@@ -289,8 +291,8 @@ export default function CREATE_PIXEL() {
               <View
                 style={{
                   backgroundColor: theme == 'light' ? '#fff' : '#333',
-                  height: '100%',
-                  width: '100%',
+                  paddingHorizontal:10,
+                  width:'100%'
                 }}>
                 <TextInput
                   placeholder="Pixel"

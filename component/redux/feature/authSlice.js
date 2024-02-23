@@ -22,6 +22,7 @@ export const login = createAsyncThunk('login', async (params, thunkApi) => {
       response.data,
     );
     if (response.data) {
+      alert('Login Successfuly')
       params.navigation.navigate(ScreenNameEnum.DRAWER_NAVIGATION);
     }
 

@@ -126,7 +126,7 @@ export default function CREATE_VCARD() {
             height: hp(80),
             borderRadius: 5,
           }}>
-          <View style={{marginTop: 25, paddingHorizontal: 10}}>
+          <View style={{marginTop: 25, paddingHorizontal: 10,}}>
             <View style={{flexDirection: 'row', marginHorizontal: 10}}>
               <FontAwesome name="bolt" size={20} color={textColor} />
               <Text
@@ -234,10 +234,9 @@ export default function CREATE_VCARD() {
               }}>
               <View
                 style={{
-                  backgroundColor: theme == 'light' ? '#fff' : '#474747',
-                  height: '100%',
-                  width: '100%',
-                  justifyContent:'center'
+                  backgroundColor: theme == 'light' ? '#fff' : '#333',
+                  paddingHorizontal:10,
+                  width:'100%'
                 }}>
                 <TextInput
                   placeholderTextColor={textColor}
@@ -291,10 +290,9 @@ export default function CREATE_VCARD() {
               }}>
               <View
                 style={{
-                  backgroundColor: theme == 'light' ? '#fff' : '#474747',
-                  height: '100%',
-                  width: '100%',
-                  justifyContent:'center'
+                  backgroundColor: theme == 'light' ? '#fff' : '#333',
+                  paddingHorizontal:10,
+                  width:'100%'
                 }}>
                 <TextInput
                   placeholder="description"

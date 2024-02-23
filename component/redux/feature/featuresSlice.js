@@ -9,6 +9,7 @@ const initialState = {
   DashBoardData: null,
   PixelList: null,
   Domainlists: null,
+  VcardList:null
 };
   
 
@@ -37,7 +38,7 @@ export const dashboard = createAsyncThunk(
       }
       return response.data.data;
     } catch (error) {
-      alert('Server Not Response');
+
       console.log(
         '🚀 ~ file: DashboardSlice.js:16 ~ dashboard ~ error:',
         error,
@@ -157,12 +158,42 @@ export const DomainList = createAsyncThunk(
       );
 
       if (response.data.status) {
+      
         // params.navigation.navigate(ScreenNameEnum.LOGIN_SCREEN);
         console.log('User DomainList Succesfuly');
       }
       return response.data.data;
     } catch (error) {
       console.log('🚀 ~ file: DomainList.js:16 ~ DomainList ~ error:', error);
+
+      return thunkApi.rejectWithValue(error);
+    }
+  },
+);
+// Vcard_delete
+export const Vcard_delete = createAsyncThunk(
+  'Vcard_delete',
+  async (params, thunkApi) => {
+
+    try {
+      const response = await API.get(`/vcards-destroy?user_id=${params.user_id}&vcard_id=${params.id}`, {
+        headers: {
+          Authorization: `Bearer ${params.authToken}`,
+        },
+      });
+
+      console.log(
+        '🚀 ~ file: Vcard_delete.js:12 ~ Vcard_delete ~ response:',
+        response.data,
+      );
+
+      if (response.data.status) {
+        // params.navigation.navigate(ScreenNameEnum.LOGIN_SCREEN);
+        alert('Vcard Delete successfully.')
+      }
+      return response.data.data;
+    } catch (error) {
+      console.log('🚀 ~ file: Vcard_delete.js:16 ~ Vcard_delete ~ error:', error);
 
       return thunkApi.rejectWithValue(error);
     }
@@ -183,6 +214,8 @@ const FeatureSlice = createSlice({
       state.isSuccess = true;
       state.isError = false;
       state.DashBoardData = action.payload;
+     state.VcardList =action.payload.vcardlists
+
     });
     builder.addCase(dashboard.rejected, (state, action) => {
       state.isLoading = false;
@@ -230,6 +263,23 @@ const FeatureSlice = createSlice({
       state.Domainlists = action.payload;
     });
     builder.addCase(DomainList.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+    });
+    // Vcard_delete cases
+    builder.addCase(Vcard_delete.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(Vcard_delete.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+       state.VcardList = state.VcardList.filter((item) => item.id !== action.meta.arg.id);
+   
+      
+    });
+    builder.addCase(Vcard_delete.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;

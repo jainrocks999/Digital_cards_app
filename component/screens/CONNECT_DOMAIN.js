@@ -142,7 +142,7 @@ import { changeTheme } from '../redux/feature/ThemeSlice';
                   shadowRadius: 3.84,
   
                   elevation: 5,
-                  backgroundColor: '#fff',
+                  backgroundColor: theme=='light'?'#fff':'#333',
                   marginTop: 15,
   
                   borderRadius: 5,
@@ -150,7 +150,9 @@ import { changeTheme } from '../redux/feature/ThemeSlice';
                 }}>
            
                 <View
-                  style={{backgroundColor:theme=='light'?'#fff':'#333', height: '100%', width: '100%'}}>
+                  style={{backgroundColor:theme=='light'?'#fff':'#333',
+                  
+                  paddingHorizontal:10}}>
                   <TextInput
                     placeholder="domain.com"
                     placeholderTextColor={textColor}
@@ -182,7 +184,7 @@ import { changeTheme } from '../redux/feature/ThemeSlice';
                   shadowRadius: 3.84,
   
                   elevation: 8,
-                  backgroundColor: bgColor,
+                  backgroundColor: theme=='light'?'#fff':'#333',
                   marginTop: 15,
   
                   borderRadius: 10,
@@ -191,8 +193,7 @@ import { changeTheme } from '../redux/feature/ThemeSlice';
                 <View
                   style={{
                     backgroundColor: theme=='light'?'#fff':'#333',
-                    height: '100%',
-                    width: '100%',
+                    paddingHorizontal:10
                   }}>
                   <TextInput
                     placeholder="https://domain.com"
@@ -233,7 +234,7 @@ import { changeTheme } from '../redux/feature/ThemeSlice';
                   shadowRadius: 3.84,
   
                   elevation: 8,
-                  backgroundColor: '#fff',
+                  backgroundColor: theme=='light'?'#fff':'#333',
                   marginTop: 15,
   
                   borderRadius: 10,
@@ -242,13 +243,15 @@ import { changeTheme } from '../redux/feature/ThemeSlice';
                 <View
                   style={{
                     backgroundColor: theme=='light'?'#fff':'#333',
-                    height: '100%',
-                    width: '100%',
+                    paddingHorizontal:10,
+                   width:'100%'
                   }}>
                   <TextInput
                     placeholder="https://domain.com/404-page"
                     placeholderTextColor={textColor}
-                    style={{fontSize: 14, paddingHorizontal: 10,color:textColor}}
+                    style={{fontSize: 14,
+                      
+                      paddingHorizontal: 10,color:textColor}}
                   />
                 </View>
               </View>

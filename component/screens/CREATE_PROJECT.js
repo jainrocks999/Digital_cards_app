@@ -150,7 +150,7 @@ export default function CREATE_PROJECT () {
                 shadowRadius: 3.84,
 
                 elevation: 8,
-                backgroundColor: bgColor,
+                backgroundColor: theme=='light'?'#fff':'#333',
                 marginTop: 15,
 
                 borderRadius: 10,
@@ -159,8 +159,8 @@ export default function CREATE_PROJECT () {
               <View
                 style={{
                   backgroundColor: theme=='light'?'#fff':'#333',
-                  height: '100%',
-                  width: '100%',
+                 paddingHorizontal:10,
+                 width:'100%'
                 }}>
                 <TextInput
                   placeholder="name"
