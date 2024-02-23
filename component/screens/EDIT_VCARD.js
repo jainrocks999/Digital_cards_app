@@ -22,6 +22,7 @@ import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import LinearGradient from 'react-native-linear-gradient';
 import ScreenNameEnum from '../navigation/routes/screenName.enum';
 import {
   widthPercentageToDP as wp,
@@ -31,9 +32,18 @@ import {useDispatch, useSelector} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {changeTheme} from '../redux/feature/ThemeSlice';
 import {Dropdown} from 'react-native-element-dropdown';
+import { launchImageLibrary } from 'react-native-image-picker';
+import ColorPicker, {
+  Preview,
+  OpacitySlider,
+  BrightnessSlider,
+  HueSlider,
+  SaturationSlider,
+} from 'reanimated-color-picker';
 export default function EDIT_VCARD() {
   const navigation = useNavigation();
   const theme = useSelector(state => state.theme.data);
+  const [selectedColor, setSelectedColor] = useState('#333'); 
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const [showIndex, setShowIndex] = useState('21-12-2023');
@@ -52,7 +62,10 @@ export default function EDIT_VCARD() {
   const [Color, setColor] = useState(false);
   const [Gradient, setGradient] = useState(false);
   const [CustomeImage, setCustomeImage] = useState(false);
-
+  const[images,setImages] = useState('')
+  const[imageName,setImageName] = useState('')
+  const [choiceColor, setchoiceColor] = useState(true);
+  const [selected, setselected] = useState('');
   const changeTheame = async () => {
     await AsyncStorage.setItem('theme', theme == 'light' ? 'dark' : 'light');
     dispatch(changeTheme(theme == 'light' ? 'dark' : 'light'));
@@ -93,7 +106,9 @@ export default function EDIT_VCARD() {
       setShowSeo(false);
     }
   };
-
+  const handleColorChange = color => {
+    setSelectedColor(color.hex);
+  };
   const check_Dropdown = (label, value) => {
     setValue(value);
     if (label === 'Gradient Preset') {
@@ -124,6 +139,19 @@ export default function EDIT_VCARD() {
       setGradientPreset(false);
       setCustomeImage(false);
     }
+  };
+  const openImageLibrary = () => {
+
+    launchImageLibrary({mediaType: 'photo'}, async response => {
+
+      if (!response.didCancel && !response.error) {
+
+        setImageName(response.assets[0].fileName)
+        setImages(response.assets[0].uri);
+
+       
+      }
+    });
   };
   return (
     <View
@@ -924,12 +952,52 @@ export default function EDIT_VCARD() {
                             }}
                           />
                         </View>
+                        {GradientPreset &&(
+                          <>
+                          <FlatList
+                          numColumns={3}
+                          data={GradientPresetData}
+                   
+                          renderItem={({item,index}) => (
+                            <TouchableOpacity 
 
-                        {GradientPreset && (
+                            onPress={()=>{
+                              setselected(index)
+                            }}
+                            style={{
+                              borderWidth:3,
+                              borderColor:selected === index?'green':'#fff',
+                              height:hp(12),
+                              marginVertical: 10,
+                          
+                              width: '32%',
+                              marginHorizontal:2,
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                            }}
+                            >
+                            <LinearGradient 
+                            
+                            style={{height:'99%',width:'99%',}}
+                            colors={item.color}
+                            start={{x: 0, y: 0}} end={{x: 1, y: 0}}
+                             >
+                              
+                            </LinearGradient>
+                            </TouchableOpacity>
+                          )}
+                        />
+                          </>
+                        )
+
+                        }
+
+                        {Gradient && (
                           <>
                             <View
                               style={{marginTop: 25, paddingHorizontal: 10}}>
-                              <View style={{marginHorizontal: 10}}>
+                              <View style={{marginHorizontal: 10,flexDirection:'row',alignItems:'center'}}>
+                                <Ionicons name='color-palette-sharp' size={20} color={textColor}  />
                                 <Text
                                   style={{
                                     fontSize: 18,
@@ -937,61 +1005,13 @@ export default function EDIT_VCARD() {
                                     marginHorizontal: 10,
                                     fontWeight: '600',
                                   }}>
-                                  Custom text
+                                First Color
                                 </Text>
                               </View>
-                              <View
-                                style={{
-                                  flexDirection: 'row',
-                                  alignItems: 'center',
-                                  shadowColor: '#000',
-
-                                  shadowOffset: {
-                                    width: 0,
-                                    height: 2,
-                                  },
-                                  shadowOpacity: 0.25,
-                                  shadowRadius: 3.84,
-
-                                  elevation: 8,
-                                  backgroundColor: bgColor,
-                                  marginTop: 15,
-
-                                  borderRadius: 10,
-                                  height: hp(8),
-                                }}>
-                                <View
-                                  style={{
-                                    backgroundColor:
-                                      theme == 'light' ? '#fff' : '#333',
-                                  }}>
-                                  <TextInput
-                                    placeholder="enter"
-                                    placeholderTextColor={textColor}
-                                    style={{
-                                      fontSize: 14,
-                                      paddingHorizontal: 10,
-                                      color: textColor,
-                                    }}
-                                  />
-                                </View>
-                              </View>
+                           
                             </View>
                             <View style={{marginTop: 10}}>
-                              <View
-                                style={{
-                                  margin: 10,
-                                }}>
-                                <Text
-                                  style={{
-                                    fontSize: 18,
-                                    color: textColor,
-                                    marginHorizontal: 10,
-                                    fontWeight: '600',
-                                  }}>
-                                  Text color
-                                </Text>
-                              </View>
+                           
 
                               <View
                                 style={{
@@ -1087,98 +1107,401 @@ export default function EDIT_VCARD() {
                               </View>
                             </View>
                             <View
-                              style={{marginTop: 25, paddingHorizontal: 10}}>
-                              <View
-                                style={{
-                                  marginHorizontal: 10,
-                                }}>
+                              style={{marginTop:10, paddingHorizontal: 10}}>
+                              <View style={{marginHorizontal: 10,flexDirection:'row',alignItems:'center'}}>
+                                <Ionicons name='color-palette-sharp' size={20} color={textColor}  />
                                 <Text
-                                  style={[styles.txtName, {color: textColor}]}>
-                                  Text size
+                                  style={{
+                                    fontSize: 18,
+                                    color: textColor,
+                                    marginHorizontal: 10,
+                                    fontWeight: '600',
+                                  }}>
+                               Second Color
                                 </Text>
                               </View>
+                           
+                            </View>
+                            <View style={{marginTop: 10}}>
+                           
+
                               <View
-                                style={[
-                                  styles.inputP,
-                                  {
-                                    shadowcolor: textColor,
-                                    backgroundColor:
-                                      theme == 'light' ? '#fff' : '#333',
-                                  },
-                                ]}>
+                                style={{
+                                  paddingHorizontal: 10,
+                                  width: '100%',
+                                }}>
                                 <View
-                                  style={[
-                                    {
-                                      backgroundColor:
-                                        theme == 'light' ? '#fff' : '#474747',
+                                  style={{
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    borderRadius: 10,
+                                    height: hp(choiceColor ? 25 : 8),
+                                  }}>
+                                  <View
+                                    style={{
+                                      height: '100%',
+                                      width: '100%',
                                       marginTop: 10,
-                                    },
-                                  ]}>
-                                  <Slider
-                                    style={{width: '100%', height: 45}}
-                                    minimumValue={0}
-                                    maximumValue={1}
-                                    minimumTrackTintColor="green"
-                                    maximumTrackTintColor="#000000"
-                                  />
+                                    }}>
+                                    <ColorPicker
+                                      style={{
+                                        width: '100%',
+                                        justifyContent: 'center',
+                                      }}
+                                      sliderThickness={30}
+                                      thumbSize={40}
+                                      value={selectedColor}
+                                      onChange={handleColorChange}
+                                      thumbShape="pill">
+                                      <TouchableOpacity
+                                        onPress={() => {
+                                          setchoiceColor(true);
+                                        }}>
+                                        <Preview
+                                          style={[
+                                            styles.previewStyle,
+                                            styles.shadow,
+                                          ]}
+                                          hideText={true}
+                                          hideInitialColor
+                                        />
+                                      </TouchableOpacity>
+
+                                      {choiceColor && (
+                                        <>
+                                          <HueSlider
+                                            style={[
+                                              {
+                                                borderRadius: 5,
+                                                marginBottom: 25,
+                                                marginHorizontal: 20,
+                                              },
+                                              styles.shadow,
+                                            ]}
+                                            thumbShape="line"
+                                            thumbInnerStyle={{
+                                              width: 15,
+                                              borderRadius: 0,
+                                              backgroundColor: '#f0f0f0',
+                                            }}
+                                            thumbColor="#f0f0f0"
+                                          />
+
+                                          <TouchableOpacity
+                                            onPress={() => {
+                                              setchoiceColor(false);
+                                            }}
+                                            style={{
+                                              height: '30%',
+                                              backgroundColor:
+                                                theme == 'light'
+                                                  ? '#1034a6'
+                                                  : '#333',
+                                              borderRadius: 5,
+                                              width: '40%',
+                                              alignSelf: 'center',
+                                              alignItems: 'center',
+                                              justifyContent: 'center',
+                                            }}>
+                                            <Text
+                                              style={{
+                                                fontSize: 18,
+                                                color: textColor,
+                                              }}>
+                                              Save
+                                            </Text>
+                                          </TouchableOpacity>
+                                        </>
+                                      )}
+                                    </ColorPicker>
+                                  </View>
                                 </View>
                               </View>
                             </View>
+                         
                           </>
-                        )}
-
+                        )}                   
                         {Color && (
                           <>
                             <View
-                              style={{
-                                marginHorizontal: 20,
-                                marginTop: 20,
-                              }}>
-                              <Text
-                                style={[styles.txtName, {color: textColor}]}>
-                                Image
-                              </Text>
-                            </View>
-                            <View
-                              style={{
-                                backgroundColor: '#f0f0f0',
-
-                                height: hp(12),
-                                marginHorizontal: 10,
-                                marginTop: 10,
-                                borderRadius: 10,
-                                alignItems: 'center',
-                                flexDirection: 'row',
-                              }}>
-                              <View
-                                style={{width: '40%', marginHorizontal: 20}}>
-                                <TouchableOpacity
-                                  onPress={() => {
-                                    openImageLibrary();
-                                  }}
+                              style={{marginTop: 25, paddingHorizontal: 10}}>
+                              <View style={{marginHorizontal: 10,flexDirection:'row',alignItems:'center'}}>
+                                <Ionicons name='color-palette-sharp' size={20} color={textColor}  />
+                                <Text
                                   style={{
-                                    borderWidth: 1,
-                                    height: 45,
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    backgroundColor: '#fff',
-                                    borderRadius: 5,
+                                    fontSize: 18,
+                                    color: textColor,
+                                    marginHorizontal: 10,
+                                    fontWeight: '600',
                                   }}>
-                                  <Text
-                                    style={{fontSize: 18, fontWeight: '500'}}>
-                                    Choose file
-                                  </Text>
-                                </TouchableOpacity>
-                              </View>
-                              <View>
-                                <Text style={{fontSize: 12}}>
-                                  {imageName.substring(50, 80)}
+                                 Color
                                 </Text>
                               </View>
+                           
                             </View>
+                            <View style={{marginTop: 10}}>
+                           
+
+                              <View
+                                style={{
+                                  paddingHorizontal: 10,
+                                  width: '100%',
+                                }}>
+                                <View
+                                  style={{
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    borderRadius: 10,
+                                    height: hp(choiceColor ? 25 : 8),
+                                  }}>
+                                  <View
+                                    style={{
+                                      height: '100%',
+                                      width: '100%',
+                                      marginTop: 10,
+                                    }}>
+                                    <ColorPicker
+                                      style={{
+                                        width: '100%',
+                                        justifyContent: 'center',
+                                      }}
+                                      sliderThickness={30}
+                                      thumbSize={40}
+                                      value={selectedColor}
+                                      onChange={handleColorChange}
+                                      thumbShape="pill">
+                                      <TouchableOpacity
+                                        onPress={() => {
+                                          setchoiceColor(true);
+                                        }}>
+                                        <Preview
+                                          style={[
+                                            styles.previewStyle,
+                                            styles.shadow,
+                                          ]}
+                                          hideText={true}
+                                          hideInitialColor
+                                        />
+                                      </TouchableOpacity>
+
+                                      {choiceColor && (
+                                        <>
+                                          <HueSlider
+                                            style={[
+                                              {
+                                                borderRadius: 5,
+                                                marginBottom: 25,
+                                                marginHorizontal: 20,
+                                              },
+                                              styles.shadow,
+                                            ]}
+                                            thumbShape="line"
+                                            thumbInnerStyle={{
+                                              width: 15,
+                                              borderRadius: 0,
+                                              backgroundColor: '#f0f0f0',
+                                            }}
+                                            thumbColor="#f0f0f0"
+                                          />
+
+                                          <TouchableOpacity
+                                            onPress={() => {
+                                              setchoiceColor(false);
+                                            }}
+                                            style={{
+                                              height: '30%',
+                                              backgroundColor:
+                                                theme == 'light'
+                                                  ? '#1034a6'
+                                                  : '#333',
+                                              borderRadius: 5,
+                                              width: '40%',
+                                              alignSelf: 'center',
+                                              alignItems: 'center',
+                                              justifyContent: 'center',
+                                            }}>
+                                            <Text
+                                              style={{
+                                                fontSize: 18,
+                                                color: textColor,
+                                              }}>
+                                              Save
+                                            </Text>
+                                          </TouchableOpacity>
+                                        </>
+                                      )}
+                                    </ColorPicker>
+                                  </View>
+                                </View>
+                              </View>
+                            </View>
+                       
+                 
+                          </>
+                        )}                   
+                        
+                             {CustomeImage && (
+                          <>
+                         <View
+                        style={{
+                          marginTop: 10,
+                          flexDirection: 'row',
+                          height: 45,
+                          alignItems: 'center',
+                          paddingHorizontal: 10,
+                        }}>
+                        <FontAwesome5
+                          name="image"
+                          size={20}
+                          color={textColor}
+                        />
+                        <Text
+                          style={{
+                            fontSize: 18,
+                            color: textColor,
+                            fontWeight: '600',
+                            marginLeft: 10,
+                          }}>
+                        Custom Image
+                        </Text>
+                      </View>
+                            <TouchableOpacity
+                               onPress={() => {
+                                openImageLibrary();
+                              }}
+                              style={{
+                                backgroundColor: theme==='light'?'#f0f0f0':'#333',
+
+                                height: hp(15),
+                                marginHorizontal: 10,
+                                marginTop: 10,
+                                borderWidth:1,
+                                borderColor:'grey',
+                                alignItems: 'center',
+                                flexDirection: 'row',
+                                justifyContent:'center'
+                              }}>
+                            
+                               <Text style={{color:textColor,fontSize:18}}>Drop files here to upload</Text>
+                           
+                             
+                            </TouchableOpacity>
                           </>
                         )}
                       </View>
+
+
+
+                      <View
+                              style={{marginTop:10, }}>
+                              <View style={{marginHorizontal: 10,flexDirection:'row',alignItems:'center'}}>
+                                <FontAwesome5 name='pen-nib' size={20} color={textColor}  />
+                                <Text
+                                  style={{
+                                    fontSize: 18,
+                                    color: textColor,
+                                    marginHorizontal: 10,
+                                    fontWeight: '600',
+                                  }}>
+                               Font Family
+                                </Text>
+                              </View>
+                           
+                            </View>
+                            <View style={{marginTop:10, marginHorizontal: 10}}>
+                          <Dropdown
+                            style={[
+                              styles.dropdown,
+                              {
+                                backgroundColor:
+                                  theme == 'light' ? '#fff' : '#333',
+                              },
+                            ]}
+                            placeholderStyle={[
+                              styles.placeholderStyle,
+                              {color: textColor, marginLeft: 10},
+                            ]}
+                            selectedTextStyle={[
+                              styles.selectedTextStyle,
+                              {color: textColor, marginLeft: 10},
+                            ]}
+                            showsVerticalScrollIndicator={false}
+                            itemContainerStyle={{
+                              backgroundColor:
+                                theme == 'light' ? '#fff' : '#333',
+                            }}
+                            activeColor={theme == 'light' ? '#fff' : '#333'}
+                            itemTextStyle={{
+                              color: textColor,
+                            }}
+                            data={DropDown}
+                            maxHeight={200}
+                            labelField="label"
+                            valueField="value"
+                            placeholder={'Select item'}
+                            value={value}
+                            onChange={item => {
+                              check_Dropdown(item.label, item.value);
+                            }}
+                          />
+                        </View>
+                        <View
+                              style={{marginTop:10, }}>
+                              <View style={{marginHorizontal: 10,flexDirection:'row',alignItems:'center'}}>
+                                <MaterialCommunityIcons name='format-font-size-increase' size={25} color={textColor}  />
+                                <Text
+                                  style={{
+                                    fontSize: 18,
+                                    color: textColor,
+                                    marginHorizontal: 10,
+                                    fontWeight: '600',
+                                  }}>
+                             Font Size
+                                </Text>
+                              </View>
+                           
+                            </View>
+                            <View style={{marginTop:10,
+                        
+                              
+                              marginHorizontal: 10,}}>
+                          <Dropdown
+                            style={[
+                              styles.dropdown,
+                              {   
+                                backgroundColor:
+                                  theme == 'light' ? '#fff' : '#333',
+                              },
+                            ]}
+                            placeholderStyle={[
+                              styles.placeholderStyle,
+                              {color: textColor, marginLeft: 10},
+                            ]}
+                            selectedTextStyle={[
+                              styles.selectedTextStyle,
+                              {color: textColor, marginLeft: 10},
+                            ]}
+                            showsVerticalScrollIndicator={false}
+                            itemContainerStyle={{
+                              backgroundColor:
+                                theme == 'light' ? '#fff' : '#333',
+                            }}
+                            activeColor={theme == 'light' ? '#fff' : '#333'}
+                            itemTextStyle={{
+                              color: textColor,
+                            }}
+                            data={DropDown}
+                            maxHeight={200}
+                            labelField="label"
+                            valueField="value"
+                            placeholder={'Select item'}
+                            value={value}
+                            onChange={item => {
+                              check_Dropdown(item.label, item.value);
+                            }}
+                          />
+                          
+                        </View>
                     </View>
                   )}
                 </View>
@@ -1227,12 +1550,27 @@ export default function EDIT_VCARD() {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create({  previewStyle: {
+  height: 55,
+  borderRadius: 5,
+  marginBottom: 30,
+},
+shadow: {
+  shadowColor: '#000',
+  shadowOffset: {
+    width: 0,
+    height: 2,
+  },
+  shadowOpacity: 0.25,
+  shadowRadius: 3.84,
+  elevation: 5,
+},
   dropdown: {
     height: 50,
     borderColor: 'gray',
     borderRadius: 10,
     paddingHorizontal: 8,
+
   },
   label: {
     position: 'absolute',
@@ -1328,6 +1666,31 @@ const CustomizationBtn = [
   {
     name: 'Chicago',
   },
+];
+const GradientPresetData = [
+  {
+    color: ['#53bcc9', '#9198cc', '#b881cf','#d787af','#f4a373']
+  },
+  {
+    color: [ '#6b9ada', '#6b93be','#6c8eaa',]
+  },
+  {
+    color: ['#ffcd94', '#ffb093', '#ff9392',]
+  },
+  {
+    color: ['#5bc6f4', '#9d94bf','#cd6d96']
+  },
+  {
+    color: ['#f394b8', '#f3caba',]
+  },
+  {
+    color: ['#6e6e6e', '#454545',]
+  },
+ 
+  {
+    color: ['#8fc8f4', '#cae8bc',]
+  },
+ 
 ];
 const DropDown = [
   {label: 'Gradient Preset', value: '1'},
