@@ -9,7 +9,8 @@ const initialState = {
   DashBoardData: null,
   PixelList: null,
   Domainlists: null,
-  VcardList:null
+  VcardList:null,
+  ProjectList:null
 };
   
 
@@ -200,6 +201,108 @@ export const Vcard_delete = createAsyncThunk(
   },
 );
 
+// create Project
+
+export const CreateProject = createAsyncThunk(
+  'CreateProject',
+  async (params, thunkApi) => {
+    try {
+      console.log('=>>>>>>>>>>>>>>>>>>> Called project create',params);
+      
+      // Make the API call
+      const response = await API.post('/project-store',
+        params.data, 
+        {
+          headers: {
+            Authorization: `Bearer ${params.authToken}`,
+          },
+        }
+      );
+
+      console.log(
+        '🚀 ~ file: CreateProject.js:12 ~ CreateProject ~ response:',
+        response.data.status,
+      );
+
+      // Check the response status and log a success message
+      if (response.data.status) {
+        params.navigation.navigate(ScreenNameEnum.PROJECT_SCREEN)
+       alert('CreateProject Successfully');
+      }
+
+      // Return the data from the response
+      return response.data.data;
+    } catch (error) {
+      console.log('🚀 ~ file: CreateProject.js:16 ~ CreateProject ~ error:', error);
+
+      // If an error occurs, reject the promise with the error value
+      return thunkApi.rejectWithValue(error);
+    }
+  }
+);
+
+
+//delete Project
+export const Project_delete = createAsyncThunk(
+  'Project_delete',
+  async (params, thunkApi) => {
+
+    try {
+      const response = await API.get(`/project-destroy?project_id=${params.id}&user_id=${params.user_id}`, {
+        headers: {
+          Authorization: `Bearer ${params.authToken}`,
+        },
+      });
+
+      console.log(
+        '🚀 ~ file: Project_delete.js:12 ~ Project_delete ~ response:',
+        response.data,
+      );
+
+      if (response.data.status) {
+        // params.navigation.navigate(ScreenNameEnum.LOGIN_SCREEN);
+        alert('Project Delete successfully.')
+      }
+      return response.data.data;
+    } catch (error) {
+      console.log('🚀 ~ file: Project_delete.js:16 ~ Project_delete ~ error:', error);
+
+      return thunkApi.rejectWithValue(error);
+    }
+  },
+);
+//Edit Project
+export const Project_Edit = createAsyncThunk(
+  'Project_Edit',
+  async (params, thunkApi) => {
+console.log('project_edit=>>>>>>>>>>',params);
+    try {
+      const response = await API.get(`/project-edit?project_id=${params.id}&user_id=${params.user_id}`, {
+        headers: {
+          Authorization: `Bearer ${params.authToken}`,
+        },
+      });
+
+      console.log(
+        '🚀 ~ file: Project_Edit.js:12 ~ Project_Edit ~ response:',
+        response.data,
+      );
+
+      if (response.data.status) {
+        params.navigation.navigate(ScreenNameEnum.PROJECT_SCREEN);
+        ProjectList(params)
+        alert('Project Edit successfully.')
+      }
+      return response.data.data;
+    } catch (error) {
+      console.log('🚀 ~ file: Project_Edit.js:16 ~ Project_Edit ~ error:', error);
+
+      return thunkApi.rejectWithValue(error);
+    }
+  },
+);
+
+
 const FeatureSlice = createSlice({
   name: 'featureSlice',
   initialState,
@@ -280,6 +383,56 @@ const FeatureSlice = createSlice({
       
     });
     builder.addCase(Vcard_delete.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+    });
+    // Project_delete cases
+    builder.addCase(Project_delete.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(Project_delete.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+      state.ProjectList= state.ProjectList.filter((item) => item.id !== action.meta.arg.id);
+   
+      
+    });
+    builder.addCase(Project_delete.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+    });
+    // Create-Project cases
+    builder.addCase(CreateProject.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(CreateProject.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+      
+      
+    });
+    builder.addCase(CreateProject.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+    });
+
+    //project edit 
+    builder.addCase(Project_Edit.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(Project_Edit.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+      
+      
+    });
+    builder.addCase(Project_Edit.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;

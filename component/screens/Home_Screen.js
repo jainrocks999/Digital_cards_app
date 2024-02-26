@@ -520,7 +520,10 @@ export default function Home_Screen() {
                             Statistics
                           </Text>
                         </MenuItem>
-                        <MenuItem onPress={hideMenu} style={{}}>
+                        <MenuItem    onPress={()=>{
+                            hideMenu()
+                            navigation.navigate(ScreenNameEnum.EDIT_VCARD,{edit:false})
+                          }} style={{}}>
                           <FontAwesome
                             name="bars"
                             size={20}
@@ -553,7 +556,7 @@ export default function Home_Screen() {
                         <MenuItem
                           onPress={()=>{
                             hideMenu()
-                            navigation.navigate(ScreenNameEnum.EDIT_VCARD)
+                            navigation.navigate(ScreenNameEnum.EDIT_VCARD,{edit:true})
                           }}
                           style={{justifyContent: 'center'}}>
                           <FontAwesome5

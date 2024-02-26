@@ -13,11 +13,10 @@ import CREATE_VCARD from "../../screens/CREATE_VCARD";
 import CREATE_PIXEL from "../../screens/CREATE_PIXEL";
 import CREATE_PROJECT from "../../screens/CREATE_PROJECT";
 import CONNECT_DOMAIN from "../../screens/CONNECT_DOMAIN";
-
-import RegistrationRoutes from "../RegistrationRoutes";
 import EDIT_VCARD from "../../screens/EDIT_VCARD";
 import Account_Screen from "../../screens/Account_Screen";
 import Vcard_QR from "../../screens/Vcard_QR";
+import Edit_Project from "../../screens/Edit_Project";
 
 
 const _routes = {
@@ -47,6 +46,9 @@ const _routes = {
     { name: ScreenNameEnum.EDIT_VCARD, Component: EDIT_VCARD, },
     { name: ScreenNameEnum.ACCOUNT_SCREEN, Component: Account_Screen, },
     { name: ScreenNameEnum.VCARD_QR, Component: Vcard_QR, },
+  
+    { name: ScreenNameEnum.Edit_Project, Component: Edit_Project, },
+  
 
   ],
 };

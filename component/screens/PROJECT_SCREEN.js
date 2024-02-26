@@ -24,7 +24,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {changeTheme} from '../redux/feature/ThemeSlice';
 import {useDispatch, useSelector} from 'react-redux';
-import {ProjectList} from '../redux/feature/featuresSlice';
+import {ProjectList, Project_delete} from '../redux/feature/featuresSlice';
 import Loader from '../Loader';
 import ScreenNameEnum from '../navigation/routes/screenName.enum'
 export default function PROJECT_SCREEN() {
@@ -40,7 +40,7 @@ export default function PROJECT_SCREEN() {
   let bgColor = theme == 'light' ? '#fff' : '#575757';
   const isFocused = useIsFocused();
 
-  console.log('ProjectList', ProjectData);
+console.log(ProjectData);
   const changeTheame = async () => {
     await AsyncStorage.setItem('theme', theme == 'light' ? 'dark' : 'light');
     dispatch(changeTheme(theme == 'light' ? 'dark' : 'light'));
@@ -50,6 +50,7 @@ export default function PROJECT_SCREEN() {
     setVisible(true);
     setVisibleMenuIndex(index);
   };
+  
 
   const hideMenu = () => {
     setVisible(false);
@@ -61,12 +62,22 @@ export default function PROJECT_SCREEN() {
       authToken: user?.data.token,
     };
     dispatch(ProjectList(params));
-  }, [dispatch, user?.data.id, user?.data.token]);
+  }, [dispatch, user?.data.id, user?.data.token,]);
 
   useEffect(() => {
     getDataApi();
   }, [isFocused, getDataApi]);
 
+  const ProjectDelete =(id)=>{
+    const params = {
+      user_id: user?.data.id,
+      authToken: user?.data.token,
+      id:id
+    };
+    dispatch(Project_delete(params));
+
+    hideMenu();
+  }
   return (
     <View
       style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
@@ -309,7 +320,15 @@ export default function PROJECT_SCREEN() {
                               </Text>
                             </MenuItem>
                             <MenuItem
-                              onPress={hideMenu}
+                              onPress={()=>{
+                                navigation.navigate(ScreenNameEnum.Edit_Project,{
+
+                                  Project_name:item.name,
+                                  Project_color:item.color,
+                                  Project_id:item.id
+                                })
+                                hideMenu()
+                              }}
                               style={[
                                 styles.option,
                                 {backgroundColor: '#69b9c9'},
@@ -324,7 +343,10 @@ export default function PROJECT_SCREEN() {
                               </Text>
                             </MenuItem>
                             <MenuItem
-                              onPress={hideMenu}
+                              onPress={()=>{
+                                ProjectDelete(item.id)
+                               
+                              }}
                               style={[
                                 styles.option,
                                 {backgroundColor: 'red', marginVertical: 5},

@@ -27,7 +27,7 @@ import ColorPicker, {
   HueSlider,
   SaturationSlider,
 } from 'reanimated-color-picker';
-
+import Loader from '../Loader';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -35,19 +35,20 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {changeTheme} from '../redux/feature/ThemeSlice';
+import {CreateProject} from '../redux/feature/featuresSlice';
 
-
-export default function CREATE_PROJECT () {
+export default function CREATE_PROJECT() {
   const navigation = useNavigation();
-
+  const user = useSelector(state => state.auth.userData);
+  const isLoading = useSelector(state => state.feature.isLoading);
   const [choiceColor, setchoiceColor] = useState(false);
   const [selectedColor, setSelectedColor] = useState('red'); // Initial color
-
+  const [name, setname] = useState('');
   const handleColorChange = color => {
     setSelectedColor(color.hex);
   };
 
-  const theme = useSelector(state =>  state.theme.data);
+  const theme = useSelector(state => state.theme.data);
   const dispatch = useDispatch();
 
   let textColor = theme == 'light' ? '#000' : '#fff';
@@ -57,8 +58,25 @@ export default function CREATE_PROJECT () {
     await AsyncStorage.setItem('theme', theme == 'light' ? 'dark' : 'light');
     dispatch(changeTheme(theme == 'light' ? 'dark' : 'light'));
   };
+
+  const Create_Project = () => {
+    const params = {
+      data: {
+        user_id: user?.data.id,
+        name: name,
+        color: selectedColor,
+      },
+      authToken: user?.data.token,
+      navigation: navigation,
+    };
+
+    dispatch(CreateProject(params));
+  };
+
   return (
-    <View style={{flex: 1, backgroundColor:theme=='light'?'#fff':'#333'}}>
+    <View
+      style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
+      {isLoading ? <Loader /> : null}
       <ScrollView
         style={{paddingHorizontal: 5}}
         showsVerticalScrollIndicator={false}>
@@ -71,7 +89,7 @@ export default function CREATE_PROJECT () {
           <TouchableOpacity
             onPress={() => navigation.openDrawer()}
             style={{width: '20%'}}>
-            <Entypo size={40} name="menu" color={textColor}/>
+            <Entypo size={40} name="menu" color={textColor} />
           </TouchableOpacity>
           <View
             style={{
@@ -79,33 +97,47 @@ export default function CREATE_PROJECT () {
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <Text style={{fontSize: 22, fontWeight: '600',color:textColor}}>
+            <Text style={{fontSize: 22, fontWeight: '600', color: textColor}}>
               Create project{' '}
             </Text>
           </View>
           <TouchableOpacity
-          onPress={()=>{
-            changeTheame()
-          }}
+            onPress={() => {
+              changeTheame();
+            }}
             style={{
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <Feather name="sun" size={25} color={theme == 'light' ? 'orange' : '#000'} />
-            <Text style={{marginLeft: 5,  color: theme == 'light' ? 'orange' : '#fff',}}>Light</Text>
+            <Feather
+              name="sun"
+              size={25}
+              color={theme == 'light' ? 'orange' : '#000'}
+            />
+            <Text
+              style={{
+                marginLeft: 5,
+                color: theme == 'light' ? 'orange' : '#fff',
+              }}>
+              Light
+            </Text>
           </TouchableOpacity>
         </View>
         <View
-          style={{flexDirection: 'row', 
-          backgroundColor:bgColor,height:hp(8),
-          alignItems: 'center', marginTop: 20}}>
+          style={{
+            flexDirection: 'row',
+            backgroundColor: bgColor,
+            height: hp(8),
+            alignItems: 'center',
+            marginTop: 20,
+          }}>
           <Text
             style={{
               fontSize: 22,
               fontWeight: '600',
               marginHorizontal: 20,
-              color:textColor
+              color: textColor,
             }}>
             Create a new project
           </Text>
@@ -122,7 +154,7 @@ export default function CREATE_PROJECT () {
             },
             shadowOpacity: 0.25,
             shadowRadius: 3.84,
-            backgroundColor:bgColor,
+            backgroundColor: bgColor,
             elevation: 5,
             marginTop: 15,
             height: hp(80),
@@ -132,7 +164,12 @@ export default function CREATE_PROJECT () {
             <View style={{flexDirection: 'row', marginHorizontal: 10}}>
               <FontAwesome5 name="signature" size={19} color={textColor} />
               <Text
-                style={{fontSize: 18,color:textColor, marginHorizontal: 10, fontWeight: '600'}}>
+                style={{
+                  fontSize: 18,
+                  color: textColor,
+                  marginHorizontal: 10,
+                  fontWeight: '600',
+                }}>
                 Name
               </Text>
             </View>
@@ -150,7 +187,7 @@ export default function CREATE_PROJECT () {
                 shadowRadius: 3.84,
 
                 elevation: 8,
-                backgroundColor: theme=='light'?'#fff':'#333',
+                backgroundColor: theme == 'light' ? '#fff' : '#333',
                 marginTop: 15,
 
                 borderRadius: 10,
@@ -158,14 +195,20 @@ export default function CREATE_PROJECT () {
               }}>
               <View
                 style={{
-                  backgroundColor: theme=='light'?'#fff':'#333',
-                 paddingHorizontal:10,
-                 width:'100%'
+                  backgroundColor: theme == 'light' ? '#fff' : '#333',
+                  paddingHorizontal: 10,
+                  width: '100%',
                 }}>
                 <TextInput
-                  placeholder="name"
-                  placeholderTextColor={textColor}
-                  style={{fontSize: 14, paddingHorizontal: 10,color:textColor}}
+                  value={name}
+                  onChangeText={txt => setname(txt)} // Use onChangeText instead of onChange
+                  placeholder="Name"
+                  placeholderTextColor="#888" // Replace with your desired color or use a variable
+                  style={{
+                    fontSize: 14,
+                    paddingHorizontal: 10,
+                    color: textColor,
+                  }}
                 />
               </View>
             </View>
@@ -184,7 +227,12 @@ export default function CREATE_PROJECT () {
               }}>
               <Ionicons name="color-palette" size={19} color={textColor} />
               <Text
-                style={{fontSize: 18,color:textColor, marginHorizontal: 10, fontWeight: '600'}}>
+                style={{
+                  fontSize: 18,
+                  color: textColor,
+                  marginHorizontal: 10,
+                  fontWeight: '600',
+                }}>
                 Color
               </Text>
             </View>
@@ -246,14 +294,17 @@ export default function CREATE_PROJECT () {
                         }}
                         style={{
                           height: '30%',
-                          backgroundColor: theme=='light'?'#1034a6':'#333',
+                          backgroundColor:
+                            theme == 'light' ? '#1034a6' : '#333',
                           borderRadius: 5,
                           width: '40%',
                           alignSelf: 'center',
                           alignItems: 'center',
                           justifyContent: 'center',
                         }}>
-                        <Text style={{fontSize: 18, color:textColor}}>Save</Text>
+                        <Text style={{fontSize: 18, color: textColor}}>
+                          Save
+                        </Text>
                       </TouchableOpacity>
                     </>
                   )}
@@ -267,16 +318,21 @@ export default function CREATE_PROJECT () {
               marginTop: choiceColor ? 25 : 10,
               marginBottom: 10,
             }}>
-            <Text style={{color:textColor}}>The color is used to help differentiate projects.</Text>
+            <Text style={{color: textColor}}>
+              The color is used to help differentiate projects.
+            </Text>
           </View>
 
           <TouchableOpacity
+            onPress={() => {
+              Create_Project();
+            }}
             style={{
               marginHorizontal: 20,
               height: hp(6),
               alignItems: 'center',
               justifyContent: 'center',
-              backgroundColor:  theme=='light'?'#1034a6':'#333',
+              backgroundColor: theme == 'light' ? '#1034a6' : '#333',
               borderRadius: 10,
               marginVertical: 10,
             }}>
@@ -295,7 +351,9 @@ export default function CREATE_PROJECT () {
             />
           </View>
           <View style={{marginTop: 10}}>
-            <Text style={{color:textColor}}>Copyright © 2024 Bluestone Smart Card.</Text>
+            <Text style={{color: textColor}}>
+              Copyright © 2024 Bluestone Smart Card.
+            </Text>
           </View>
           <TouchableOpacity style={{marginTop: 5}}>
             <Text style={{color: 'blue'}}>blog</Text>
