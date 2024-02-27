@@ -17,6 +17,8 @@ import EDIT_VCARD from "../../screens/EDIT_VCARD";
 import Account_Screen from "../../screens/Account_Screen";
 import Vcard_QR from "../../screens/Vcard_QR";
 import Edit_Project from "../../screens/Edit_Project";
+import Edit_Pixel from "../../screens/Pixel_Edit";
+import Edit_Domain from "../../screens/Edit_Domain";
 
 
 const _routes = {
@@ -46,8 +48,9 @@ const _routes = {
     { name: ScreenNameEnum.EDIT_VCARD, Component: EDIT_VCARD, },
     { name: ScreenNameEnum.ACCOUNT_SCREEN, Component: Account_Screen, },
     { name: ScreenNameEnum.VCARD_QR, Component: Vcard_QR, },
-  
     { name: ScreenNameEnum.Edit_Project, Component: Edit_Project, },
+    { name: ScreenNameEnum.Edit_Pixel, Component: Edit_Pixel, },
+    { name: ScreenNameEnum.Edit_Domain, Component: Edit_Domain, },
   
 
   ],

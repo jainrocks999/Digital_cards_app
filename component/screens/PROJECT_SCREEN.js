@@ -6,6 +6,7 @@ import {
   FlatList,
   ScrollView,
   StyleSheet,
+  Alert,
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useNavigation, useIsFocused} from '@react-navigation/native';
@@ -40,7 +41,7 @@ export default function PROJECT_SCREEN() {
   let bgColor = theme == 'light' ? '#fff' : '#575757';
   const isFocused = useIsFocused();
 
-console.log(ProjectData);
+
   const changeTheame = async () => {
     await AsyncStorage.setItem('theme', theme == 'light' ? 'dark' : 'light');
     dispatch(changeTheme(theme == 'light' ? 'dark' : 'light'));
@@ -74,7 +75,23 @@ console.log(ProjectData);
       authToken: user?.data.token,
       id:id
     };
-    dispatch(Project_delete(params));
+    Alert.alert(
+      'Delete Confirmation',
+      'Are you sure you want to delete this?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          onPress: () => {
+            dispatch(Project_delete(params));
+          },
+        },
+      ],
+      { cancelable: false }
+    );
 
     hideMenu();
   }

@@ -28,6 +28,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeTheme } from '../redux/feature/ThemeSlice';
 import Loading from '../Loader';
 import ScreenNameEnum from '../navigation/routes/screenName.enum'
+import { Vcard_delete } from '../redux/feature/featuresSlice';
   export default function VCARD_SCREEN() {
     
     const navigation = useNavigation();
@@ -57,7 +58,16 @@ import ScreenNameEnum from '../navigation/routes/screenName.enum'
         await AsyncStorage.setItem('theme', theme == 'light' ? 'dark' : 'light');
         dispatch(changeTheme(theme == 'light' ? 'dark' : 'light'));
       };
-
+      const VcardDelete =(id)=>{
+        const params = {
+          user_id: user?.data.id,
+          authToken: user?.data.token,
+          id:id
+        };
+        dispatch(Vcard_delete(params));
+    
+        hideMenu();
+      }
     return (
       <View style={{flex: 1, backgroundColor: theme=='light'?'#fff':'#333'}}>
        {isLoading?<Loading/>:null}
@@ -412,7 +422,10 @@ import ScreenNameEnum from '../navigation/routes/screenName.enum'
                         Views
                       </Text>
                     </MenuItem>
-                    <MenuItem onPress={hideMenu} style={{marginTop:5}}>
+                    <MenuItem onPress={()=>{
+                             navigation.navigate(ScreenNameEnum.VCARD_QR)
+                             hideMenu()
+                        }} style={{marginTop:5}}>
                       <FontAwesome6
                         name="qrcode"
                         size={20}
@@ -444,7 +457,10 @@ import ScreenNameEnum from '../navigation/routes/screenName.enum'
                         Statistics
                       </Text>
                     </MenuItem>
-                    <MenuItem onPress={hideMenu} style={{}}>
+                    <MenuItem onPress={()=>{
+                            hideMenu()
+                            navigation.navigate(ScreenNameEnum.EDIT_VCARD,{edit:false})
+                          }} style={{}}>
                       <FontAwesome
                         name="bars"
                         size={20}
@@ -473,7 +489,10 @@ import ScreenNameEnum from '../navigation/routes/screenName.enum'
                       </Text>
                     </MenuItem>
                     <MenuItem
-                      onPress={hideMenu}
+                      onPress={()=>{
+                        hideMenu()
+                        navigation.navigate(ScreenNameEnum.EDIT_VCARD,{edit:true})
+                      }}
                       style={{justifyContent: 'center'}}>
                       <FontAwesome5
                         name="pencil-alt"
@@ -490,7 +509,11 @@ import ScreenNameEnum from '../navigation/routes/screenName.enum'
                         Edit
                       </Text>
                     </MenuItem>
-                    <MenuItem style={{}}>
+                    <MenuItem
+                      onPress={()=>{
+                        VcardDelete(item.id)
+                      }}
+                    style={{}}>
                       {/* <TouchableOpacity onPress={()=>console.log('fsfssafs')
         }> */}
                       <MaterialCommunityIcons

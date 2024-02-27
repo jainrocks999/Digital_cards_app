@@ -45,6 +45,8 @@ import {
     const [choiceColor, setchoiceColor] = useState(false);
     const [selectedColor, setSelectedColor] = useState(''); // Initial color
     const [name, setname] = useState('');
+
+
     const handleColorChange = color => {
       setSelectedColor(color.hex);
     };
@@ -64,19 +66,22 @@ import {
         setSelectedColor(Project_color)
         setname(Project_name)
     },[Project_color,Project_id,Project_name])
+    console.log(selectedColor);
   
     const Edit_Project = () => {
+
+      console.log('name=>>>>',selectedColor , 'color',name);
       const params = {
         data: {
-          user_id: user?.data.id,
           name: name,
+          id:Project_id,
+          user_id: user?.data.id,
           color: selectedColor,
-          id:Project_id
         },
         authToken: user?.data.token,
         navigation: navigation,
       };
-      dispatch(Project_Edit(params))
+       dispatch(Project_Edit(params))
   
       
     };

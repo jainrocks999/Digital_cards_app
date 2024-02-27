@@ -6,8 +6,9 @@ import {
   FlatList,
   ScrollView,
   TextInput,
+  StyleSheet,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -18,25 +19,39 @@ import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {Dropdown} from 'react-native-element-dropdown';
 import {useDispatch, useSelector} from 'react-redux';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {changeTheme} from '../redux/feature/ThemeSlice';
-import { CreateDomain } from '../redux/feature/featuresSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {CreatePixel, Pixel_Edit} from '../redux/feature/featuresSlice';
 import Loader from '../Loader';
-export default function CONNECT_DOMAIN() {
-  const isLoading = useSelector(state => state.feature.isLoading);
+
+export default function Edit_Pixel({route}) {
+  const {Pixel_name, Pixel_id, Pixel_type, id} = route.params;
+  console.log(Pixel_name, Pixel_id, Pixel_type, id);
+  useEffect(() => {
+    setValue(Pixel_type);
+    setType(Pixel_type);
+    setName(Pixel_name);
+    setPixelId(Pixel_id);
+  }, [Pixel_name, Pixel_id, Pixel_type]);
+  const [value, setValue] = useState(null);
+  const [Type, setType] = useState('');
   const navigation = useNavigation();
   const theme = useSelector(state => state.theme.data);
+  const isLoading = useSelector(state => state.feature.isLoading);
+
   const dispatch = useDispatch();
-const [subDomain,setSubDomain] =useState('')
-const [customIndexUrl,setCustomIndexUrl] =useState('');
-const [custom404Url,set404Url] =useState('');
   const user = useSelector(state => state.auth.userData);
+
+  const [Name, setName] = useState('');
+  const [PixcelId, setPixelId] = useState('');
+
   let textColor = theme == 'light' ? '#000' : '#fff';
   let bgColor = theme == 'light' ? '#fff' : '#575757';
 
@@ -45,27 +60,33 @@ const [custom404Url,set404Url] =useState('');
     dispatch(changeTheme(theme == 'light' ? 'dark' : 'light'));
   };
 
-  const Create_Domain = () => {
+  const EditPixel = () => {
+    console.log(Name, Type, PixcelId);
     const params = {
       data: {
-        domain_or_subdomain: subDomain,
-        custom_index_url: customIndexUrl,
-        custom_404_not_found_url: custom404Url,
-
         user_id: user?.data.id,
+        name: Name,
+        type: Type,
+        pixelid: PixcelId,
+        id:id,
       },
       authToken: user?.data.token,
       navigation: navigation,
     };
 
-    dispatch(CreateDomain(params));
+    dispatch(Pixel_Edit(params));
   };
+
+  const setDropDowndata = item => {
+    setType(item.label);
+    setValue(item.value);
+  };
+
   return (
     <View
       style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
-      
       {isLoading ? <Loader /> : null}
-      
+
       <ScrollView
         style={{paddingHorizontal: 5}}
         showsVerticalScrollIndicator={false}>
@@ -87,7 +108,7 @@ const [custom404Url,set404Url] =useState('');
               justifyContent: 'center',
             }}>
             <Text style={{fontSize: 22, fontWeight: '600', color: textColor}}>
-              Custom Domain{' '}
+              Edit Pixel
             </Text>
           </View>
           <TouchableOpacity
@@ -102,7 +123,7 @@ const [custom404Url,set404Url] =useState('');
             <Feather
               name="sun"
               size={25}
-              color={theme == 'light' ? 'orange' : 'black'}
+              color={theme == 'light' ? 'orange' : '#000'}
             />
             <Text
               style={{
@@ -113,7 +134,14 @@ const [custom404Url,set404Url] =useState('');
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={{justifyContent: 'center', marginTop: 20}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            height: hp(8),
+            backgroundColor: bgColor,
+            alignItems: 'center',
+            marginTop: 20,
+          }}>
           <Text
             style={{
               fontSize: 22,
@@ -121,14 +149,9 @@ const [custom404Url,set404Url] =useState('');
               marginHorizontal: 20,
               color: textColor,
             }}>
-            Connect custom domain
+            Edit pixel
           </Text>
-        </View>
-        <View style={{marginHorizontal: 20, marginTop: 10}}>
-          <Text style={{color: textColor}}>
-            Make sure that your domain or subdomain has an A record pointing to
-            162.254.39.14 or CNAME record pointing to bluestonecard.com.
-          </Text>
+          <AntDesign name="infocirlce" size={20} color={textColor} />
         </View>
 
         <View
@@ -144,59 +167,9 @@ const [custom404Url,set404Url] =useState('');
             backgroundColor: bgColor,
             elevation: 5,
             marginTop: 15,
-            height: hp(85),
+            height: hp(80),
             borderRadius: 5,
           }}>
-          <View style={{marginTop: 25, paddingHorizontal: 10}}>
-            <View style={{flexDirection: 'row', marginHorizontal: 10}}>
-              <FontAwesome name="bolt" size={20} color={textColor} />
-              <Text
-                style={{
-                  fontSize: 18,
-                  marginHorizontal: 10,
-                  color: textColor,
-                  fontWeight: '600',
-                }}>
-                {' '}
-                Domain or subdomain
-              </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                shadowColor: '#000',
-                shadowOffset: {
-                  width: 0,
-                  height: 2,
-                },
-                shadowOpacity: 0.25,
-                shadowRadius: 3.84,
-
-                elevation: 5,
-                backgroundColor: theme == 'light' ? '#fff' : '#333',
-                marginTop: 15,
-
-                borderRadius: 5,
-                height: hp(8),
-              }}>
-              <View
-                style={{
-                  backgroundColor: theme == 'light' ? '#fff' : '#333',
-
-                  paddingHorizontal: 10,
-                }}>
-                <TextInput
-
-                value={subDomain}
-                onChangeText={(txt)=>setSubDomain(txt)}
-                  placeholder="domain.com"
-                  placeholderTextColor={textColor}
-                  style={{fontSize: 14, paddingHorizontal: 10}}
-                />
-              </View>
-            </View>
-          </View>
           <View style={{marginTop: 25, paddingHorizontal: 10}}>
             <View style={{flexDirection: 'row', marginHorizontal: 10}}>
               <FontAwesome5 name="signature" size={19} color={textColor} />
@@ -207,7 +180,7 @@ const [custom404Url,set404Url] =useState('');
                   color: textColor,
                   fontWeight: '600',
                 }}>
-                Custom index URL
+                Name
               </Text>
             </View>
             <View
@@ -234,11 +207,12 @@ const [custom404Url,set404Url] =useState('');
                 style={{
                   backgroundColor: theme == 'light' ? '#fff' : '#333',
                   paddingHorizontal: 10,
+                  width: '100%',
                 }}>
                 <TextInput
-                     value={customIndexUrl}
-                     onChangeText={(txt)=>setCustomIndexUrl(txt)}
-                  placeholder="https://domain.com"
+                  placeholder="name"
+                  value={Name}
+                  onChangeText={txt => setName(txt)}
                   placeholderTextColor={textColor}
                   style={{
                     fontSize: 14,
@@ -249,21 +223,9 @@ const [custom404Url,set404Url] =useState('');
               </View>
             </View>
           </View>
-          <View style={{marginHorizontal: 10, marginVertical: 5}}>
-            <Text style={{marginHorizontal: 10, color: textColor}}>
-              Redirect to a specific URL when visitors land on the index of the
-              domain, in case you don't want to use the custom domain for a
-              single vcard.
-            </Text>
-          </View>
           <View style={{marginTop: 25, paddingHorizontal: 10}}>
-            <View
-              style={{
-                flexDirection: 'row',
-                marginHorizontal: 10,
-                alignItems: 'center',
-              }}>
-              <Entypo name="pencil" size={19} color={textColor} />
+            <View style={{flexDirection: 'row', marginHorizontal: 10}}>
+              <Ionicons name="invert-mode" size={25} color={textColor} />
               <Text
                 style={{
                   fontSize: 18,
@@ -271,7 +233,7 @@ const [custom404Url,set404Url] =useState('');
                   color: textColor,
                   fontWeight: '600',
                 }}>
-                Custom 404 not found URL
+                Type
               </Text>
             </View>
             <View
@@ -292,7 +254,80 @@ const [custom404Url,set404Url] =useState('');
                 marginTop: 15,
 
                 borderRadius: 10,
-                height:hp(8),
+                height: hp(8),
+              }}>
+              <View
+                style={{
+                  backgroundColor: theme == 'light' ? '#fff' : '#333',
+                  paddingHorizontal: 10,
+                  width: '100%',
+                }}>
+                <Dropdown
+                  style={[
+                    styles.dropdown,
+                    {backgroundColor: theme == 'light' ? '#fff' : '#333'},
+                  ]}
+                  placeholderStyle={styles.placeholderStyle}
+                  selectedTextStyle={[styles.selectedTextStyle]}
+                  showsVerticalScrollIndicator={false}
+                  itemContainerStyle={{
+                    backgroundColor: bgColor,
+                  }}
+                  activeColor={theme == 'light' ? '#fff' : '#333'}
+                  itemTextStyle={{
+                    color: textColor,
+                  }}
+                  placeholderTextColor={textColor}
+                  data={data}
+                  maxHeight={200}
+                  labelField="label"
+                  valueField="value"
+                  placeholder={Type}
+                  value={value}
+                  onChange={item => {
+                    setDropDowndata(item);
+                  }}
+                />
+              </View>
+            </View>
+          </View>
+          <View style={{marginTop: 25, paddingHorizontal: 10}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                marginHorizontal: 10,
+                alignItems: 'center',
+              }}>
+              <Entypo name="code" size={25} color={textColor} />
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: textColor,
+                  marginHorizontal: 10,
+                  fontWeight: '600',
+                }}>
+                Pixel ID
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                shadowColor: '#000',
+
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+
+                elevation: 8,
+                backgroundColor: theme == 'light' ? '#fff' : '#333',
+                marginTop: 15,
+
+                borderRadius: 10,
+                height: hp(8),
               }}>
               <View
                 style={{
@@ -301,44 +336,40 @@ const [custom404Url,set404Url] =useState('');
                   width: '100%',
                 }}>
                 <TextInput
-                     value={custom404Url}
-                     onChangeText={(txt)=>set404Url(txt)}
-                  placeholder="https://domain.com/404-page"
+                  value={PixcelId}
+                  onChangeText={txt => setPixelId(txt)}
+                  placeholder="Pixel"
                   placeholderTextColor={textColor}
                   style={{
                     fontSize: 14,
-
-                    paddingHorizontal: 10,
                     color: textColor,
+                    paddingHorizontal: 10,
                   }}
                 />
               </View>
             </View>
           </View>
-          <View style={{marginHorizontal: 10, marginVertical: 5}}>
-            <Text style={{marginHorizontal: 10, color: textColor}}>
-              Redirect to a specific URL when visitors land on a not found page
-              of the domain.
+          <View style={{marginHorizontal: 10, marginVertical: 25}}>
+            <Text style={{color: textColor}}>
+              Enter the pixel id from this specific pixel type you chose.
             </Text>
           </View>
 
           <TouchableOpacity
-
-          onPress={()=>{
-            Create_Domain()
-          }}
+            onPress={() => {
+              EditPixel();
+            }}
             style={{
               marginHorizontal: 20,
               height: hp(6),
               alignItems: 'center',
               justifyContent: 'center',
-              backgroundColor: theme == 'light' ? '#1034a6' : '#333',
+              backgroundColor: theme == 'light' ? '#4b5563' : '#333',
               borderRadius: 10,
-              marginTop: 50,
               marginVertical: 10,
             }}>
             <Text style={{fontWeight: '400', fontSize: 20, color: '#fff'}}>
-              Create
+              Update
             </Text>
           </TouchableOpacity>
         </View>
@@ -365,3 +396,39 @@ const [custom404Url,set404Url] =useState('');
     </View>
   );
 }
+
+const data = [
+  {label: 'Facebook', value: '1'},
+  {label: 'Google Analytics', value: '2'},
+  {label: 'Google Tag Manager', value: '3'},
+  {label: 'Linkedln', value: '4'},
+  {label: 'Pinterest', value: '5'},
+  {label: 'Twitter', value: '6'},
+  {label: 'Quora', value: '7'},
+  {label: 'Tik-Tok', value: '8'},
+  {label: 'Snapchat', value: '8'},
+];
+const styles = StyleSheet.create({
+  dropdown: {
+    height: 50,
+    borderColor: 'gray',
+    borderRadius: 10,
+    paddingHorizontal: 8,
+  },
+
+  label: {
+    position: 'absolute',
+    backgroundColor: 'white',
+    left: 22,
+    top: 8,
+    zIndex: 999,
+    paddingHorizontal: 8,
+    fontSize: 14,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
+});

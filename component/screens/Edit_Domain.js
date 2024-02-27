@@ -7,7 +7,7 @@ import {
   ScrollView,
   TextInput,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -26,16 +26,17 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {changeTheme} from '../redux/feature/ThemeSlice';
-import { CreateDomain } from '../redux/feature/featuresSlice';
+import {CreateDomain, Domain_Edit} from '../redux/feature/featuresSlice';
 import Loader from '../Loader';
-export default function CONNECT_DOMAIN() {
+export default function Edit_Domain({route}) {
+  const {item} = route.params;
   const isLoading = useSelector(state => state.feature.isLoading);
   const navigation = useNavigation();
   const theme = useSelector(state => state.theme.data);
   const dispatch = useDispatch();
-const [subDomain,setSubDomain] =useState('')
-const [customIndexUrl,setCustomIndexUrl] =useState('');
-const [custom404Url,set404Url] =useState('');
+  const [subDomain, setSubDomain] = useState('');
+  const [customIndexUrl, setCustomIndexUrl] = useState('');
+  const [custom404Url, set404Url] = useState('');
   const user = useSelector(state => state.auth.userData);
   let textColor = theme == 'light' ? '#000' : '#fff';
   let bgColor = theme == 'light' ? '#fff' : '#575757';
@@ -45,27 +46,32 @@ const [custom404Url,set404Url] =useState('');
     dispatch(changeTheme(theme == 'light' ? 'dark' : 'light'));
   };
 
-  const Create_Domain = () => {
+  useEffect(() => {
+    set404Url(item.custom_404_not_found_url);
+    setCustomIndexUrl(item.custom_index_url);
+    setSubDomain(item.domain_or_subdomain);
+  }, [item]);
+
+  const update_Domain = () => {
     const params = {
       data: {
         domain_or_subdomain: subDomain,
         custom_index_url: customIndexUrl,
         custom_404_not_found_url: custom404Url,
-
         user_id: user?.data.id,
+        id: item.id,
       },
       authToken: user?.data.token,
       navigation: navigation,
     };
 
-    dispatch(CreateDomain(params));
+    dispatch(Domain_Edit(params));
   };
   return (
     <View
       style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
-      
       {isLoading ? <Loader /> : null}
-      
+
       <ScrollView
         style={{paddingHorizontal: 5}}
         showsVerticalScrollIndicator={false}>
@@ -87,7 +93,7 @@ const [custom404Url,set404Url] =useState('');
               justifyContent: 'center',
             }}>
             <Text style={{fontSize: 22, fontWeight: '600', color: textColor}}>
-              Custom Domain{' '}
+              Edit Domain{' '}
             </Text>
           </View>
           <TouchableOpacity
@@ -121,7 +127,7 @@ const [custom404Url,set404Url] =useState('');
               marginHorizontal: 20,
               color: textColor,
             }}>
-            Connect custom domain
+            Edit custom domain
           </Text>
         </View>
         <View style={{marginHorizontal: 20, marginTop: 10}}>
@@ -183,13 +189,12 @@ const [custom404Url,set404Url] =useState('');
               <View
                 style={{
                   backgroundColor: theme == 'light' ? '#fff' : '#333',
-
+width:'100%',
                   paddingHorizontal: 10,
                 }}>
                 <TextInput
-
-                value={subDomain}
-                onChangeText={(txt)=>setSubDomain(txt)}
+                  value={subDomain}
+                  onChangeText={txt => setSubDomain(txt)}
                   placeholder="domain.com"
                   placeholderTextColor={textColor}
                   style={{fontSize: 14, paddingHorizontal: 10}}
@@ -232,15 +237,17 @@ const [custom404Url,set404Url] =useState('');
               }}>
               <View
                 style={{
+                  width:'100%',
                   backgroundColor: theme == 'light' ? '#fff' : '#333',
                   paddingHorizontal: 10,
                 }}>
                 <TextInput
-                     value={customIndexUrl}
-                     onChangeText={(txt)=>setCustomIndexUrl(txt)}
+                  value={customIndexUrl}
+                  onChangeText={txt => setCustomIndexUrl(txt)}
                   placeholder="https://domain.com"
                   placeholderTextColor={textColor}
                   style={{
+
                     fontSize: 14,
                     paddingHorizontal: 10,
                     color: textColor,
@@ -292,7 +299,7 @@ const [custom404Url,set404Url] =useState('');
                 marginTop: 15,
 
                 borderRadius: 10,
-                height:hp(8),
+                height: hp(8),
               }}>
               <View
                 style={{
@@ -301,8 +308,8 @@ const [custom404Url,set404Url] =useState('');
                   width: '100%',
                 }}>
                 <TextInput
-                     value={custom404Url}
-                     onChangeText={(txt)=>set404Url(txt)}
+                  value={custom404Url}
+                  onChangeText={txt => set404Url(txt)}
                   placeholder="https://domain.com/404-page"
                   placeholderTextColor={textColor}
                   style={{
@@ -323,10 +330,9 @@ const [custom404Url,set404Url] =useState('');
           </View>
 
           <TouchableOpacity
-
-          onPress={()=>{
-            Create_Domain()
-          }}
+            onPress={() => {
+              update_Domain();
+            }}
             style={{
               marginHorizontal: 20,
               height: hp(6),
@@ -338,7 +344,7 @@ const [custom404Url,set404Url] =useState('');
               marginVertical: 10,
             }}>
             <Text style={{fontWeight: '400', fontSize: 20, color: '#fff'}}>
-              Create
+              Update
             </Text>
           </TouchableOpacity>
         </View>

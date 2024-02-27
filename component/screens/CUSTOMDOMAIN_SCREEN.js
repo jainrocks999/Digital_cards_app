@@ -6,6 +6,7 @@ import {
   FlatList,
   ScrollView,
   StyleSheet,
+  Alert,
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useNavigation, useIsFocused} from '@react-navigation/native';
@@ -26,8 +27,8 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {changeTheme} from '../redux/feature/ThemeSlice';
-import {DomainList} from '../redux/feature/featuresSlice';
-import Loading from '../Loader';
+import {DomainList, Domain_delete} from '../redux/feature/featuresSlice';
+import Loader from '../Loader';
 import ScreenNameEnum from '../navigation/routes/screenName.enum'
 
 export default function CUSTOMDOMAIN_SCREEN() {
@@ -36,7 +37,7 @@ export default function CUSTOMDOMAIN_SCREEN() {
   const DomainData = useSelector(state => state.feature.Domainlists);
   const user = useSelector(state => state.auth.userData);
 
-  const isLoading= useSelector (state=> state.feature.isLoading);   
+  const isLoading = useSelector(state => state.feature.isLoading); 
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
 
@@ -60,11 +61,40 @@ export default function CUSTOMDOMAIN_SCREEN() {
     dispatch(changeTheme(theme == 'light' ? 'dark' : 'light'));
   };
 
+  const DomainDelete =(id)=>{
+    const params = {
+      user_id: user?.data.id,
+      authToken: user?.data.token,
+      id:id
+    };
+
+    Alert.alert(
+      'Delete Confirmation',
+      'Are you sure you want to delete this?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          onPress: () => {
+            dispatch(Domain_delete(params));
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+
+
+    
+  }
+
   return (
     <View
       style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
      
-     {isLoading?<Loading/>:null}
+     {isLoading ? <Loader /> : null}
       <ScrollView>
         <View
           style={{
@@ -408,6 +438,12 @@ export default function CUSTOMDOMAIN_SCREEN() {
                             </Text>
                           </TouchableOpacity>
                           <TouchableOpacity
+
+                          onPress={()=>{
+                            navigation.navigate(ScreenNameEnum.Edit_Domain,{
+                              item:item
+                            })
+                          }}
                             style={{
                               backgroundColor: '#17a2b8',
                               width: '30%',
@@ -426,6 +462,10 @@ export default function CUSTOMDOMAIN_SCREEN() {
                             </Text>
                           </TouchableOpacity>
                           <TouchableOpacity
+
+                          onPress={()=>{
+                            DomainDelete(item.id)
+                          }}
                             style={{
                               backgroundColor: '#dc3545',
                               width: '30%',

@@ -28,12 +28,20 @@ import {Dropdown} from 'react-native-element-dropdown';
 import {useDispatch, useSelector} from 'react-redux';
 import {changeTheme} from '../redux/feature/ThemeSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { CreatePixel } from '../redux/feature/featuresSlice';
+import Loader from '../Loader';
 export default function CREATE_PIXEL() {
   const [value, setValue] = useState(null);
+  const[Type,setType] =useState('')
   const navigation = useNavigation();
   const theme = useSelector(state =>  state.theme.data);
+  const isLoading = useSelector(state => state.feature.isLoading);
+
   const dispatch = useDispatch();
+  const user = useSelector(state => state.auth.userData);
+
+  const[Name,setName] =useState('')
+  const[PixcelId,setPixelId] =useState('')
 
   let textColor = theme == 'light' ? '#000' : '#fff';
   let bgColor = theme == 'light' ? '#fff' : '#575757';
@@ -42,9 +50,36 @@ export default function CREATE_PIXEL() {
     await AsyncStorage.setItem('theme', theme == 'light' ? 'dark' : 'light');
     dispatch(changeTheme(theme == 'light' ? 'dark' : 'light'));
   };
+
+  const Create_Pixel = () => {
+    const params = {
+      data: {
+        user_id: user?.data.id,
+        name: Name,
+        type:Type,
+        pixelid:PixcelId
+      },
+      authToken: user?.data.token,
+      navigation: navigation,
+    };
+
+    console.log('=>>>>>>>>>',params);
+
+   dispatch(CreatePixel(params));
+  };
+
+
+  const setDropDowndata =(item)=>{
+   setType(item.label)
+   setValue(item.value)
+  }
+
   return (
     <View
       style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
+    {isLoading ? <Loader /> : null}
+    
+    
       <ScrollView
         style={{paddingHorizontal: 5}}
         showsVerticalScrollIndicator={false}>
@@ -169,6 +204,8 @@ export default function CREATE_PIXEL() {
                 }}>
                 <TextInput
                   placeholder="name"
+                  value={Name}
+                  onChangeText={(txt)=>setName(txt)}
                   placeholderTextColor={textColor}
                   style={{
                     fontSize: 14,
@@ -244,7 +281,7 @@ export default function CREATE_PIXEL() {
                   searchPlaceholder="Search..."
                   value={value}
                   onChange={item => {
-                    setValue(item.value);
+                   setDropDowndata(item)
                   }}
                 />
               </View>
@@ -295,6 +332,8 @@ export default function CREATE_PIXEL() {
                   width:'100%'
                 }}>
                 <TextInput
+                   value={PixcelId}
+                   onChangeText={(txt)=>setPixelId(txt)}
                   placeholder="Pixel"
                   placeholderTextColor={textColor}
                   style={{
@@ -313,6 +352,10 @@ export default function CREATE_PIXEL() {
           </View>
 
           <TouchableOpacity
+
+          onPress={()=>{
+            Create_Pixel()
+          }}
             style={{
               marginHorizontal: 20,
               height: hp(6),

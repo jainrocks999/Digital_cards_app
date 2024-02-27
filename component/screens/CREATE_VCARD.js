@@ -7,7 +7,7 @@ import {
   ScrollView,
   TextInput,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -26,11 +26,15 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {changeTheme} from '../redux/feature/ThemeSlice';
+import {CreateCard} from '../redux/feature/featuresSlice';
 
 export default function CREATE_VCARD() {
   const navigation = useNavigation();
   const theme = useSelector(state => state.theme.data);
-
+  const [urlAlias, setUrlAlias] = useState('');
+  const [Name, setName] = useState();
+  const [description, setDescription] = useState('');
+  const user = useSelector(state => state.auth.userData);
   const dispatch = useDispatch();
 
   let textColor = theme == 'light' ? '#000' : '#fff';
@@ -40,6 +44,22 @@ export default function CREATE_VCARD() {
     await AsyncStorage.setItem('theme', theme == 'light' ? 'dark' : 'light');
     dispatch(changeTheme(theme == 'light' ? 'dark' : 'light'));
   };
+
+  const createVCard = () => {
+    const params = {
+      data: {
+        user_id: user?.data.id,
+        url_alias:urlAlias,
+        name: Name,
+        description:description,
+      },
+      authToken: user?.data.token,
+      navigation: navigation,
+    };
+
+    dispatch(CreateCard(params));
+  };
+
   return (
     <View
       style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
@@ -126,7 +146,7 @@ export default function CREATE_VCARD() {
             height: hp(80),
             borderRadius: 5,
           }}>
-          <View style={{marginTop: 25, paddingHorizontal: 10,}}>
+          <View style={{marginTop: 25, paddingHorizontal: 10}}>
             <View style={{flexDirection: 'row', marginHorizontal: 10}}>
               <FontAwesome name="bolt" size={20} color={textColor} />
               <Text
@@ -136,7 +156,6 @@ export default function CREATE_VCARD() {
                   marginHorizontal: 10,
                   fontWeight: '600',
                 }}>
-                {' '}
                 URL Alias
               </Text>
             </View>
@@ -158,7 +177,6 @@ export default function CREATE_VCARD() {
 
                 borderRadius: 5,
                 height: hp(8),
-                
               }}>
               <View
                 style={{
@@ -167,11 +185,10 @@ export default function CREATE_VCARD() {
                   width: '45%',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  borderRadius:5
-                  
+                  borderRadius: 5,
                 }}>
                 <Text style={{fontSize: 14, color: textColor}}>
-                cards.forebearpro.co.in/
+                  cards.forebearpro.co.in/
                 </Text>
               </View>
               <View
@@ -179,10 +196,12 @@ export default function CREATE_VCARD() {
                   backgroundColor: theme == 'light' ? '#fff' : '#474747',
                   height: '100%',
                   width: '55%',
-            
+
                   justifyContent: 'center',
                 }}>
                 <TextInput
+                  value={urlAlias}
+                  onChangeText={txt => setUrlAlias(txt)}
                   placeholder="my-page-url "
                   placeholderTextColor={textColor}
                   style={{
@@ -235,10 +254,12 @@ export default function CREATE_VCARD() {
               <View
                 style={{
                   backgroundColor: theme == 'light' ? '#fff' : '#333',
-                  paddingHorizontal:10,
-                  width:'100%'
+                  paddingHorizontal: 10,
+                  width: '100%',
                 }}>
                 <TextInput
+                  value={Name}
+                  onChangeText={txt => setName(txt)}
                   placeholderTextColor={textColor}
                   placeholder="name"
                   style={{
@@ -291,10 +312,12 @@ export default function CREATE_VCARD() {
               <View
                 style={{
                   backgroundColor: theme == 'light' ? '#fff' : '#333',
-                  paddingHorizontal:10,
-                  width:'100%'
+                  paddingHorizontal: 10,
+                  width: '100%',
                 }}>
                 <TextInput
+                  value={description}
+                  onChangeText={txt => setDescription(txt)}
                   placeholder="description"
                   placeholderTextColor={textColor}
                   style={{
@@ -328,10 +351,9 @@ export default function CREATE_VCARD() {
           </View>
 
           <TouchableOpacity
-
-          onPress={()=>{
-            navigation.navigate(ScreenNameEnum.EDIT_VCARD)
-          }}
+            onPress={() => {
+              createVCard();
+            }}
             style={{
               marginHorizontal: 20,
               height: hp(6),
@@ -351,7 +373,7 @@ export default function CREATE_VCARD() {
           <View style={{height: hp(10), width: '40%'}}>
             <Image
               source={require('../image/logo.png')}
-              style={{height: '100%', width: '100%',backgroundColor:'#fff'}}
+              style={{height: '100%', width: '100%', backgroundColor: '#fff'}}
               resizeMode="contain"
             />
           </View>

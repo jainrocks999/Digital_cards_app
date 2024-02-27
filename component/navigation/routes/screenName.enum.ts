@@ -29,7 +29,9 @@ enum ScreenNameEnum {
     EDIT_VCARD='EDIT_VCARD',
     ACCOUNT_SCREEN='Account_Screen',
     VCARD_QR ='Vcard_QR',
-    Edit_Project='Edit_Project'
+    Edit_Project='Edit_Project',
+    Edit_Pixel ='Edit_Pixel',
+    Edit_Domain ='Edit_Domain'
 
 
 

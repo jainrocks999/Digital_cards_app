@@ -41,6 +41,7 @@ export default function CREATE_PROJECT() {
   const navigation = useNavigation();
   const user = useSelector(state => state.auth.userData);
   const isLoading = useSelector(state => state.feature.isLoading);
+  
   const [choiceColor, setchoiceColor] = useState(false);
   const [selectedColor, setSelectedColor] = useState('red'); // Initial color
   const [name, setname] = useState('');

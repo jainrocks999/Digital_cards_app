@@ -105,8 +105,7 @@ export default function Home_Screen() {
 
   const Qr_Show =()=>{
 
-    navigation.navigate(ScreenNameEnum.VCARD_QR)
-   hideMenu()
+ 
   }
   return (
     <View
@@ -488,7 +487,10 @@ export default function Home_Screen() {
                             Views
                           </Text>
                         </MenuItem>
-                        <MenuItem onPress={Qr_Show} style={{marginTop:5}}>
+                        <MenuItem onPress={()=>{
+                             navigation.navigate(ScreenNameEnum.VCARD_QR)
+                             hideMenu()
+                        }} style={{marginTop:5}}>
                           <FontAwesome6
                             name="qrcode"
                             size={20}

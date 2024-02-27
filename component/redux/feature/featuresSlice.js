@@ -57,7 +57,9 @@ export const CreateCard = createAsyncThunk(
 
     try {
       const response = await API.get(
-        `/vcards-dashboard?user_id=${params.user_id}`,
+        '/vcards-store',
+        params.data
+        ,
         {
           headers: {
             Authorization: `Bearer ${params.authToken}`,
@@ -277,7 +279,9 @@ export const Project_Edit = createAsyncThunk(
   async (params, thunkApi) => {
 console.log('project_edit=>>>>>>>>>>',params);
     try {
-      const response = await API.get(`/project-edit?project_id=${params.id}&user_id=${params.user_id}`, {
+      const response = await API.post('/project-update',
+      params.data,
+       {
         headers: {
           Authorization: `Bearer ${params.authToken}`,
         },
@@ -301,6 +305,211 @@ console.log('project_edit=>>>>>>>>>>',params);
     }
   },
 );
+
+
+// create Pixel
+export const CreatePixel= createAsyncThunk(
+  'CreatePixel',
+  async (params, thunkApi) => {
+    try {
+      console.log('=>>>>>>>>>>>>>>>>>>> Called CreatePixel create',params.data);
+      
+      // Make the API call
+      const response = await API.post('/pixel-store',
+        params.data, 
+        {
+          headers: {
+            Authorization: `Bearer ${params.authToken}`,
+          },
+        }
+      );
+
+      console.log(
+        '🚀 ~ file: CreatePixel.js:12 ~ CreatePixel ~ response:',
+        response.data,
+      );
+
+      // Check the response status and log a success message
+      if (response.data.status) {
+        params.navigation.navigate(ScreenNameEnum.PIXELS_SCREEN)
+       alert('CreatePixel Successfully');
+      }
+
+      // Return the data from the response
+      return response.data.data;
+    } catch (error) {
+      console.log('🚀 ~ file: CreatePixel.js:16 ~ CreatePixel ~ error:', error);
+
+      // If an error occurs, reject the promise with the error value
+      return thunkApi.rejectWithValue(error);
+    }
+  }
+);
+//delete Pixel
+export const Pixel_delete = createAsyncThunk(
+  'Pixel_delete',
+  async (params, thunkApi) => {
+
+    try {
+      const response = await API.get(`/pixel-destroy?user_id=${params.user_id}&pixel_id=${params.id}`, {
+        headers: {
+          Authorization: `Bearer ${params.authToken}`,
+        },
+      });
+
+      console.log(
+        '🚀 ~ file: Pixel_delete.js:12 ~ Pixel_delete ~ response:',
+        response.data,
+      );
+
+      if (response.data.status) {
+        // params.navigation.navigate(ScreenNameEnum.LOGIN_SCREEN);
+        alert('Pixel Delete successfully.')
+      }
+      return response.data.data;
+    } catch (error) {
+      console.log('🚀 ~ file: Pixel_delete.js:16 ~ Pixel_delete ~ error:', error);
+
+      return thunkApi.rejectWithValue(error);
+    }
+  },
+);
+// Pixel_edit
+export const Pixel_Edit = createAsyncThunk(
+  'Pixel_Edit',
+  async (params, thunkApi) => {
+console.log('Pixel_Edit=>>>>>>>>>>',params);
+    try {
+      const response = await API.post('/pixel-update',
+      params.data, 
+      {
+        headers: {
+          Authorization: `Bearer ${params.authToken}`,
+        },
+      }
+    );
+
+      console.log(
+        '🚀 ~ file: Pixel_Edit.js:12 ~ Pixel_Edit ~ response:',
+        response.data,
+      );
+
+      if (response.data.status) {
+        params.navigation.navigate(ScreenNameEnum.PIXELS_SCREEN);
+        ProjectList(params)
+        alert('Pixel Edit successfully.')
+      }
+      return response.data.data;
+    } catch (error) {
+      console.log('🚀 ~ file: Pixel_Edit.js:16 ~ Pixel_Edit ~ error:', error);
+
+      return thunkApi.rejectWithValue(error);
+    }
+  },
+);
+//delete connectDomain
+export const Domain_delete = createAsyncThunk(
+  'Domain_delete',
+  async (params, thunkApi) => {
+
+    try {
+      const response = await API.get(`/connect-domain-destroy?user_id=${params.user_id}&cd_id=${params.id}`, {
+        headers: {
+          Authorization: `Bearer ${params.authToken}`,
+        },
+      });
+
+      console.log(
+        '🚀 ~ file: Domain_delete.js:12 ~ Domain_delete ~ response:',
+        response.data,
+      );
+
+      if (response.data.status) {
+        // params.navigation.navigate(ScreenNameEnum.LOGIN_SCREEN);
+        alert('Domain Delete successfully.')
+      }
+      return response.data.data;
+    } catch (error) {
+      console.log('🚀 ~ file: Domain_delete.js:16 ~ Domain_delete ~ error:', error);
+
+      return thunkApi.rejectWithValue(error);
+    }
+  },
+);
+
+// create DomainConnection
+export const CreateDomain= createAsyncThunk(
+  'CreateDomain',
+  async (params, thunkApi) => {
+    try {
+      console.log('=>>>>>>>>>>>>>>>>>>> Called CreatePixel create',params.data);
+      
+      // Make the API call
+      const response = await API.post('/connect-domain-store',
+        params.data, 
+        {
+          headers: {
+            Authorization: `Bearer ${params.authToken}`,
+          },
+        }
+      );
+
+      console.log(
+        '🚀 ~ file: CreateDomain.js:12 ~ CreateDomain ~ response:',
+        response.data,
+      );
+
+      // Check the response status and log a success message
+      if (response.data.status) {
+        params.navigation.navigate(ScreenNameEnum.CUSTOMDOMAIN_SCREEN)
+       alert('CreateDomain Successfully');
+      }
+
+      // Return the data from the response
+      return response.data.data;
+    } catch (error) {
+      console.log('🚀 ~ file: CreateDomain.js:16 ~ CreateDomain ~ error:', error);
+
+      // If an error occurs, reject the promise with the error value
+      return thunkApi.rejectWithValue(error);
+    }
+  }
+);
+
+// Domain
+export const Domain_Edit = createAsyncThunk(
+  'Domain_Edit',
+  async (params, thunkApi) => {
+console.log('Domain_Edit=>>>>>>>>>>',params);
+    try {
+      const response = await API.post('/connect-domain-update',
+      params.data, 
+      {
+        headers: {
+          Authorization: `Bearer ${params.authToken}`,
+        },
+      }
+    );
+
+      console.log(
+        '🚀 ~ file: Domain_Edit.js:12 ~ Domain_Edit ~ response:',
+        response.data,
+      );
+
+      if (response.data.status) {
+        params.navigation.navigate(ScreenNameEnum.CUSTOMDOMAIN_SCREEN);
+        DomainList(params)
+        alert('Domain Edit successfully.')
+      }
+      return response.data.data;
+    } catch (error) {
+      console.log('🚀 ~ file: Domain_Edit.js:16 ~ Domain_Edit ~ error:', error);
+
+      return thunkApi.rejectWithValue(error);
+    }
+  },
+);
+
 
 
 const FeatureSlice = createSlice({
@@ -433,6 +642,109 @@ const FeatureSlice = createSlice({
       
     });
     builder.addCase(Project_Edit.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+    });
+
+    //pixel create 
+    builder.addCase(CreatePixel.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(CreatePixel.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+      
+      
+    });
+    builder.addCase(CreatePixel.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+    });
+
+    // Pixel delete
+    builder.addCase(Pixel_delete.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(Pixel_delete.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+      state.PixelList= state.PixelList.filter((item) => item.id !== action.meta.arg.id);
+   
+      
+    });
+    builder.addCase(Pixel_delete.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+    });
+
+    //pixel delete
+    builder.addCase(Pixel_Edit.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(Pixel_Edit.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+      
+      
+    });
+    builder.addCase(Pixel_Edit.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+    });
+
+       // Domain_delete 
+       builder.addCase(Domain_delete.pending, state => {
+        state.isLoading = true;
+      });
+      builder.addCase(Domain_delete.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        state.Domainlists= state.Domainlists.filter((item) => item.id !== action.meta.arg.id);
+     
+        
+      });
+      builder.addCase(Domain_delete.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      });
+       // Domain_create 
+       builder.addCase(CreateDomain.pending, state => {
+        state.isLoading = true;
+      });
+      builder.addCase(CreateDomain.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        state.Domainlists= state.Domainlists.filter((item) => item.id !== action.meta.arg.id);
+     
+        
+      });
+      builder.addCase(CreateDomain.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      });
+       //Domain edit 
+    builder.addCase(Domain_Edit.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(Domain_Edit.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+      
+      
+    });
+    builder.addCase(Domain_Edit.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;
