@@ -9,10 +9,11 @@ import {
   StyleSheet,
   Switch,
   Modal,
+  Alert,
 } from 'react-native';
 import DatePicker from 'react-native-date-picker';
-import React, {useState, useEffect} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import React, {useState, useEffect, useCallback} from 'react';
+import {useNavigation,useIsFocused} from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -43,22 +44,24 @@ import ColorPicker, {
   HueSlider,
   SaturationSlider,
 } from 'reanimated-color-picker';
-
+import { Block_Edit, Block_List, Blockdelete, CreateBlock, PixlsList, ProjectList } from '../redux/feature/featuresSlice';
+import Loader from '../Loader';
 export default function EDIT_VCARD({route}) {
   const {edit} = route.params;
 
   useEffect(() => {
     setSetting(edit);
-    console.log('called', edit);
+
   }, [edit]);
   const navigation = useNavigation();
   const theme = useSelector(state => state.theme.data);
-  const [selectedColor, setSelectedColor] = useState('#333');
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  const [selectedColor, setSelectedColor] = useState('red');
+  const PixelList = useSelector(state => state.feature.PixelList);
   const [showIndex, setShowIndex] = useState('21-12-2023');
-  const [date, setDate] = useState(new Date());
+  const ProjectData = useSelector(state => state.feature.ProjectList);
   const dispatch = useDispatch();
+  const user = useSelector(state => state.auth.userData);
+  const isLoading = useSelector(state => state.feature.isLoading);
   const [open, setOpen] = useState(false);
   let textColor = theme == 'light' ? '#000' : '#fff';
   let bgColor = theme == 'light' ? '#fff' : '#575757';
@@ -76,7 +79,7 @@ export default function EDIT_VCARD({route}) {
   const [imageName, setImageName] = useState('');
   const [choiceColor, setchoiceColor] = useState(true);
   const [selected, setselected] = useState('');
-  const [isSelected, setSelection] = useState(false);
+
   const [showSetting, setSetting] = useState(false);
   const [ModalEmail, setModalEmail] = useState(false);
   const [ModalYoutube, setModalYoutube] = useState(false);
@@ -88,10 +91,62 @@ export default function EDIT_VCARD({route}) {
   const [ModalVisible, setModalVisible] = useState(false);
   const [BlockListIndex, setBlockListIndex] = useState(null);
   const [showBlockListDetails, setShowBlockListDetails] = useState(false);
+  const BlockList = useSelector(state => state.feature.BlockList);
+  const [name,setName] =useState('')
+  const [BlockValue,setBlockValue] =useState('')
+  const [BlockName,setBlockName] =useState('')
+  const [blockValueupdated,setblockValueupdated] =useState('')
+// edit card state
+const [UrlAlias,setUrlAlias] = useState('')
+const [EditName,setEditName] = useState('')
+const [EditDescription,setEditDescription] = useState('')
+const [DSButton,setDSButton] =useState(false)
+const [DVDButton,setDVDButton] =useState(false)
+const [VAButton,setVAutton] =useState(false)
+//vcard details 
+const [FirstName,setFirstName] = useState('')
+const [LastName,setLastName] = useState('')
+const [Company,setCompany] = useState('')
+const [JobTitle,setJobTitle] = useState('')
+const [Birthday,setBirthday] = useState(new Date())
+
+// customizations
+const [CustomTheme,setCustomTheme] = useState('')
+const [Logo,setLogo] = useState('')
+const [Favicon,setFavicon] = useState('')
+const [Background, setBackground] =useState('')
+const [FontFamily, setFontFamily] =useState('')
+const [FontFamilyValue, setFontFamilyValue] =useState('')
+const [FontSize, setFontSize] =useState('')
+const [CustomIndex,setCustomIndex] =useState(0)
+const [firstColor,setFirstColor] = useState('red')
+const [firstChoiceColor,setfirstChoiceColor] = useState(true)
+const [SecondColor,setSecondColor] = useState('red')
+const [SecondChoiceColor,setSecondChoiceColor] = useState(true)
+const [CustomImage,setcustomImage] = useState('')
+//pixels  
+const [selectedItems, setSelectedItems] = useState([]);
+// seo 
+const [SEVisiable,setSEVisiable] = useState(false)
+const [PTitle, setPTitle] = useState('')
+const [MDescription, setMDescription] = useState('')
+const [MKeyword, setMKeyword] = useState('')
+const [OpenGImage,setOpenGImage] =useState('')
+
+//advance 
+const [RBranding,setRBranding] =useState(false)
+const [Project,setProject] =useState('')
+const [LeapLink,setLeapLink] =useState('')
+const [ProPassword,setProPassword] =useState('')
+const [customCSS,setcustomCSS] =useState('')
+const [customJS,setcustomJS] =useState('')
+
   const changeTheame = async () => {
     await AsyncStorage.setItem('theme', theme == 'light' ? 'dark' : 'light');
     dispatch(changeTheme(theme == 'light' ? 'dark' : 'light'));
   };
+
+  const isFocused = useIsFocused();
   const showDetails = index => {
     setShowIndex(index);
 
@@ -127,11 +182,41 @@ export default function EDIT_VCARD({route}) {
       setShowSeo(false);
     }
   };
+
+  const handleSelection = (index) => {
+    const selectedItem = PixelList[index];
+
+    // Check if the item is already selected
+    const isSelected = selectedItems.some(item => item.name === selectedItem.name);
+
+    if (isSelected) {
+      // If selected, remove it from the list
+      const updatedItems = selectedItems.filter(item => item.name !== selectedItem.name);
+      setSelectedItems(updatedItems);
+    } else {
+      // If not selected, add it to the list
+      setSelectedItems([...selectedItems, selectedItem]);
+    }
+  };
+  console.log('isSelected=>>>>>>>>>',selectedItems);
   const handleColorChange = color => {
+    console.log('color',color.hex);
     setSelectedColor(color.hex);
+    setBackground(color.hex)
+  };
+  const handlefirstColor = color => {
+    console.log('first colro',color.hex);
+   
+    setFirstColor(color.hex);
+    setBackground(color.hex)
+  };
+  const secondHandlecolor = color => {  
+    setSecondChoiceColor(color.hex);
+   
   };
   const check_Dropdown = (label, value) => {
     setValue(value);
+
     if (label === 'Gradient Preset') {
       setGradientPreset(true);
       setColor(false);
@@ -161,11 +246,20 @@ export default function EDIT_VCARD({route}) {
       setCustomeImage(false);
     }
   };
-  const openImageLibrary = () => {
+
+  const openCustomImage = () => {
     launchImageLibrary({mediaType: 'photo'}, async response => {
       if (!response.didCancel && !response.error) {
-        setImageName(response.assets[0].fileName);
-        setImages(response.assets[0].uri);
+       
+        setCustomeImage(response.assets[0].uri);
+      }
+    });
+  };
+  const opengraphImage = () => {
+    launchImageLibrary({mediaType: 'photo'}, async response => {
+      if (!response.didCancel && !response.error) {
+       
+        setOpenGImage(response.assets[0].uri);
       }
     });
   };
@@ -173,6 +267,7 @@ export default function EDIT_VCARD({route}) {
   const check_Modal_click = (type, url) => {
     setBtnData(type);
     setBtnurl(url);
+
     if (type === 'Email') {
       setModalEmail(true);
       setModalFacebook(false);
@@ -211,12 +306,133 @@ export default function EDIT_VCARD({route}) {
       setModalYoutube(false);
     }
   };
+
+  const getDataApi = useCallback(async () => {
+    const params = {
+      user_id: user?.data.id,
+      authToken: user?.data.token,
+    };
+    dispatch(Block_List(params));
+  }, [dispatch, user?.data.id, user?.data.token,]);
+  const getDataApiPixel = useCallback(async () => {
+    const params = {
+      user_id: user?.data.id,
+      authToken: user?.data.token,
+    };
+    dispatch(PixlsList(params));
+  }, [dispatch, user?.data.id, user?.data.token]);
+
+  const getDataApiProject = useCallback(async () => {
+    const params = {
+      user_id: user?.data.id,
+      authToken: user?.data.token,
+    };
+    dispatch(ProjectList(params));
+  }, [dispatch, user?.data.id, user?.data.token,]);
+
+
+
+  useEffect(() => {
+    getDataApi();
+    getDataApiPixel()
+    getDataApiProject()
+
+  }, [isFocused, getDataApi,]);
+
+
+
+  const Create_Block = () => {
+    if(name !== '' && BlockValue !== ''&& btnData !== ''){
+
+    const params = {
+      data: {
+        user_id: user?.data.id,
+        key:name,
+        value:BlockValue,
+        type:btnData,
+        created_by: user?.data.id,
+      },
+      authToken: user?.data.token,
+      user_id: user?.data.id,
+      
+    };
+
+
+   dispatch(CreateBlock(params));
+setModalVisible(false)
+getDataApi()
+check_Modal_click('none');
+}
+else {
+  alert('Please fill all field')
+}
+  };
+  const Delete_Block = (id) => {
+    
+
+    const params = {
+      authToken: user?.data.token,
+      user_id: user?.data.id,
+      id:id 
+    }
+    Alert.alert(
+      'Delete Confirmation',
+      'Are you sure you want to delete this?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          onPress: () => {
+            dispatch(Blockdelete(params));
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+    setShowBlockListDetails(showBlockListDetails => !showBlockListDetails);
+  };
+
+  const openBlockDetails =(item,  index)=>{
+setBlockName(item.key)
+setblockValueupdated(item.value)
+setBtnData(item.type)
+    setBlockListIndex(index);
+ setShowBlockListDetails(showBlockListDetails => !showBlockListDetails);
+ 
+}
+
+const Block_edit = (item) => {
+
+  const params = {
+    data: {
+       id:item.id,
+       user_id: user?.data.id,
+       key:BlockName,
+       value:blockValueupdated,
+       type:item.type,
+      created_by: user?.data.id,
+    },
+    authToken: user?.data.token,
+    navigation: navigation,
+  };
+   dispatch(Block_Edit(params))
+
+   getDataApi()
+   setShowBlockListDetails(showBlockListDetails => !showBlockListDetails);
+ 
+};
+
   return (
     <View
       style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
+        {isLoading ? <Loader /> : null}
       <ScrollView
         style={{paddingHorizontal: 5}}
         showsVerticalScrollIndicator={false}>
+      
         <View
           style={{
             flexDirection: 'row',
@@ -391,6 +607,10 @@ export default function EDIT_VCARD({route}) {
                       justifyContent: 'center',
                     }}>
                     <TextInput
+
+                    value={UrlAlias}
+
+                    onChangeText={(txt)=>setUrlAlias(txt)}
                       placeholder="my-page-url "
                       placeholderTextColor={textColor}
                       style={{
@@ -437,6 +657,9 @@ export default function EDIT_VCARD({route}) {
                       width: '100%',
                     }}>
                     <TextInput
+                      value={EditName}
+
+                      onChangeText={(txt)=>setEditName(txt)}
                       placeholderTextColor={textColor}
                       placeholder="name"
                       style={{
@@ -482,6 +705,9 @@ export default function EDIT_VCARD({route}) {
                       width: '100%',
                     }}>
                     <TextInput
+                      value={EditDescription}
+
+                      onChangeText={(txt)=>setEditDescription(txt)}
                       placeholder="description"
                       placeholderTextColor={textColor}
                       style={{
@@ -504,10 +730,10 @@ export default function EDIT_VCARD({route}) {
                   <View>
                     <Switch
                       trackColor={{false: '#767577', true: '#81b0ff'}}
-                      thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+                      thumbColor={DSButton ? '#f5dd4b' : '#f4f3f4'}
                       ios_backgroundColor="#3e3e3e"
-                      onValueChange={toggleSwitch}
-                      value={isEnabled}
+                      onValueChange={()=>setDSButton(DSButton =>!DSButton)}
+                      value={DSButton}
                     />
                   </View>
                   <View>
@@ -525,10 +751,10 @@ export default function EDIT_VCARD({route}) {
                   <View>
                     <Switch
                       trackColor={{false: '#767577', true: '#81b0ff'}}
-                      thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+                      thumbColor={DVDButton ? '#f5dd4b' : '#f4f3f4'}
                       ios_backgroundColor="#3e3e3e"
-                      onValueChange={toggleSwitch}
-                      value={isEnabled}
+                      onValueChange={()=>setDVDButton(DVDButton =>!DVDButton)}
+                      value={DVDButton}
                     />
                   </View>
                   <View>
@@ -546,10 +772,10 @@ export default function EDIT_VCARD({route}) {
                   <View>
                     <Switch
                       trackColor={{false: '#767577', true: '#81b0ff'}}
-                      thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+                      thumbColor={VAButton ? '#f5dd4b' : '#f4f3f4'}
                       ios_backgroundColor="#3e3e3e"
-                      onValueChange={toggleSwitch}
-                      value={isEnabled}
+                      onValueChange={()=>setVAutton(VAButton=>!VAButton)}
+                      value={VAButton}
                     />
                   </View>
                   <View>
@@ -564,6 +790,10 @@ export default function EDIT_VCARD({route}) {
                   </View>
                 </View>
               </View>
+
+
+
+
               <View style={{marginHorizontal: 10}}>
                 <FlatList
                   data={data}
@@ -664,6 +894,8 @@ export default function EDIT_VCARD({route}) {
                                 },
                               ]}>
                               <TextInput
+                              value={FirstName}
+                              onChangeText={(txt)=>setFirstName(txt)}
                                 placeholder="name"
                                 placeholderTextColor={textColor}
                               />
@@ -700,6 +932,8 @@ export default function EDIT_VCARD({route}) {
                                 },
                               ]}>
                               <TextInput
+                                value={LastName}
+                                onChangeText={(txt)=>setLastName(txt)}
                                 placeholder="last name"
                                 placeholderTextColor={textColor}
                               />
@@ -736,6 +970,8 @@ export default function EDIT_VCARD({route}) {
                                 },
                               ]}>
                               <TextInput
+                                value={Company}
+                                onChangeText={(txt)=>setCompany(txt)}
                                 placeholder="Company"
                                 placeholderTextColor={textColor}
                               />
@@ -769,6 +1005,8 @@ export default function EDIT_VCARD({route}) {
                                 {backgroundColor: bgColor},
                               ]}>
                               <TextInput
+                                value={JobTitle}
+                                onChangeText={(txt)=>setJobTitle(txt)}
                                 placeholder="job title"
                                 placeholderTextColor={textColor}
                               />
@@ -800,6 +1038,7 @@ export default function EDIT_VCARD({route}) {
                               style={[
                                 styles.nameDiv,
                                 {
+                                  height:45,
                                   flexDirection: 'row',
                                   alignItems: 'center',
                                   justifyContent: 'space-between',
@@ -812,7 +1051,7 @@ export default function EDIT_VCARD({route}) {
                                   marginLeft: 5,
                                   color: textColor,
                                 }}>
-                                {date.toLocaleDateString('en-GB')}
+                                {Birthday.toLocaleDateString('en-GB')}
                               </Text>
                               <TouchableOpacity
                                 onPress={() => {
@@ -830,10 +1069,10 @@ export default function EDIT_VCARD({route}) {
                               mode="date"
                               modal
                               open={open}
-                              date={date}
+                              date={Birthday}
                               onConfirm={date => {
                                 setOpen(false);
-                                setDate(date);
+                                setBirthday(date);
                               }}
                               onCancel={() => {
                                 setOpen(false);
@@ -853,23 +1092,24 @@ export default function EDIT_VCARD({route}) {
                             <View style={{flexDirection: 'row'}}>
                               <Switch
                                 trackColor={{false: '#767577', true: '#81b0ff'}}
-                                thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+                                thumbColor={SEVisiable ? '#f5dd4b' : '#f4f3f4'}
                                 ios_backgroundColor="#3e3e3e"
-                                onValueChange={toggleSwitch}
-                                value={isEnabled}
+                                onValueChange={()=>setSEVisiable(SEVisiable=>!SEVisiable)}
+                                value={SEVisiable}
                               />
                               <Text
                                 style={{
                                   fontSize: 18,
                                   fontWeight: '600',
-                                  color: textColor,
+                                  color:textColor,
                                 }}>
                                 Search Engine Visibility
                               </Text>
                             </View>
 
-                            <View style={{marginTop: 5, marginHorizontal: 5}}>
-                              <Text>
+                            <View style={{marginTop: 5,
+                              marginHorizontal: 5}}>
+                              <Text style={{color:textColor, }}>
                                 If disabled, the vcard will not be indexed by
                                 search engines, such as Google or Bing.
                               </Text>
@@ -906,6 +1146,9 @@ export default function EDIT_VCARD({route}) {
                                 },
                               ]}>
                               <TextInput
+
+                              value={PTitle}
+                              onChangeText={(txt)=>setPTitle(txt)}
                                 placeholder="Page Title"
                                 placeholderTextColor={textColor}
                               />
@@ -942,6 +1185,8 @@ export default function EDIT_VCARD({route}) {
                                 },
                               ]}>
                               <TextInput
+                                     value={MDescription}
+                                     onChangeText={(txt)=>setMDescription(txt)}
                                 placeholder="Meta Description"
                                 placeholderTextColor={textColor}
                               />
@@ -978,6 +1223,8 @@ export default function EDIT_VCARD({route}) {
                                 },
                               ]}>
                               <TextInput
+                                     value={MKeyword}
+                                     onChangeText={(txt)=>setMKeyword(txt)}
                                 placeholder="Meta Keywords"
                                 placeholderTextColor={textColor}
                               />
@@ -1007,7 +1254,10 @@ export default function EDIT_VCARD({route}) {
                                 Opengraph Image
                               </Text>
                             </View>
-                            <View
+                            <TouchableOpacity
+                            onPress={()=>{
+                              opengraphImage()
+                            }}
                               style={{
                                 borderWidth: 1,
                                 marginTop: 5,
@@ -1020,7 +1270,7 @@ export default function EDIT_VCARD({route}) {
                               <Text style={{fontSize: 16, color: textColor}}>
                                 Drop files here to upload
                               </Text>
-                            </View>
+                            </TouchableOpacity>
                           </View>
                         </View>
                       )}
@@ -1112,14 +1362,14 @@ export default function EDIT_VCARD({route}) {
                               itemTextStyle={{
                                 color: textColor,
                               }}
-                              data={DropDown}
+                              data={ProjectData}
                               maxHeight={200}
-                              labelField="label"
-                              valueField="value"
+                              labelField="name"
+                              valueField="name"
                               placeholder={'Select item'}
-                              value={value}
+                              value={Project}
                               onChange={item => {
-                                check_Dropdown(item.label, item.value);
+                               setProject(item.name)
                               }}
                             />
                           </View>
@@ -1155,6 +1405,8 @@ export default function EDIT_VCARD({route}) {
                                 },
                               ]}>
                               <TextInput
+                              value={LeapLink}
+                              onChangeText={(txt)=>setLeapLink(txt)}
                                 placeholder="Page Title"
                                 placeholderTextColor={textColor}
                               />
@@ -1189,6 +1441,8 @@ export default function EDIT_VCARD({route}) {
                                 },
                               ]}>
                               <TextInput
+                                value={ProPassword}
+                                onChangeText={(txt)=>setProPassword(txt)}
                                 placeholder="Meta Description"
                                 placeholderTextColor={textColor}
                               />
@@ -1199,10 +1453,10 @@ export default function EDIT_VCARD({route}) {
                             <View style={{flexDirection: 'row'}}>
                               <Switch
                                 trackColor={{false: '#767577', true: '#81b0ff'}}
-                                thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+                                thumbColor={RBranding ? '#f5dd4b' : '#f4f3f4'}
                                 ios_backgroundColor="#3e3e3e"
-                                onValueChange={toggleSwitch}
-                                value={isEnabled}
+                                onValueChange={()=>setRBranding(RBranding=>!RBranding)}
+                                value={RBranding}
                               />
                               <Text
                                 style={{
@@ -1263,6 +1517,8 @@ export default function EDIT_VCARD({route}) {
                                 },
                               ]}>
                               <TextInput
+                                value={customCSS}
+                                onChangeText={(txt)=>setcustomCSS(txt)}
                                 placeholder=""
                                 placeholderTextColor={textColor}
                                 multiline={true}
@@ -1314,6 +1570,8 @@ export default function EDIT_VCARD({route}) {
                                 },
                               ]}>
                               <TextInput
+                                value={customJS}
+                                onChangeText={(txt)=>setcustomJS(txt)}
                                 placeholder=""
                                 placeholderTextColor={textColor}
                                 multiline={true}
@@ -1358,23 +1616,29 @@ export default function EDIT_VCARD({route}) {
                               numColumns={3}
                               data={CustomizationBtn}
                               keyExtractor={item => item.name.toString()}
-                              renderItem={({item}) => (
-                                <TouchableOpacity
+                              renderItem={({item,index}) => (
+                                <TouchableOpacity 
+
+                                onPress={()=>{
+                                  setCustomTheme(item.name)
+                                  setCustomIndex(index)
+                                }}
                                   style={{
                                     height: 43,
                                     marginVertical: 10,
                                     borderRadius: 5,
+                                    borderWidth:CustomIndex ===index?0:1,
                                     width: '32%',
-                                    marginHorizontal: 5,
+                              marginHorizontal:2,
                                     alignItems: 'center',
                                     justifyContent: 'center',
 
                                     backgroundColor:
-                                      theme === 'light' ? '#e5e7eb' : '#333',
+                                      theme === 'light' ?  CustomIndex === index ?'#e5e7eb' :'#fff' :  CustomIndex !== index ?'#333':'#e5e7eb',
                                   }}>
                                   <Text
                                     style={{
-                                      color: textColor,
+                                      color: CustomIndex === index && theme === 'dark'?'#333':textColor,
                                       fontSize: 16,
                                       fontWeight: '600',
                                     }}>
@@ -1540,6 +1804,7 @@ export default function EDIT_VCARD({route}) {
                                     <TouchableOpacity
                                       onPress={() => {
                                         setselected(index);
+                                        setBackground(item.color)
                                       }}
                                       style={{
                                         borderWidth: 3,
@@ -1604,7 +1869,7 @@ export default function EDIT_VCARD({route}) {
                                         justifyContent: 'center',
                                         alignItems: 'center',
                                         borderRadius: 10,
-                                        height: hp(choiceColor ? 25 : 8),
+                                        height: hp(firstChoiceColor ? 25 : 8),
                                       }}>
                                       <View
                                         style={{
@@ -1619,12 +1884,12 @@ export default function EDIT_VCARD({route}) {
                                           }}
                                           sliderThickness={30}
                                           thumbSize={40}
-                                          value={selectedColor}
-                                          onChange={handleColorChange}
+                                          value={firstColor}
+                                          onChange={handlefirstColor}
                                           thumbShape="pill">
                                           <TouchableOpacity
                                             onPress={() => {
-                                              setchoiceColor(true);
+                                              setfirstChoiceColor(true);
                                             }}>
                                             <Preview
                                               style={[
@@ -1636,7 +1901,7 @@ export default function EDIT_VCARD({route}) {
                                             />
                                           </TouchableOpacity>
 
-                                          {choiceColor && (
+                                          {firstChoiceColor && (
                                             <>
                                               <HueSlider
                                                 style={[
@@ -1658,7 +1923,7 @@ export default function EDIT_VCARD({route}) {
 
                                               <TouchableOpacity
                                                 onPress={() => {
-                                                  setchoiceColor(false);
+                                                  setfirstChoiceColor(false);
                                                 }}
                                                 style={{
                                                   height: '30%',
@@ -1725,7 +1990,7 @@ export default function EDIT_VCARD({route}) {
                                         justifyContent: 'center',
                                         alignItems: 'center',
                                         borderRadius: 10,
-                                        height: hp(choiceColor ? 25 : 8),
+                                        height: hp(SecondColor ? 25 : 8),
                                       }}>
                                       <View
                                         style={{
@@ -1740,12 +2005,12 @@ export default function EDIT_VCARD({route}) {
                                           }}
                                           sliderThickness={30}
                                           thumbSize={40}
-                                          value={selectedColor}
-                                          onChange={handleColorChange}
+                                          value={SecondColor}
+                                          onChange={secondHandlecolor}
                                           thumbShape="pill">
                                           <TouchableOpacity
                                             onPress={() => {
-                                              setchoiceColor(true);
+                                              setSecondChoiceColor(true);
                                             }}>
                                             <Preview
                                               style={[
@@ -1757,7 +2022,7 @@ export default function EDIT_VCARD({route}) {
                                             />
                                           </TouchableOpacity>
 
-                                          {choiceColor && (
+                                          {SecondChoiceColor && (
                                             <>
                                               <HueSlider
                                                 style={[
@@ -1779,7 +2044,7 @@ export default function EDIT_VCARD({route}) {
 
                                               <TouchableOpacity
                                                 onPress={() => {
-                                                  setchoiceColor(false);
+                                                  setSecondChoiceColor(false);
                                                 }}
                                                 style={{
                                                   height: '30%',
@@ -1963,7 +2228,7 @@ export default function EDIT_VCARD({route}) {
                                 </View>
                                 <TouchableOpacity
                                   onPress={() => {
-                                    openImageLibrary();
+                                    openCustomImage();
                                   }}
                                   style={{
                                     backgroundColor:
@@ -2036,14 +2301,15 @@ export default function EDIT_VCARD({route}) {
                               itemTextStyle={{
                                 color: textColor,
                               }}
-                              data={DropDown}
+                              data={Font_Family}
                               maxHeight={200}
                               labelField="label"
                               valueField="value"
                               placeholder={'Select item'}
-                              value={value}
+                              value={FontFamilyValue}
                               onChange={item => {
-                                check_Dropdown(item.label, item.value);
+                               setFontFamily(item.label)
+                               setFontFamilyValue(item.value)
                               }}
                             />
                           </View>
@@ -2081,6 +2347,8 @@ export default function EDIT_VCARD({route}) {
                               },
                             ]}>
                             <TextInput
+                            value={FontSize}
+                            onChangeText={(txt)=>setFontSize(txt)}
                               placeholder="font-size"
                               placeholderTextColor={textColor}
                             />
@@ -2118,6 +2386,10 @@ export default function EDIT_VCARD({route}) {
                               </Text>
                             </View>
                             <TouchableOpacity
+
+                            onPress={()=>{
+                              navigation.navigate(ScreenNameEnum.CREATE_PIXEL)
+                            }}
                               style={{
                                 flexDirection: 'row',
                                 alignItems: 'center',
@@ -2148,35 +2420,28 @@ export default function EDIT_VCARD({route}) {
 
                           <View
                             style={{
-                              alignItems: 'center',
                               justifyContent: 'center',
                               marginTop: 10,
                             }}>
                             <FlatList
-                              numColumns={2}
-                              data={PixelData}
+                            
+                              data={PixelList}
                               renderItem={({item, index}) => (
                                 <View
                                   style={{
                                     flexDirection: 'row',
-                                    margin: 5,
 
-                                    justifyContent: 'space-between',
-                                    width: '47%',
                                     height: 45,
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
+                                    
                                     backgroundColor: bgColor,
                                   }}>
-                                  <CheckBox
-                                    disabled={false}
-                                    
-                                    style={{color:textColor}}
-                                    value={isSelected}
-                                    onValueChange={newValue =>
-                                      setSelection(newValue)
-                                    }
-                                  />
+                                     <CheckBox
+                                      style={{color:textColor,marginLeft:10}}
+            disabled={false}
+            value={selectedItems.some(selectedItem => selectedItem.name === item.name)}
+            onValueChange={() => handleSelection(index)}
+          />
+                               
                                   <Text
                                     style={{
                                       fontSize: 18,
@@ -2191,9 +2456,9 @@ export default function EDIT_VCARD({route}) {
                                       fontSize: 16,
                                       fontWeight: '600',
                                       color: textColor,
-                                      marginLeft: 5,
+                                      
                                     }}>
-                                    {item.domain}
+                                    - {item.type}
                                   </Text>
                                 </View>
                               )}
@@ -2295,16 +2560,11 @@ export default function EDIT_VCARD({route}) {
                 borderRadius: 5,
               }}>
               <FlatList
-                data={blocks}
+                data={BlockList}
                 renderItem={({item, index}) => (
                   <>
                     <TouchableOpacity
-                      onPress={() => {
-                        setBlockListIndex(index);
-                        setShowBlockListDetails(
-                          showBlockListDetails => !showBlockListDetails,
-                        );
-                      }}
+                      onPress={() => {openBlockDetails(item,index)}}
                       style={[
                         styles.nameDiv,
                         {
@@ -2322,7 +2582,7 @@ export default function EDIT_VCARD({route}) {
                           color: 'blue',
                           marginLeft: 5,
                         }}>
-                        {item.name}
+                        {item.key}
                       </Text>
                       <Entypo name="plus" size={30} color={'blue'} />
                     </TouchableOpacity>
@@ -2365,7 +2625,9 @@ export default function EDIT_VCARD({route}) {
                               }}>
                               <TextInput
                                 placeholderTextColor={textColor}
-                                placeholder={item.name}
+                                placeholder={item.key}
+                                value={BlockName}
+                                onChangeText={(txt)=>setBlockName(txt)}
                                 style={{
                                   fontSize: 14,
                                   paddingHorizontal: 10,
@@ -2421,11 +2683,15 @@ export default function EDIT_VCARD({route}) {
                               </Text>
                             </View>
                             <TextInput
+
+                            value={blockValueupdated}
+                            onChangeText={(txt)=>setblockValueupdated(txt)}
                               placeholderTextColor={textColor}
-                              placeholder={item.url}
+                              placeholder={item.value}
                               style={{
                                 fontSize: 14,
                                 height: '100%',
+                                width: Btnurl === '@' ? '85%' : '40%',
                                 color: textColor,
                               }}
                             />
@@ -2473,7 +2739,7 @@ export default function EDIT_VCARD({route}) {
 
                             <TouchableOpacity
               onPress={() => {
-                setModalVisible(true);
+                Block_edit(item)
               }}
               style={{
                 alignItems: 'center',
@@ -2494,6 +2760,31 @@ export default function EDIT_VCARD({route}) {
               
                 }}>
                 Update
+              </Text>
+            </TouchableOpacity>
+                            <TouchableOpacity
+              onPress={() => {
+                Delete_Block(item.id)
+              }}
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginTop:20,
+                marginHorizontal: 20,
+                borderRadius: 5,
+          
+                backgroundColor:theme ==='light'?'#4b5563':'#333',
+                height: hp(5),
+              }}>
+             
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: '#fff',
+                  fontWeight: '600',
+              
+                }}>
+                Delete
               </Text>
             </TouchableOpacity>
                         </View>
@@ -2638,6 +2929,8 @@ export default function EDIT_VCARD({route}) {
                                 width: '100%',
                               }}>
                               <TextInput
+                                   value={name}
+                                   onChangeText={(txt)=>setName(txt)}
                                 placeholderTextColor={textColor}
                                 placeholder=""
                                 style={{
@@ -2700,6 +2993,8 @@ export default function EDIT_VCARD({route}) {
                               </Text>
                             </View>
                             <TextInput
+                            value={BlockValue}
+                            onChangeText={(txt)=>setBlockValue(txt)}
                               placeholderTextColor={textColor}
                               placeholder=""
                               style={{
@@ -2738,7 +3033,7 @@ export default function EDIT_VCARD({route}) {
                             </TouchableOpacity>
                             <TouchableOpacity
                               onPress={() => {
-                                
+                                Create_Block()
                               }}
                               style={{
                                 paddingHorizontal: 20,
@@ -2942,24 +3237,7 @@ const GradientPresetData = [
   },
 ];
 
-const PixelData = [
-  {
-    name: 'test-1',
-    domain: 'facebook',
-  },
-  {
-    name: 'test-2',
-    domain: 'google',
-  },
-  {
-    name: 'test-3',
-    domain: 'facebook',
-  },
-  {
-    name: 'test-4',
-    domain: 'google',
-  },
-];
+
 const DropDown = [
   {label: 'Gradient Preset', value: '1'},
   {label: 'Color', value: '2'},
@@ -2967,18 +3245,45 @@ const DropDown = [
   {label: 'Custome image', value: '4'},
 ];
 
-const blocks = [
-  {
-    name: 'teste1',
-    url:'demo11'
-  },
-  {
-    name: 'teste2',
-    url:'dem221'
-  },
-  {
-    name: 'teste3',
-    url:'demo33'
-   
-  },
-];
+const Font_Family = [
+{
+  label:'Arial',
+  value: '1'
+},
+{
+  label:'Verdana',
+  value: '2'
+},
+{
+  label:'Helvetica',
+  value: '3'
+},
+{
+  label:'Times New Roman',
+  value: '4'
+},
+{
+  label:'Inter',
+  value: '5'
+},
+{
+  label:'Lato',
+  value: '6'
+},
+{
+  label:'Open Sans',
+  value: '7'
+},
+{
+  label:'Montserrat',
+  value: '8'
+},
+{
+  label:'Kerla',
+  value: '9'
+},
+{
+  label:'Incosolata',
+  value: '10'
+},
+]

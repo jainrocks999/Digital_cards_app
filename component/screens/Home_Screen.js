@@ -6,6 +6,7 @@ import {
   FlatList,
   ScrollView,
   Appearance,
+  Alert,
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
@@ -79,7 +80,27 @@ export default function Home_Screen() {
       authToken: user?.data.token,
       id:id
     };
-    dispatch(Vcard_delete(params));
+
+
+
+    Alert.alert(
+      'Delete Confirmation',
+      'Are you sure you want to delete this?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          onPress: () => {
+            dispatch(Vcard_delete(params));
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  
 
     hideMenu();
   }
@@ -103,10 +124,6 @@ export default function Home_Screen() {
   }, [dashboardData]);
 
 
-  const Qr_Show =()=>{
-
- 
-  }
   return (
     <View
       style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
@@ -650,7 +667,7 @@ const data = [
   {
     name: 'vcards',
     count: 0,
-    navigate: ScreenNameEnum.VCARD_STACK,
+    navigate: ScreenNameEnum.VCARD_SCREEN,
   },
   {
     name: 'projects',

@@ -41,16 +41,17 @@ const _routes = {
 
   DRAWER_ROUTE: [
 
-    { name: ScreenNameEnum.HOME_TAB_SCREEN, Component: Home_Screen },
+   
+    { name: ScreenNameEnum.VCARD_STACK, Component: VcardStack },
     { name: ScreenNameEnum.ACCOUNT_STACK, Component:AccountStack },
     { name: ScreenNameEnum.PIXEL_STACK, Component: PixelStack },
     { name: ScreenNameEnum.PROJECT_STACK, Component: ProjectStack },
-    { name: ScreenNameEnum.VCARD_STACK, Component: VcardStack },
     { name: ScreenNameEnum.DOMAIN_STACK, Component: DomainStack },
 
   ],
 
   VCARD_STACKS: [
+    { name: ScreenNameEnum.HOME_TAB_SCREEN, Component: Home_Screen },
     { name: ScreenNameEnum.VCARD_SCREEN, Component: VCARD_SCREEN },
     { name: ScreenNameEnum.CREATE_VCARD, Component: CREATE_VCARD, },
     { name: ScreenNameEnum.VCARD_QR, Component: Vcard_QR, },

@@ -69,7 +69,7 @@ const Account_check =()=>{
 
       <TouchableOpacity
         onPress={() => {
-          navigati.navigate(ScreenNameEnum.HOME_TAB_SCREEN);
+          navigati.navigate(ScreenNameEnum.VCARD_STACK);
         }}
         style={[styles.screen1, {marginTop: 25, backgroundColor: bgColor}]}>
         <View style={styles.logo}>
@@ -79,7 +79,7 @@ const Account_check =()=>{
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          navigati.navigate(ScreenNameEnum.VCARD_STACK);
+          navigati.navigate(ScreenNameEnum.VCARD_SCREEN);
         }}
         style={[styles.screen1, {marginTop: 25, backgroundColor: bgColor}]}>
         <View style={styles.logo}>

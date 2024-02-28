@@ -11,7 +11,7 @@ const VcardStack: FunctionComponent = () => {
 
   return (
     <Stack.Navigator
-      initialRouteName={ScreenNameEnum.WELCOME_SLIDER_SCREEN}
+      initialRouteName={ScreenNameEnum.HOME_TAB_SCREEN}
       screenOptions={{
         headerShown: false,
         gestureEnabled: true,

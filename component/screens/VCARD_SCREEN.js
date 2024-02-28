@@ -30,12 +30,11 @@ import Loading from '../Loader';
 import ScreenNameEnum from '../navigation/routes/screenName.enum'
 import { Vcard_delete } from '../redux/feature/featuresSlice';
   export default function VCARD_SCREEN() {
-    
     const navigation = useNavigation();
     const theme = useSelector(state =>  state.theme.data);
-    const selecter =useSelector(state=> state.theme.data.Vcard);
+    const user = useSelector(state => state.auth.userData);
     const isLoading= useSelector (state=> state.feature.isLoading);   
-    const dashboardData = useSelector(state => state.feature.DashBoardData);
+    const VcardList = useSelector(state => state.feature.VcardList);
     const [visible, setVisible] = useState(false);
     const [visibleMenuIndex, setVisibleMenuIndex] = useState(null);
     const dispatch =useDispatch();
@@ -43,7 +42,7 @@ import { Vcard_delete } from '../redux/feature/featuresSlice';
       setVisible(true);
       setVisibleMenuIndex(index);
     };
-  
+  console.log(VcardList);
     const hideMenu = () => {
       setVisible(false);
       setVisibleMenuIndex(null);
@@ -193,7 +192,7 @@ import { Vcard_delete } from '../redux/feature/featuresSlice';
           </View>
   
   
-       {dashboardData === null&&  <View
+       {VcardList === null&&  <View
             style={{
               marginTop: 10,
               paddingHorizontal: 10,
@@ -219,7 +218,7 @@ import { Vcard_delete } from '../redux/feature/featuresSlice';
           </View>
   }
 
-  {dashboardData !== null && <>
+  {VcardList !== null && <>
       <View
       style={{
         backgroundColor: bgColor,
@@ -258,9 +257,9 @@ import { Vcard_delete } from '../redux/feature/featuresSlice';
       </View>
     </View>
     <View >
-      {dashboardData && (
+      {VcardList && (
         <FlatList
-          data={dashboardData?.vcardlists}
+          data={VcardList}
           renderItem={({item, index}) => (
             <View style={{flex: 1}}>
               <View

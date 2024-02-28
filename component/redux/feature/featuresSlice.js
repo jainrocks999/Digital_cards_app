@@ -10,7 +10,8 @@ const initialState = {
   PixelList: null,
   Domainlists: null,
   VcardList:null,
-  ProjectList:null
+  ProjectList:null,
+  BlockList:null
 };
   
 
@@ -84,30 +85,30 @@ export const CreateCard = createAsyncThunk(
     }
   },
 );
-// Pixls List
-export const PixlsList = createAsyncThunk(
-  'PixlsList',
+// Vcard_delete
+export const Vcard_delete = createAsyncThunk(
+  'Vcard_delete',
   async (params, thunkApi) => {
-
+console.log('vcards =>>>>>',params);
     try {
-      const response = await API.get(`/pixel-list?user_id=${params.user_id}`, {
+      const response = await API.get(`/vcards-destroy?user_id=${params.user_id}&vcard_id=${params.id}`, {
         headers: {
           Authorization: `Bearer ${params.authToken}`,
         },
       });
 
       console.log(
-        '🚀 ~ file: CreateCard.js:12 ~ PixlsList ~ response:',
-        response.data.status,
+        '🚀 ~ file: Vcard_delete.js:12 ~ Vcard_delete ~ response:',
+        response.data,
       );
 
       if (response.data.status) {
         // params.navigation.navigate(ScreenNameEnum.LOGIN_SCREEN);
-        console.log('User PixlsList Succesfuly');
+        alert('Vcard Delete successfully.')
       }
       return response.data.data;
     } catch (error) {
-      console.log('🚀 ~ file: PixlsList.js:16 ~ PixlsList ~ error:', error);
+      console.log('🚀 ~ file: Vcard_delete.js:16 ~ Vcard_delete ~ error:', error);
 
       return thunkApi.rejectWithValue(error);
     }
@@ -173,35 +174,7 @@ export const DomainList = createAsyncThunk(
     }
   },
 );
-// Vcard_delete
-export const Vcard_delete = createAsyncThunk(
-  'Vcard_delete',
-  async (params, thunkApi) => {
 
-    try {
-      const response = await API.get(`/vcards-destroy?user_id=${params.user_id}&vcard_id=${params.id}`, {
-        headers: {
-          Authorization: `Bearer ${params.authToken}`,
-        },
-      });
-
-      console.log(
-        '🚀 ~ file: Vcard_delete.js:12 ~ Vcard_delete ~ response:',
-        response.data,
-      );
-
-      if (response.data.status) {
-        // params.navigation.navigate(ScreenNameEnum.LOGIN_SCREEN);
-        alert('Vcard Delete successfully.')
-      }
-      return response.data.data;
-    } catch (error) {
-      console.log('🚀 ~ file: Vcard_delete.js:16 ~ Vcard_delete ~ error:', error);
-
-      return thunkApi.rejectWithValue(error);
-    }
-  },
-);
 
 // create Project
 
@@ -306,6 +279,35 @@ console.log('project_edit=>>>>>>>>>>',params);
   },
 );
 
+// Pixls List
+export const PixlsList = createAsyncThunk(
+  'PixlsList',
+  async (params, thunkApi) => {
+
+    try {
+      const response = await API.get(`/pixel-list?user_id=${params.user_id}`, {
+        headers: {
+          Authorization: `Bearer ${params.authToken}`,
+        },
+      });
+
+      console.log(
+        '🚀 ~ file: CreateCard.js:12 ~ PixlsList ~ response:',
+        response.data.status,
+      );
+
+      if (response.data.status) {
+        // params.navigation.navigate(ScreenNameEnum.LOGIN_SCREEN);
+        console.log('User PixlsList Succesfuly');
+      }
+      return response.data.data;
+    } catch (error) {
+      console.log('🚀 ~ file: PixlsList.js:16 ~ PixlsList ~ error:', error);
+
+      return thunkApi.rejectWithValue(error);
+    }
+  },
+);
 
 // create Pixel
 export const CreatePixel= createAsyncThunk(
@@ -511,6 +513,136 @@ console.log('Domain_Edit=>>>>>>>>>>',params);
 );
 
 
+// Block List
+export const Block_List = createAsyncThunk(
+  'Block_List',
+  async (params, thunkApi) => {
+console.log('show block list ', params);
+    try {
+      const response = await API.get(`/block-list?user_id=${params.user_id}`, {
+        headers: {
+          Authorization: `Bearer ${params.authToken}`,
+        },
+      });
+
+      console.log(
+        '🚀 ~ file: Block_List.js:12 ~ Block_List ~ response:',
+        response.data.status,
+      );
+
+      if (response.data.status) {
+        // params.navigation.navigate(ScreenNameEnum.LOGIN_SCREEN);
+        console.log('User Block_List Succesfuly');
+      }
+      return response.data.data;
+    } catch (error) {
+      console.log('🚀 ~ file: Block_List.js:16 ~ Block_List ~ error:', error);
+
+      return thunkApi.rejectWithValue(error);
+    }
+  },
+);
+
+// create Block
+export const CreateBlock= createAsyncThunk(
+  'CreateBlock',
+  async (params, thunkApi) => {
+    try {
+      console.log('=>>>>>>>>>>>>>>>>>>> Called CreateBlock create',params.data);
+      
+      // Make the API call
+      const response = await API.post('/block-add',
+        params.data, 
+        {
+          headers: {
+            Authorization: `Bearer ${params.authToken}`,
+          },
+        }
+      );
+
+      console.log(
+        '🚀 ~ file: CreateBlock.js:12 ~ CreateBlock ~ response:',
+        response.data,
+      );
+
+      // Check the response status and log a success message
+      if (response.data.status) {
+        alert('CreateBlock Successfully');
+    
+      }
+
+      // Return the data from the response
+      return response.data.data;
+    } catch (error) {
+      console.log('🚀 ~ file: CreateBlock.js:16 ~ CreateBlock ~ error:', error);
+
+      // If an error occurs, reject the promise with the error value
+      return thunkApi.rejectWithValue(error);
+    }
+  }
+);
+
+//delete Block
+export const Blockdelete = createAsyncThunk(
+  'Blockdelete',
+  async (params, thunkApi) => {
+
+    try {
+      const response = await API.get(`/block-destroy?user_id=${params.user_id}&block_id=${params.id}`, {
+        headers: {
+          Authorization: `Bearer ${params.authToken}`,
+        },
+      });
+
+      console.log(
+        '🚀 ~ file: Blockdelete.js:12 ~ Blockdelete ~ response:',
+        response.data,
+      );
+
+      if (response.data.status) {
+        // params.navigation.navigate(ScreenNameEnum.LOGIN_SCREEN);
+        alert('Blockdelete Delete successfully.')
+      }
+      return response.data.data;
+    } catch (error) {
+      console.log('🚀 ~ file: Blockdelete.js:16 ~ Blockdelete ~ error:', error);
+
+      return thunkApi.rejectWithValue(error);
+    }
+  },
+);
+
+//Edit Block
+export const Block_Edit = createAsyncThunk(
+  'Block_Edit',
+  async (params, thunkApi) => {
+console.log('Block_Edit=>>>>>>>>>>',params);
+    try {
+      const response = await API.post('/block-update',
+      params.data,
+       {
+        headers: {
+          Authorization: `Bearer ${params.authToken}`,
+        },
+      });
+
+      console.log(
+        '🚀 ~ file: Block_Edit.js:12 ~ Block_Edit ~ response:',
+        response.data,
+      );
+
+      if (response.data.status) {
+     
+        alert('Block Update successfully.')
+      }
+      return response.data.data;
+    } catch (error) {
+      console.log('🚀 ~ file: Block_Edit.js:16 ~ Block_Edit ~ error:', error);
+
+      return thunkApi.rejectWithValue(error);
+    }
+  },
+);
 
 const FeatureSlice = createSlice({
   name: 'featureSlice',
@@ -745,6 +877,72 @@ const FeatureSlice = createSlice({
       
     });
     builder.addCase(Domain_Edit.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+    });
+
+     // Block cases
+     builder.addCase(Block_List.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(Block_List.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+      state.BlockList = action.payload;
+    });
+    builder.addCase(Block_List.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+    });
+
+    // create block
+    builder.addCase(CreateBlock.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(CreateBlock.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+      
+      
+    });
+    builder.addCase(CreateBlock.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+    });
+       // Block_Delete cases
+       builder.addCase(Blockdelete.pending, state => {
+        state.isLoading = true;
+      });
+      builder.addCase(Blockdelete.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        state.BlockList= state.BlockList.filter((item) => item.id !== action.meta.arg.id);
+     
+        
+      });
+      builder.addCase(Blockdelete.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+      });
+        // Block edit 
+    builder.addCase(Block_Edit.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(Block_Edit.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+      
+      
+    });
+    builder.addCase(Block_Edit.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;
