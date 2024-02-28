@@ -7,6 +7,7 @@ import {
   ScrollView,
   StyleSheet,
   Alert,
+  Modal
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useNavigation, useIsFocused} from '@react-navigation/native';
@@ -36,7 +37,9 @@ export default function CUSTOMDOMAIN_SCREEN() {
   const theme = useSelector(state => state.theme.data);
   const DomainData = useSelector(state => state.feature.Domainlists);
   const user = useSelector(state => state.auth.userData);
+  const [viewDomainData, setViewDomainData] = useState([]);
 
+  const [ModalVisible,setModalVisible]=useState(false)
   const isLoading = useSelector(state => state.feature.isLoading); 
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -381,7 +384,7 @@ export default function CUSTOMDOMAIN_SCREEN() {
                                 fontWeight: '500',
                                 color: textColor,
                               }}>
-                              {item.id}
+                              {item.custom_index_url}
                             </Text>
                           </View>
                         </View>
@@ -420,6 +423,11 @@ export default function CUSTOMDOMAIN_SCREEN() {
                             marginTop: 10,
                           }}>
                           <TouchableOpacity
+
+                          onPress={()=>{
+                            setModalVisible(true)
+                            setViewDomainData(item)
+                          }}
                             style={{
                               backgroundColor: '#4b5563',
                               width: '30%',
@@ -509,6 +517,106 @@ export default function CUSTOMDOMAIN_SCREEN() {
             <Text style={{color: 'blue'}}>blog</Text>
           </TouchableOpacity>
         </View>
+
+        <Modal
+animationType="slide"
+transparent={false}
+visible={ModalVisible}
+onRequestClose={() => setModalVisible(false)}>
+   <View style={{flex:1,}}>
+            <TouchableOpacity
+              onPress={() => {
+                setModalVisible(false);
+              }}
+              style={{
+                alignItems: 'flex-start',
+               marginVertical:10,
+                backgroundColor:'#f0f0f0',
+                padding:10,
+                width:'30%',
+                height: 50,
+                justifyContent: 'center',
+                alignItems:'center',
+                borderRadius: 5,
+                marginHorizontal: 10,
+                marginTop: 20,
+              }}>
+              <Text style={{fontSize: 18, color: textColor, fontWeight: '600'}}>
+                Back to list
+              </Text>
+            </TouchableOpacity>
+            <View style={{marginHorizontal:10,marginBottom:10}}>
+              <Text style={{fontSize:18,fontWeight:'500',color:textColor}}>Show Connect Custom Domain
+</Text>
+            </View>
+
+            <View
+              style={{
+                borderWidth: 1,
+                height: hp(24.3),
+                marginHorizontal: 10,
+                borderBottomWidth: 0,
+                justifyContent:'center'
+              }}>
+              <View
+                style={[
+                  styles.viewDiv,
+                  {
+                    backgroundColor: bgColor,
+                  },
+                ]}>
+                <Text style={[styles.viewTxt, {color: textColor}]}>ID</Text>
+                <Text style={[styles.viewTxt, {  fontWeight:'400',color: textColor,borderRightWidth:0,marginLeft:10,width:'52%'}]}>
+                  {viewDomainData.id}
+                </Text>
+              </View>
+              <View
+                style={[
+                  styles.viewDiv,
+                  {
+                    backgroundColor: bgColor,
+                  },
+                ]}>
+               <Text style={[styles.viewTxt, {color: textColor}]}>
+               Domain or subdomain
+                </Text>
+                <Text style={[styles.viewTxt, {  fontWeight:'400',color: textColor,borderRightWidth:0,marginLeft:10,width:'52%'}]}>
+                  {viewDomainData.domain_or_subdomain}
+                </Text>
+              </View>
+              <View
+                style={[
+                  styles.viewDiv,
+                  {
+                    backgroundColor: bgColor,
+                  },
+                ]}>
+             <Text style={[styles.viewTxt, {color: textColor}]}>
+             Custom Index Url
+                </Text>
+                <Text style={[styles.viewTxt, {  fontWeight:'400',color: textColor,borderRightWidth:0,marginLeft:10,width:'52%'}]}>
+                  {viewDomainData.custom_index_url}
+                </Text>
+              </View>
+              <View
+                style={[
+                  styles.viewDiv,
+                  {
+                    backgroundColor: bgColor,
+                  },
+                ]}>
+             <Text style={[styles.viewTxt, {color: textColor}]}>
+             Custom 404 Not Found Url
+                </Text>
+                <Text style={[styles.viewTxt, {color: textColor,borderRightWidth:0,
+                  fontWeight:'400',
+                  marginLeft:10,width:'52%'}]}>
+                  {viewDomainData.custom_404_not_found_url}
+                </Text>
+              </View>
+            </View>
+          </View>
+</Modal>
         <View style={{height: hp(10)}} />
       </ScrollView>
     </View>
@@ -516,6 +624,24 @@ export default function CUSTOMDOMAIN_SCREEN() {
 }
 
 const styles = StyleSheet.create({
+  viewDiv: {
+    flexDirection: 'row',
+    alignItems: 'center',
+
+
+height:50,
+    paddingHorizontal: 10,
+    borderBottomWidth: 1,
+  },
+  viewTxt: {
+   
+    fontSize:16,
+    fontWeight: '600',
+  paddingTop:10,
+    width: '50%',
+    borderRightWidth: 1,
+    height:55,
+  },
   option: {
     backgroundColor: 'red',
     marginHorizontal: 10,

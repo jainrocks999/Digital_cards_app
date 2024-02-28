@@ -7,6 +7,7 @@ import {
   ScrollView,
   StyleSheet,
   Alert,
+  Modal,
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
@@ -40,7 +41,8 @@ export default function PIXELS_SCREEN() {
   const [visible, setVisible] = useState(false);
   const [visibleMenuIndex, setVisibleMenuIndex] = useState(null);
   const [viewPixelData, setViewPixelData] = useState([]);
-  const [ViewPixel, setViewPixel] = useState(false);
+
+  const [ModalVisible,setModalVisible]=useState(false)
   const isFocused = useIsFocused();
   const changeTheame = async () => {
     await AsyncStorage.setItem('theme', theme == 'light' ? 'dark' : 'light');
@@ -65,7 +67,7 @@ export default function PIXELS_SCREEN() {
 
   useEffect(() => {
     getDataApi();
-    setViewPixel(false)
+
   }, [isFocused, getDataApi]);
 
   const PixelDelete = id => {
@@ -145,8 +147,7 @@ export default function PIXELS_SCREEN() {
           </TouchableOpacity>
         </View>
 
-        {!ViewPixel && (
-          <>
+   
             <View
               style={{
                 flexDirection: 'row',
@@ -356,8 +357,8 @@ export default function PIXELS_SCREEN() {
                                 }}>
                                 <MenuItem
                                   onPress={() => {
-                                    setViewPixelData(item);
-                                    setViewPixel(true);
+                                   setModalVisible(true)
+                                   setViewPixelData(item)
                                     hideMenu()
                                   }}
                                   style={[
@@ -431,21 +432,28 @@ export default function PIXELS_SCREEN() {
                 </View>
               </>
             )}
-          </>
-        )}
+    
 
-        {ViewPixel && (
-          <>
+       
+<Modal
+animationType="slide"
+transparent={false}
+visible={ModalVisible}
+onRequestClose={() => setModalVisible(false)}>
+   <View style={{flex:1,}}>
             <TouchableOpacity
               onPress={() => {
-                setViewPixel(false);
+                setModalVisible(false);
               }}
               style={{
                 alignItems: 'flex-start',
-                paddingHorizontal: 5,
-
+               marginVertical:10,
+                backgroundColor:'#f0f0f0',
+                padding:10,
+                width:'30%',
                 height: 50,
                 justifyContent: 'center',
+                alignItems:'center',
                 borderRadius: 5,
                 marginHorizontal: 10,
                 marginTop: 20,
@@ -520,8 +528,9 @@ export default function PIXELS_SCREEN() {
                 </Text>
               </View>
             </View>
-          </>
-        )}
+          </View>
+</Modal>
+  
         <View style={{height: hp(20), marginTop: 20, marginHorizontal: 10}}>
           <View style={{height: hp(10), width: '40%'}}>
             <Image

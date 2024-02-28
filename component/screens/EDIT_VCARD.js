@@ -2641,6 +2641,7 @@ export default function EDIT_VCARD({route}) {
                                 placeholderTextColor={textColor}
                                 placeholder=""
                                 style={{
+                                  width:'100%',
                                   fontSize: 14,
                                   paddingHorizontal: 10,
                                   color: textColor,
@@ -2704,6 +2705,7 @@ export default function EDIT_VCARD({route}) {
                               style={{
                                 fontSize: 14,
                                 height: '100%',
+                                width:'100%',
                                 color: textColor,
                               }}
                             />
@@ -2736,7 +2738,7 @@ export default function EDIT_VCARD({route}) {
                             </TouchableOpacity>
                             <TouchableOpacity
                               onPress={() => {
-                                check_Modal_click(item.title);
+                                
                               }}
                               style={{
                                 paddingHorizontal: 20,

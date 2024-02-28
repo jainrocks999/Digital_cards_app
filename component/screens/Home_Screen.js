@@ -650,21 +650,21 @@ const data = [
   {
     name: 'vcards',
     count: 0,
-    navigate: ScreenNameEnum.VCARD_SCREEN,
+    navigate: ScreenNameEnum.VCARD_STACK,
   },
   {
     name: 'projects',
     count: 0,
-    navigate: ScreenNameEnum.PROJECT_SCREEN,
+    navigate: ScreenNameEnum.PROJECT_STACK,
   },
   {
     name: 'pixels',
     count: 0,
-    navigate: ScreenNameEnum.PIXELS_SCREEN,
+    navigate: ScreenNameEnum.PIXEL_STACK,
   },
   {
     name: 'domains',
     count: 0,
-    navigate: ScreenNameEnum.CUSTOMDOMAIN_SCREEN,
+    navigate: ScreenNameEnum.DOMAIN_STACK,
   },
 ];

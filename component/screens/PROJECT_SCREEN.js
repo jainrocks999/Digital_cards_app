@@ -7,6 +7,7 @@ import {
   ScrollView,
   StyleSheet,
   Alert,
+  Modal
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useNavigation, useIsFocused} from '@react-navigation/native';
@@ -37,6 +38,8 @@ export default function PROJECT_SCREEN() {
   const ProjectData = useSelector(state => state.feature.ProjectList);
   const [visible, setVisible] = useState(false);
   const [visibleMenuIndex, setVisibleMenuIndex] = useState(null);
+  const [viewProjectData, setViewProjectData] = useState([]);
+  const [ModalVisible,setModalVisible]=useState(false)
   let textColor = theme == 'light' ? '#000' : '#fff';
   let bgColor = theme == 'light' ? '#fff' : '#575757';
   const isFocused = useIsFocused();
@@ -320,7 +323,11 @@ export default function PROJECT_SCREEN() {
                               marginTop: hp(6),
                             }}>
                             <MenuItem
-                              onPress={hideMenu}
+                              onPress={()=>{
+                                setModalVisible(true)
+                                setViewProjectData(item)
+                                hideMenu()
+                              }}
                               style={[
                                 styles.option,
                                 {backgroundColor: '#3b3d3d', marginVertical: 5},
@@ -405,6 +412,91 @@ export default function PROJECT_SCREEN() {
             <Text style={{color: 'blue'}}>blog</Text>
           </TouchableOpacity>
         </View>
+        <Modal
+animationType="slide"
+transparent={false}
+visible={ModalVisible}
+onRequestClose={() => setModalVisible(false)}>
+   <View style={{flex:1,}}>
+            <TouchableOpacity
+              onPress={() => {
+                setModalVisible(false);
+              }}
+              style={{
+                alignItems: 'flex-start',
+               marginVertical:10,
+                backgroundColor:'#f0f0f0',
+                padding:10,
+                width:'30%',
+                height: 50,
+                justifyContent: 'center',
+                alignItems:'center',
+                borderRadius: 5,
+                marginHorizontal: 10,
+                marginTop: 20,
+              }}>
+              <Text style={{fontSize: 18, color: textColor, fontWeight: '600'}}>
+                Back to list
+              </Text>
+            </TouchableOpacity>
+            <View style={{marginHorizontal:10,marginBottom:10}}>
+              <Text style={{fontSize:18,fontWeight:'500',color:textColor}}>Show Connect Custom Domain
+</Text>
+            </View>
+
+            <View
+              style={{
+                borderWidth: 1,
+                height: hp(18.6),
+                marginHorizontal: 10,
+              
+                justifyContent:'center'
+              }}>
+              <View
+                style={[
+                  styles.viewDiv,
+                  {
+                    backgroundColor: bgColor,
+                  },
+                ]}>
+                <Text style={[styles.viewTxt, {color: textColor}]}>ID</Text>
+                <Text style={[styles.viewTxt, {  fontWeight:'400',color: textColor,borderRightWidth:0,marginLeft:10,width:'52%'}]}>
+                  {viewProjectData.id}
+                </Text>
+              </View>
+              <View
+                style={[
+                  styles.viewDiv,
+                  {
+                    backgroundColor: bgColor,
+                  },
+                ]}>
+               <Text style={[styles.viewTxt, {color: textColor}]}>
+               Name
+                </Text>
+                <Text style={[styles.viewTxt, {  fontWeight:'400',color: textColor,borderRightWidth:0,marginLeft:10,width:'52%'}]}>
+                  {viewProjectData.name}
+                </Text>
+              </View>
+              <View
+                style={[
+                  styles.viewDiv,
+                  {
+                    backgroundColor: bgColor,
+                    borderBottomWidth:0
+                  },
+                ]}>
+             <Text style={[styles.viewTxt, {color: textColor,}]}>
+             Color
+                </Text>
+                <Text style={[styles.viewTxt, {  fontWeight:'400',color: textColor,borderRightWidth:0,marginLeft:10,width:'52%'}]}>
+                  {viewProjectData.color}
+                </Text>
+              </View>
+           
+            </View>
+          </View>
+</Modal>
         <View style={{height: hp(10)}} />
       </ScrollView>
     </View>
@@ -412,6 +504,24 @@ export default function PROJECT_SCREEN() {
 }
 
 const styles = StyleSheet.create({
+  viewDiv: {
+    flexDirection: 'row',
+    alignItems: 'center',
+
+
+height:50,
+    paddingHorizontal: 10,
+    borderBottomWidth: 1,
+  },
+  viewTxt: {
+   
+    fontSize:18,
+    fontWeight: '600',
+  paddingTop:10,
+    width: '50%',
+    borderRightWidth: 1,
+    height:55,
+  },
   option: {
     backgroundColor: 'red',
     marginHorizontal: 10,

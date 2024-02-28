@@ -79,7 +79,7 @@ const Account_check =()=>{
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          navigati.navigate(ScreenNameEnum.VCARD_SCREEN);
+          navigati.navigate(ScreenNameEnum.VCARD_STACK);
         }}
         style={[styles.screen1, {marginTop: 25, backgroundColor: bgColor}]}>
         <View style={styles.logo}>
@@ -89,7 +89,7 @@ const Account_check =()=>{
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          navigati.navigate(ScreenNameEnum.PROJECT_SCREEN);
+          navigati.navigate(ScreenNameEnum.PROJECT_STACK);
         }}
         style={[styles.screen1, {marginTop: 25, backgroundColor: bgColor}]}>
         <View style={styles.logo}>
@@ -99,7 +99,7 @@ const Account_check =()=>{
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          navigati.navigate(ScreenNameEnum.PIXELS_SCREEN);
+          navigati.navigate(ScreenNameEnum.PIXEL_STACK);
         }}
         style={[styles.screen1, {marginTop: 25, backgroundColor: bgColor}]}>
         <View style={styles.logo}>
@@ -109,7 +109,7 @@ const Account_check =()=>{
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          navigati.navigate(ScreenNameEnum.CUSTOMDOMAIN_SCREEN);
+          navigati.navigate(ScreenNameEnum.DOMAIN_STACK);
         }}
         style={[styles.screen1, {marginTop: 25, backgroundColor: bgColor}]}>
         <View style={{width: '20%', alignItems: 'center'}}>

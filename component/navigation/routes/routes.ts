@@ -19,6 +19,11 @@ import Vcard_QR from "../../screens/Vcard_QR";
 import Edit_Project from "../../screens/Edit_Project";
 import Edit_Pixel from "../../screens/Pixel_Edit";
 import Edit_Domain from "../../screens/Edit_Domain";
+import AccountStack from "../AccountStack";
+import PixelStack from "../PixelStack";
+import ProjectStack from "../ProjectStack";
+import VcardStack from "../VcardStack";
+import DomainStack from "../DomainStack";
 
 
 const _routes = {
@@ -37,23 +42,40 @@ const _routes = {
   DRAWER_ROUTE: [
 
     { name: ScreenNameEnum.HOME_TAB_SCREEN, Component: Home_Screen },
-    { name: ScreenNameEnum.VCARD_SCREEN, Component: VCARD_SCREEN },
-    { name: ScreenNameEnum.PROJECT_SCREEN, Component: PROJECT_SCREEN },
-    { name: ScreenNameEnum.PIXELS_SCREEN, Component: PIXELS_SCREEN },
-    { name: ScreenNameEnum.CUSTOMDOMAIN_SCREEN, Component: CUSTOMDOMAIN_SCREEN },
-    { name: ScreenNameEnum.CREATE_VCARD, Component: CREATE_VCARD, },
-    { name: ScreenNameEnum.CREATE_PIXEL, Component: CREATE_PIXEL, },
-    { name: ScreenNameEnum.CREATE_PROJECT, Component: CREATE_PROJECT, },
-    { name: ScreenNameEnum.CONNECT_DOMAIN, Component: CONNECT_DOMAIN, },
-    { name: ScreenNameEnum.EDIT_VCARD, Component: EDIT_VCARD, },
-    { name: ScreenNameEnum.ACCOUNT_SCREEN, Component: Account_Screen, },
-    { name: ScreenNameEnum.VCARD_QR, Component: Vcard_QR, },
-    { name: ScreenNameEnum.Edit_Project, Component: Edit_Project, },
-    { name: ScreenNameEnum.Edit_Pixel, Component: Edit_Pixel, },
-    { name: ScreenNameEnum.Edit_Domain, Component: Edit_Domain, },
-  
+    { name: ScreenNameEnum.ACCOUNT_STACK, Component:AccountStack },
+    { name: ScreenNameEnum.PIXEL_STACK, Component: PixelStack },
+    { name: ScreenNameEnum.PROJECT_STACK, Component: ProjectStack },
+    { name: ScreenNameEnum.VCARD_STACK, Component: VcardStack },
+    { name: ScreenNameEnum.DOMAIN_STACK, Component: DomainStack },
 
   ],
+
+  VCARD_STACKS: [
+    { name: ScreenNameEnum.VCARD_SCREEN, Component: VCARD_SCREEN },
+    { name: ScreenNameEnum.CREATE_VCARD, Component: CREATE_VCARD, },
+    { name: ScreenNameEnum.VCARD_QR, Component: Vcard_QR, },
+    { name: ScreenNameEnum.EDIT_VCARD, Component: EDIT_VCARD, },
+  ],
+  PROJECT_STACKS: [
+    { name: ScreenNameEnum.PROJECT_SCREEN, Component: PROJECT_SCREEN },
+    { name: ScreenNameEnum.CREATE_PROJECT, Component: CREATE_PROJECT, },
+    { name: ScreenNameEnum.Edit_Project, Component: Edit_Project, },
+  ],
+  PIXEL_STACKS: [
+    { name: ScreenNameEnum.PIXELS_SCREEN, Component: PIXELS_SCREEN },
+    { name: ScreenNameEnum.CREATE_PIXEL, Component: CREATE_PIXEL, },
+    { name: ScreenNameEnum.Edit_Pixel, Component: Edit_Pixel, },
+  ],
+
+  DOMAIN_STACKS: [
+    { name: ScreenNameEnum.CUSTOMDOMAIN_SCREEN, Component: CUSTOMDOMAIN_SCREEN },
+    { name: ScreenNameEnum.CONNECT_DOMAIN, Component: CONNECT_DOMAIN, },
+    { name: ScreenNameEnum.Edit_Domain, Component: Edit_Domain, },
+  ],
+  ACCOUNT_STACKS:[
+    
+    { name: ScreenNameEnum.ACCOUNT_SCREEN, Component: Account_Screen, },
+  ]
 };
 
 export default _routes;
