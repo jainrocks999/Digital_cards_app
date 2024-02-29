@@ -12,7 +12,8 @@ const initialState = {
   VcardList:null,
   ProjectList:null,
   DownloadCardData:null,
-  BlockList:null
+  BlockList:null,
+
 };
   
 
@@ -724,6 +725,7 @@ export const Download_VCard = createAsyncThunk(
   },
 );
 
+
 const FeatureSlice = createSlice({
   name: 'featureSlice',
   initialState,
@@ -1077,6 +1079,9 @@ const FeatureSlice = createSlice({
       state.isError = true;
       state.isSuccess = false;
     });
+
+    
+
 
   },
 });

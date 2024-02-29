@@ -64,13 +64,57 @@ export default function EDIT_VCARD({route}) {
     setEditName(item.name);
     setEditDescription(item.description);
     setUrlAlias(item.url_alias.substring(item.url_alias.lastIndexOf('/') + 1));
+    setDSButton(item.display_share_button == 1?true:false)
+    setDVDButton(item.display_vcard_download_button == 1?true:false)
+    setVAButton(item.vcard_is_active == 1?true:false)
+    setFirstName(item.first_name)
+    setLastName(item.last_name)
+    setCompany(item.company)
+    setJobTitle(item.job_title)
+    setBirthday(item.birthday == null?new Date():item.birthday)
+    setCustomIndex(item.theme)
+    setBackground(item.background)
+    check_Dropdown(item.background,null)
+    setFavicon(item.favicon.url)
+    setLogo(item.logo.url)
+    setcustImage(item.custom_image)
+ setSelectedColor(item.color)
+ setFirstColor(item.first_color)
+ setSecondColor(item.second_color)
+ setFontFamily(item.font_family)
+ setFontSize(item.font_size)
+ setSEVisiable(item.search_engine_visibility == 1?true:false)
+ setPTitle(item.page_title)
+ setMKeyword(item.meta_keywords)
+ setMDescription(item.meta_description)
+ setOpenGImage(item.opengraph_image)
+setLeapLink(item.leap_link_url)
+setProject(item.project)
+setRBranding(item.remove_branding==1?true:false)
+setcustomCSS(item.custom_css)
+setcustomJS(item.custom_js)
+setProject(item.project)
+checkProject()
+
   }, [edit, item]);
+
+
+
+
+
+
+
+
+
+
+
   const navigation = useNavigation();
   const theme = useSelector(state => state.theme.data);
   const [selectedColor, setSelectedColor] = useState('red');
   const PixelList = useSelector(state => state.feature.PixelList);
   const [showIndex, setShowIndex] = useState('21-12-2023');
   const ProjectData = useSelector(state => state.feature.ProjectList);
+
   const dispatch = useDispatch();
   const user = useSelector(state => state.auth.userData);
   const isLoading = useSelector(state => state.feature.isLoading);
@@ -78,6 +122,7 @@ export default function EDIT_VCARD({route}) {
   let textColor = theme == 'light' ? '#000' : '#fff';
   let bgColor = theme == 'light' ? '#fff' : '#575757';
   const [showVcard, SetshowVcard] = useState(false);
+  const [PrValue,setPrValue] =useState('select project')
   const [showCustom, setShowCustom] = useState(false);
   const [showPixel, setShowPixel] = useState(false);
   const [showSeo, setShowSeo] = useState(false);
@@ -113,7 +158,7 @@ export default function EDIT_VCARD({route}) {
   const [EditDescription, setEditDescription] = useState('');
   const [DSButton, setDSButton] = useState(false);
   const [DVDButton, setDVDButton] = useState(false);
-  const [VAButton, setVAutton] = useState(false);
+  const [VAButton, setVAButton] = useState(false);
   //vcard details
   const [FirstName, setFirstName] = useState('');
   const [LastName, setLastName] = useState('');
@@ -130,6 +175,7 @@ export default function EDIT_VCARD({route}) {
   const [FontFamilyValue, setFontFamilyValue] = useState('');
   const [FontSize, setFontSize] = useState('');
   const [CustomIndex, setCustomIndex] = useState(0);
+
   const [firstColor, setFirstColor] = useState('red');
   const [firstChoiceColor, setfirstChoiceColor] = useState(true);
   const [SecondColor, setSecondColor] = useState('red');
@@ -227,7 +273,7 @@ export default function EDIT_VCARD({route}) {
   };
   const check_Dropdown = (label, value) => {
     setValue(value);
-
+setBackground(label)
     if (label === 'Gradient Preset') {
       setGradientPreset(true);
       setColor(false);
@@ -265,6 +311,14 @@ export default function EDIT_VCARD({route}) {
       }
     });
   };
+
+  const checkProject = ()=>{
+    ProjectData.map(item=>{
+      if(Project == item.id){
+      setPrValue(item.name)
+    }
+    })
+  }
 
   const openLogoImage = () => {
     launchImageLibrary({mediaType: 'photo'}, async response => {
@@ -450,7 +504,7 @@ export default function EDIT_VCARD({route}) {
         birthday: Birthday.toLocaleDateString('en-GB'),
         theme: CustomTheme,
         background: Background,
-        color: Background,
+        color: selectedColor,
         first_color: firstColor,
         second_color: SecondColor,
         font_family: FontFamily,
@@ -831,7 +885,7 @@ export default function EDIT_VCARD({route}) {
                       trackColor={{false: '#767577', true: '#81b0ff'}}
                       thumbColor={VAButton ? '#f5dd4b' : '#f4f3f4'}
                       ios_backgroundColor="#3e3e3e"
-                      onValueChange={() => setVAutton(VAButton => !VAButton)}
+                      onValueChange={() => setVAButton(VAButton => !VAButton)}
                       value={VAButton}
                     />
                   </View>
@@ -1109,7 +1163,7 @@ export default function EDIT_VCARD({route}) {
                                   marginLeft: 5,
                                   color: textColor,
                                 }}>
-                                {Birthday.toLocaleDateString('en-GB')}
+                                {Birthday}
                               </Text>
                               <TouchableOpacity
                                 onPress={() => {
@@ -1127,7 +1181,7 @@ export default function EDIT_VCARD({route}) {
                               mode="date"
                               modal
                               open={open}
-                              date={Birthday}
+                              date={new Date()}
                               onConfirm={date => {
                                 setOpen(false);
                                 setBirthday(date);
@@ -1207,7 +1261,7 @@ export default function EDIT_VCARD({route}) {
                               <TextInput
                                 value={PTitle}
                                 onChangeText={txt => setPTitle(txt)}
-                                placeholder="Page Title"
+                                placeholder={PTitle}
                                 placeholderTextColor={textColor}
                                 style={{color: textColor}}
                               />
@@ -1247,7 +1301,7 @@ export default function EDIT_VCARD({route}) {
                                 style={{color: textColor}}
                                 value={MDescription}
                                 onChangeText={txt => setMDescription(txt)}
-                                placeholder="Meta Description"
+                                placeholder={MDescription}
                                 placeholderTextColor={textColor}
                               />
                             </View>
@@ -1286,7 +1340,7 @@ export default function EDIT_VCARD({route}) {
                                 style={{color: textColor}}
                                 value={MKeyword}
                                 onChangeText={txt => setMKeyword(txt)}
-                                placeholder="Meta Keywords"
+                                placeholder={MKeyword}
                                 placeholderTextColor={textColor}
                               />
                             </View>
@@ -1439,12 +1493,12 @@ export default function EDIT_VCARD({route}) {
                               data={ProjectData}
                               maxHeight={200}
                               labelField="name"
-                              valueField="name"
-                              placeholder={'Select item'}
+                              valueField="id"
+                              placeholder={PrValue}
                               value={Project}
                               onChange={item => {
-                                setProject(item.name);
-                              }}
+                                setProject(item.name);  }}
+                            
                             />
                           </View>
 
@@ -1597,7 +1651,7 @@ export default function EDIT_VCARD({route}) {
                                 style={{color: textColor}}
                                 value={customCSS}
                                 onChangeText={txt => setcustomCSS(txt)}
-                                placeholder=""
+                                placeholder={customCSS}
                                 placeholderTextColor={textColor}
                                 multiline={true}
                                 numberOfLines={5}
@@ -1651,7 +1705,7 @@ export default function EDIT_VCARD({route}) {
                                 style={{color: textColor}}
                                 value={customJS}
                                 onChangeText={txt => setcustomJS(txt)}
-                                placeholder=""
+                                placeholder={customJS}
                                 placeholderTextColor={textColor}
                                 multiline={true}
                                 numberOfLines={5}
@@ -1705,7 +1759,7 @@ export default function EDIT_VCARD({route}) {
                                     height: 43,
                                     marginVertical: 10,
                                     borderRadius: 5,
-                                    borderWidth: CustomIndex === index ? 0 : 1,
+                                    borderWidth: CustomIndex == index ? 0 : 1,
                                     width: '32%',
                                     marginHorizontal: 2,
                                     alignItems: 'center',
@@ -1713,17 +1767,17 @@ export default function EDIT_VCARD({route}) {
 
                                     backgroundColor:
                                       theme === 'light'
-                                        ? CustomIndex === index
+                                        ? CustomIndex == index
                                           ? '#e5e7eb'
                                           : '#fff'
-                                        : CustomIndex !== index
+                                        : CustomIndex != index
                                         ? '#333'
                                         : '#e5e7eb',
                                   }}>
                                   <Text
                                     style={{
                                       color:
-                                        CustomIndex === index &&
+                                        CustomIndex == index &&
                                         theme === 'dark'
                                           ? '#333'
                                           : textColor,
@@ -1908,7 +1962,7 @@ export default function EDIT_VCARD({route}) {
                                 maxHeight={200}
                                 labelField="label"
                                 valueField="value"
-                                placeholder={'Select item'}
+                                placeholder={Background}
                                 value={value}
                                 onChange={item => {
                                   check_Dropdown(item.label, item.value);
@@ -2363,13 +2417,13 @@ export default function EDIT_VCARD({route}) {
                                     flexDirection: 'row',
                                     justifyContent: 'center',
                                   }}>
-                                  {CustImage === '' && (
+                                  {CustImage === null && (
                                     <Text
                                       style={{fontSize: 16, color: textColor}}>
                                       Drop files here to upload
                                     </Text>
                                   )}
-                                  {CustImage !== '' && (
+                                  {CustImage !== null && (
                                     <Image
                                       source={{uri: CustImage}}
                                       style={{
@@ -2437,7 +2491,7 @@ export default function EDIT_VCARD({route}) {
                               maxHeight={200}
                               labelField="label"
                               valueField="value"
-                              placeholder={'Select item'}
+                              placeholder={FontFamily}
                               value={FontFamilyValue}
                               onChange={item => {
                                 setFontFamily(item.label);
@@ -2479,11 +2533,11 @@ export default function EDIT_VCARD({route}) {
                               },
                             ]}>
                             <TextInput
-                              style={{color: textColor}}
+                             
                               value={FontSize}
                               onChangeText={txt => setFontSize(txt)}
                               style={{color: textColor}}
-                              placeholder="font-size"
+                              placeholder={''}
                               placeholderTextColor={textColor}
                             />
                           </View>
@@ -2567,11 +2621,12 @@ export default function EDIT_VCARD({route}) {
                                     flexDirection: 'row',
 
                                     height: 45,
-
+width:'100%',
                                     backgroundColor: bgColor,
                                   }}>
                                   <CheckBox
                                     style={{color: textColor, marginLeft: 10}}
+                                    tintColors={{ true: '#5ea671', false: 'black' }} 
                                     disabled={false}
                                     value={selectedItems.some(
                                       selectedItem =>
