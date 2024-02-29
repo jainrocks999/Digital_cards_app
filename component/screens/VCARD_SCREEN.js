@@ -490,7 +490,7 @@ import { Vcard_delete } from '../redux/feature/featuresSlice';
                     <MenuItem
                       onPress={()=>{
                         hideMenu()
-                        navigation.navigate(ScreenNameEnum.EDIT_VCARD,{edit:true})
+                        navigation.navigate(ScreenNameEnum.EDIT_VCARD,{edit:true,E_Id:item.id,item:item})
                       }}
                       style={{justifyContent: 'center'}}>
                       <FontAwesome5

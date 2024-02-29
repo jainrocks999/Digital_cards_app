@@ -114,7 +114,39 @@ console.log('vcards =>>>>>',params);
     }
   },
 );
+// Edit_vcard
+export const Vcard_Edit = createAsyncThunk(
+  'Vcard_Edit',
+  async (params, thunkApi) => {
+console.log('Vcard_Edit=>>>>>>>>>>',params);
+    try {
+      const response = await API.post('/vcards-update',
+      params.data, 
+      {
+        headers: {
+          Authorization: `Bearer ${params.authToken}`,
+        },
+      }
+    );
 
+      console.log(
+        '🚀 ~ file: Vcard_Edit.js:12 ~ Vcard_Edit ~ response:',
+        response.data,
+      );
+
+      if (response.data.status) {
+        params.navigation.navigate(ScreenNameEnum.VCARD_SCREEN);
+        ProjectList(params)
+        alert('Vcard Edit successfully.')
+      }
+      return response.data.data;
+    } catch (error) {
+      console.log('🚀 ~ file: Vcard_Edit.js:16 ~ Vcard_Edit ~ error:', error);
+
+      return thunkApi.rejectWithValue(error);
+    }
+  },
+);
 // Project List
 export const ProjectList = createAsyncThunk(
   'ProjectList',
@@ -943,6 +975,22 @@ const FeatureSlice = createSlice({
       
     });
     builder.addCase(Block_Edit.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+    });
+    // edit cards
+    builder.addCase(Vcard_Edit.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(Vcard_Edit.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+      
+      
+    });
+    builder.addCase(Vcard_Edit.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;

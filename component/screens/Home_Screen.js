@@ -575,7 +575,7 @@ export default function Home_Screen() {
                         <MenuItem
                           onPress={()=>{
                             hideMenu()
-                            navigation.navigate(ScreenNameEnum.EDIT_VCARD,{edit:true})
+                            navigation.navigate(ScreenNameEnum.EDIT_VCARD,{edit:true,E_Id:item.id,item:item})
                           }}
                           style={{justifyContent: 'center'}}>
                           <FontAwesome5

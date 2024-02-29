@@ -31,6 +31,8 @@ import CheckBox from '@react-native-community/checkbox';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
+  heightPercentageToDP,
+  widthPercentageToDP,
 } from 'react-native-responsive-screen';
 import {useDispatch, useSelector} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -44,15 +46,18 @@ import ColorPicker, {
   HueSlider,
   SaturationSlider,
 } from 'reanimated-color-picker';
-import { Block_Edit, Block_List, Blockdelete, CreateBlock, PixlsList, ProjectList } from '../redux/feature/featuresSlice';
+import { Block_Edit, Block_List, Blockdelete, CreateBlock, PixlsList, ProjectList, Vcard_Edit } from '../redux/feature/featuresSlice';
 import Loader from '../Loader';
 export default function EDIT_VCARD({route}) {
-  const {edit} = route.params;
-
+  const {edit ,E_Id,item} = route.params;
+console.log('route',edit,'');
   useEffect(() => {
     setSetting(edit);
+    setEditName(item.name)
+    setEditDescription(item.description)
+    setUrlAlias(item.url_alias.substring(item.url_alias.lastIndexOf('/')+1))
 
-  }, [edit]);
+  }, [edit,item]);
   const navigation = useNavigation();
   const theme = useSelector(state => state.theme.data);
   const [selectedColor, setSelectedColor] = useState('red');
@@ -75,8 +80,6 @@ export default function EDIT_VCARD({route}) {
   const [Color, setColor] = useState(false);
   const [Gradient, setGradient] = useState(false);
   const [CustomeImage, setCustomeImage] = useState(false);
-  const [images, setImages] = useState('');
-  const [imageName, setImageName] = useState('');
   const [choiceColor, setchoiceColor] = useState(true);
   const [selected, setselected] = useState('');
 
@@ -96,6 +99,7 @@ export default function EDIT_VCARD({route}) {
   const [BlockValue,setBlockValue] =useState('')
   const [BlockName,setBlockName] =useState('')
   const [blockValueupdated,setblockValueupdated] =useState('')
+
 // edit card state
 const [UrlAlias,setUrlAlias] = useState('')
 const [EditName,setEditName] = useState('')
@@ -123,7 +127,7 @@ const [firstColor,setFirstColor] = useState('red')
 const [firstChoiceColor,setfirstChoiceColor] = useState(true)
 const [SecondColor,setSecondColor] = useState('red')
 const [SecondChoiceColor,setSecondChoiceColor] = useState(true)
-const [CustomImage,setcustomImage] = useState('')
+const [CustImage,setcustImage] = useState('')
 //pixels  
 const [selectedItems, setSelectedItems] = useState([]);
 // seo 
@@ -198,7 +202,7 @@ const [customJS,setcustomJS] =useState('')
       setSelectedItems([...selectedItems, selectedItem]);
     }
   };
-  console.log('isSelected=>>>>>>>>>',selectedItems);
+
   const handleColorChange = color => {
     console.log('color',color.hex);
     setSelectedColor(color.hex);
@@ -251,7 +255,24 @@ const [customJS,setcustomJS] =useState('')
     launchImageLibrary({mediaType: 'photo'}, async response => {
       if (!response.didCancel && !response.error) {
        
-        setCustomeImage(response.assets[0].uri);
+        setcustImage(response.assets[0].uri);
+      }
+    });
+  };
+
+  const openLogoImage = () => {
+    launchImageLibrary({mediaType: 'photo'}, async response => {
+      if (!response.didCancel && !response.error) {
+       
+        setLogo(response.assets[0].uri);
+      }
+    });
+  };
+  const openFaviconImage = () => {
+    launchImageLibrary({mediaType: 'photo'}, async response => {
+      if (!response.didCancel && !response.error) {
+       
+        setFavicon(response.assets[0].uri);
       }
     });
   };
@@ -424,7 +445,51 @@ const Block_edit = (item) => {
    setShowBlockListDetails(showBlockListDetails => !showBlockListDetails);
  
 };
+const EditVcards = () => {
 
+  const params = {
+    data: {
+   
+url_alias:UrlAlias,
+name:EditName,
+description:EditDescription,
+display_share_button:DSButton?1:0,
+display_vcard_download_button:DVDButton?1:0,
+vcard_is_active:VAButton?1:0,
+first_name:FirstName,
+last_name:LastName,
+company:Company,
+job_title:JobTitle,
+birthday:Birthday.toLocaleDateString('en-GB'),
+theme:CustomTheme,
+background:Background,
+color:Background,
+first_color:firstColor,
+second_color:SecondColor,
+font_family:FontFamily,
+font_size:FontSize,
+pixels:selectedItems,
+search_engine_visibility:SEVisiable?1:0,
+page_title:PTitle,
+meta_description:MDescription,
+meta_keywords:MKeyword,
+project:Project,
+leap_link_url:LeapLink,
+password:ProPassword,
+remove_branding:RBranding?1:0,
+custom_css:customCSS,
+custom_js:customJS,
+logo:Logo,
+opengraph_image:OpenGImage,
+id:E_Id,
+user_id: user?.data.id,
+    },
+    authToken: user?.data.token,
+    navigation: navigation,
+  };
+
+  dispatch(Vcard_Edit(params));
+};
   return (
     <View
       style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
@@ -898,6 +963,7 @@ const Block_edit = (item) => {
                               onChangeText={(txt)=>setFirstName(txt)}
                                 placeholder="name"
                                 placeholderTextColor={textColor}
+                                style={{color:textColor}}
                               />
                             </View>
                           </View>
@@ -932,6 +998,7 @@ const Block_edit = (item) => {
                                 },
                               ]}>
                               <TextInput
+                                 style={{color:textColor}}
                                 value={LastName}
                                 onChangeText={(txt)=>setLastName(txt)}
                                 placeholder="last name"
@@ -970,6 +1037,7 @@ const Block_edit = (item) => {
                                 },
                               ]}>
                               <TextInput
+                                 style={{color:textColor}}
                                 value={Company}
                                 onChangeText={(txt)=>setCompany(txt)}
                                 placeholder="Company"
@@ -1005,6 +1073,7 @@ const Block_edit = (item) => {
                                 {backgroundColor: bgColor},
                               ]}>
                               <TextInput
+                                 style={{color:textColor}}
                                 value={JobTitle}
                                 onChangeText={(txt)=>setJobTitle(txt)}
                                 placeholder="job title"
@@ -1151,6 +1220,7 @@ const Block_edit = (item) => {
                               onChangeText={(txt)=>setPTitle(txt)}
                                 placeholder="Page Title"
                                 placeholderTextColor={textColor}
+                                style={{color:textColor}}
                               />
                             </View>
                           </View>
@@ -1185,6 +1255,7 @@ const Block_edit = (item) => {
                                 },
                               ]}>
                               <TextInput
+                                   style={{color:textColor}}
                                      value={MDescription}
                                      onChangeText={(txt)=>setMDescription(txt)}
                                 placeholder="Meta Description"
@@ -1223,6 +1294,7 @@ const Block_edit = (item) => {
                                 },
                               ]}>
                               <TextInput
+                                   style={{color:textColor}}
                                      value={MKeyword}
                                      onChangeText={(txt)=>setMKeyword(txt)}
                                 placeholder="Meta Keywords"
@@ -1267,9 +1339,13 @@ const Block_edit = (item) => {
                                 borderColor: 'grey',
                                  
                               }}>
-                              <Text style={{fontSize: 16, color: textColor}}>
+                             {OpenGImage === '' && <Text style={{fontSize: 16, color: textColor}}>
                                 Drop files here to upload
-                              </Text>
+                              </Text> }
+                              {OpenGImage !== '' && 
+                              <Image  source={{uri:OpenGImage}}   style={{ height:'90%',width:'95%',borderRadius:10}} resizeMode='contain' />}
+
+                          
                             </TouchableOpacity>
                           </View>
                         </View>
@@ -1405,6 +1481,7 @@ const Block_edit = (item) => {
                                 },
                               ]}>
                               <TextInput
+                                 style={{color:textColor}}
                               value={LeapLink}
                               onChangeText={(txt)=>setLeapLink(txt)}
                                 placeholder="Page Title"
@@ -1441,6 +1518,7 @@ const Block_edit = (item) => {
                                 },
                               ]}>
                               <TextInput
+                                 style={{color:textColor}}
                                 value={ProPassword}
                                 onChangeText={(txt)=>setProPassword(txt)}
                                 placeholder="Meta Description"
@@ -1517,6 +1595,7 @@ const Block_edit = (item) => {
                                 },
                               ]}>
                               <TextInput
+                                 style={{color:textColor}}
                                 value={customCSS}
                                 onChangeText={(txt)=>setcustomCSS(txt)}
                                 placeholder=""
@@ -1570,6 +1649,7 @@ const Block_edit = (item) => {
                                 },
                               ]}>
                               <TextInput
+                                 style={{color:textColor}}
                                 value={customJS}
                                 onChangeText={(txt)=>setcustomJS(txt)}
                                 placeholder=""
@@ -1671,7 +1751,11 @@ const Block_edit = (item) => {
                               Logo
                             </Text>
                           </View>
-                          <View
+                          <TouchableOpacity 
+
+                          onPress={()=>{
+                            openLogoImage()
+                          }}
                             style={{
                               borderWidth: 1,
                               marginTop: 5,
@@ -1680,10 +1764,15 @@ const Block_edit = (item) => {
                               height: hp(20),
                               borderColor: 'grey',
                             }}>
+                            {Logo ==='' && 
                             <Text style={{fontSize: 16, color: textColor}}>
                               Drop files here to upload
-                            </Text>
-                          </View>
+                            </Text>}
+                            {Logo !== '' &&
+                            
+                            <Image  source={{uri:Logo}}   style={{ height:150,width:150,borderRadius:10}} resizeMode='contain' />}
+
+                          </TouchableOpacity>
                           <View style={{marginHorizontal: 10}}>
                             <Text style={{color: textColor}}>
                               Your vcard logo, recommended 1:1 ratio for the
@@ -1714,7 +1803,11 @@ const Block_edit = (item) => {
                               Favicon
                             </Text>
                           </View>
-                          <View
+                          <TouchableOpacity
+
+                          onPress={()=>{
+                            openFaviconImage()
+                          }}
                             style={{
                               borderWidth: 1,
                               marginTop: 5,
@@ -1723,10 +1816,16 @@ const Block_edit = (item) => {
                               height: hp(20),
                               borderColor: 'grey',
                             }}>
+                                                        {Favicon ==='' && 
                             <Text style={{fontSize: 16, color: textColor}}>
                               Drop files here to upload
-                            </Text>
-                          </View>
+                            </Text>}
+                            {Favicon !== '' &&
+                            
+                            <Image  source={{uri:Favicon}}   style={{ height:150,width:150,borderRadius:10}} resizeMode='contain' />}
+
+  
+                          </TouchableOpacity>
                           <View style={{marginHorizontal: 10}}>
                             <Text style={{color: textColor}}>
                               Your vcard Favicon, recommended 1:1 ratio for the
@@ -2243,10 +2342,14 @@ const Block_edit = (item) => {
                                     flexDirection: 'row',
                                     justifyContent: 'center',
                                   }}>
-                                  <Text
-                                    style={{color: textColor, fontSize: 18}}>
-                                    Drop files here to upload
-                                  </Text>
+                                                                  {CustImage ==='' && 
+                            <Text style={{fontSize: 16, color: textColor}}>
+                              Drop files here to upload
+                            </Text>}
+                            {CustImage !== '' &&
+                            
+                            <Image  source={{uri:CustImage}}   style={{ height:'90%',width:'95%',padding:5}} /> }
+  
                                 </TouchableOpacity>
                               </>
                             )}
@@ -2347,8 +2450,10 @@ const Block_edit = (item) => {
                               },
                             ]}>
                             <TextInput
+                               style={{color:textColor}}
                             value={FontSize}
                             onChangeText={(txt)=>setFontSize(txt)}
+                            style={{color:textColor}}
                               placeholder="font-size"
                               placeholderTextColor={textColor}
                             />
@@ -2472,7 +2577,7 @@ const Block_edit = (item) => {
               </View>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate(ScreenNameEnum.EDIT_VCARD);
+                EditVcards()
                 }}
                 style={{
                   marginHorizontal: 20,
