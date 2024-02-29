@@ -43,10 +43,10 @@ const _routes = {
 
    
     { name: ScreenNameEnum.VCARD_STACK, Component: VcardStack },
-    { name: ScreenNameEnum.ACCOUNT_STACK, Component:AccountStack },
     { name: ScreenNameEnum.PIXEL_STACK, Component: PixelStack },
     { name: ScreenNameEnum.PROJECT_STACK, Component: ProjectStack },
     { name: ScreenNameEnum.DOMAIN_STACK, Component: DomainStack },
+    { name: ScreenNameEnum.ACCOUNT_STACK, Component:AccountStack },
 
   ],
 
@@ -74,7 +74,6 @@ const _routes = {
     { name: ScreenNameEnum.Edit_Domain, Component: Edit_Domain, },
   ],
   ACCOUNT_STACKS:[
-    
     { name: ScreenNameEnum.ACCOUNT_SCREEN, Component: Account_Screen, },
   ]
 };

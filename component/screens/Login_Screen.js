@@ -53,7 +53,7 @@ export default function Login_Screen() {
   };
 
   return (
-    <View style={{flex: 1, backgroundColor: '#fff'}}>
+    <View style={{flex: 1, backgroundColor:'#f0f0f0'}}>
       {isLoading ? <Loader /> : null}
 
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -62,11 +62,12 @@ export default function Login_Screen() {
             padding: 20,
             alignItems: 'center',
             justifyContent: 'center',
-            height: hp(35),
+            height: hp(25),
+           
           }}>
           <Image
             source={require('../image/logo.png')}
-            style={{height: '50%', width: '100%'}}
+            style={{height: '100%', width: '100%'}}
             resizeMode="contain"
           />
         </View>
@@ -84,12 +85,11 @@ export default function Login_Screen() {
             backgroundColor: '#fff',
             elevation: 5,
             marginHorizontal: 10,
-            height: hp(70),
             padding: 20,
           }}>
-          <Text style={{fontSize: 18, fontWeight: '600'}}>Sign in</Text>
+          <Text style={{fontSize: 18, fontWeight: '600',color:'#333'}}>Sign in</Text>
           <View style={{marginTop: 25}}>
-            <Text style={{fontSize: 18, fontWeight: '600'}}>Email</Text>
+            <Text style={{fontSize: 18, fontWeight: '600',color:'#333'}}>Email</Text>
             <View
               style={{
                 backgroundColor: '#f0f0f0',
@@ -101,6 +101,8 @@ export default function Login_Screen() {
                 value={email}
                 onChangeText={txt => setEmail(txt)}
                 placeholder="Enter Email "
+                style={{color:'#333'}}
+                placeholderTextColor={'#333'}
               />
             </View>
             {!isValidEmail && (
@@ -110,7 +112,7 @@ export default function Login_Screen() {
             )}
           </View>
           <View style={{marginTop: 15}}>
-            <Text style={{fontSize: 18, fontWeight: '600'}}>Password</Text>
+            <Text style={{fontSize: 18, fontWeight: '600',color:'#333'}}>Password</Text>
             <View
               style={{
                 backgroundColor: '#f0f0f0',
@@ -119,6 +121,8 @@ export default function Login_Screen() {
                 borderRadius: 10,
               }}>
               <TextInput
+                style={{color:'#333'}}
+                placeholderTextColor={'#333'}
                 value={password}
                 onChangeText={txt => setPassword(txt)}
                 placeholder="Enter Password "
@@ -141,14 +145,14 @@ export default function Login_Screen() {
             <TouchableOpacity 
             onPress={()=>setRememberMe(!rememberMe)}
             >
-              <Text> Remember me</Text>
+              <Text style={{color:'#333'}}> Remember me</Text>
             </TouchableOpacity>
             <TouchableOpacity
              onPress={() => {
               navigation.navigate(ScreenNameEnum.FORGOT_PASSWORD);
             }}
             >
-              <Text>Lost Password</Text>
+              <Text style={{color:'#333'}}>Lost Password</Text>
             </TouchableOpacity>
           </View>
           <TouchableOpacity
@@ -177,7 +181,7 @@ export default function Login_Screen() {
               marginHorizontal: 20,
               marginTop: 10,
             }}>
-            <Text style={{fontSize: 16, fontWeight: '500'}}>
+            <Text style={{fontSize: 16, fontWeight: '500',color:'#333'}}>
               Don't have an account?
             </Text>
             <TouchableOpacity
@@ -191,6 +195,8 @@ export default function Login_Screen() {
             </TouchableOpacity>
           </View>
         </View>
+
+        <View  style={{height:hp(20)}}/>
       </ScrollView>
     </View>
   );

@@ -49,11 +49,12 @@ const DrawerContent = ({navigation}) => {
 
   const hideMenu = () => setVisible(false);
   const showMenu = () => setVisible(true);
+  
 const Account_check =()=>{
+  console.log('called account stack');
+  navigation.navigate(ScreenNameEnum.ACCOUNT_STACK)
   hideMenu()
-  navigation.navigate(ScreenNameEnum.ACCOUNT_SCREEN)
 }
-  const navigati = useNavigation();
   return (
     <View
       style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
@@ -69,7 +70,7 @@ const Account_check =()=>{
 
       <TouchableOpacity
         onPress={() => {
-          navigati.navigate(ScreenNameEnum.VCARD_STACK);
+          navigation.navigate(ScreenNameEnum.VCARD_STACK);
         }}
         style={[styles.screen1, {marginTop: 25, backgroundColor: bgColor}]}>
         <View style={styles.logo}>
@@ -79,7 +80,7 @@ const Account_check =()=>{
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          navigati.navigate(ScreenNameEnum.VCARD_SCREEN);
+          navigation.navigate(ScreenNameEnum.VCARD_SCREEN);
         }}
         style={[styles.screen1, {marginTop: 25, backgroundColor: bgColor}]}>
         <View style={styles.logo}>
@@ -89,7 +90,7 @@ const Account_check =()=>{
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          navigati.navigate(ScreenNameEnum.PROJECT_STACK);
+          navigation.navigate(ScreenNameEnum.PROJECT_STACK);
         }}
         style={[styles.screen1, {marginTop: 25, backgroundColor: bgColor}]}>
         <View style={styles.logo}>
@@ -99,7 +100,7 @@ const Account_check =()=>{
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          navigati.navigate(ScreenNameEnum.PIXEL_STACK);
+          navigation.navigate(ScreenNameEnum.PIXEL_STACK);
         }}
         style={[styles.screen1, {marginTop: 25, backgroundColor: bgColor}]}>
         <View style={styles.logo}>
@@ -109,7 +110,7 @@ const Account_check =()=>{
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          navigati.navigate(ScreenNameEnum.DOMAIN_STACK);
+          navigation.navigate(ScreenNameEnum.DOMAIN_STACK);
         }}
         style={[styles.screen1, {marginTop: 25, backgroundColor: bgColor}]}>
         <View style={{width: '20%', alignItems: 'center'}}>
@@ -141,7 +142,7 @@ const Account_check =()=>{
         }}>
         <TouchableOpacity
           onPress={() => {
-            navigat.navigate('LoginScreen');
+          
           }}
           style={styles.logout}>
           <Image
@@ -168,7 +169,7 @@ marginTop:20}}>
             justifyContent: 'center',
             backgroundColor: bgColor,
           }}>
-          <MenuItem onPress={Account_check} style={{}}>
+          <MenuItem onPress={()=>{Account_check()}} style={{}}>
             <Feather name="tool" size={20} color={textColor} />
             <Text style={{fontSize: 16, fontWeight: '400', color: textColor}}>  Account
             </Text>

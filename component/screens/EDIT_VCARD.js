@@ -50,7 +50,7 @@ import { Block_Edit, Block_List, Blockdelete, CreateBlock, PixlsList, ProjectLis
 import Loader from '../Loader';
 export default function EDIT_VCARD({route}) {
   const {edit ,E_Id,item} = route.params;
-console.log('route',edit,'');
+
   useEffect(() => {
     setSetting(edit);
     setEditName(item.name)
@@ -204,13 +204,12 @@ const [customJS,setcustomJS] =useState('')
   };
 
   const handleColorChange = color => {
-    console.log('color',color.hex);
+
     setSelectedColor(color.hex);
     setBackground(color.hex)
   };
   const handlefirstColor = color => {
-    console.log('first colro',color.hex);
-   
+
     setFirstColor(color.hex);
     setBackground(color.hex)
   };

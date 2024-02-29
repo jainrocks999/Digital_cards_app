@@ -30,6 +30,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Dropdown} from 'react-native-element-dropdown';
 
 export default function Account_Screen() {
+  console.log('=>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
   const navigation = useNavigation();
   const isLoading = useSelector(state => state.feature.isLoading);
   const theme = useSelector(state => state.theme.data);
@@ -620,7 +621,7 @@ export default function Account_Screen() {
 
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate(ScreenNameEnum.EDIT_VCARD);
+          //  navigation.navigate(ScreenNameEnum.EDIT_VCARD);
           }}
           style={[
             styles.btn,

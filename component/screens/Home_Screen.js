@@ -73,15 +73,12 @@ export default function Home_Screen() {
     getDataApi();
   }, [isFocused]);
 
-
-  const VcardDelete =(id)=>{
+  const VcardDelete = id => {
     const params = {
       user_id: user?.data.id,
       authToken: user?.data.token,
-      id:id
+      id: id,
     };
-
-
 
     Alert.alert(
       'Delete Confirmation',
@@ -98,12 +95,11 @@ export default function Home_Screen() {
           },
         },
       ],
-      { cancelable: false }
+      {cancelable: false},
     );
-  
 
     hideMenu();
-  }
+  };
   useEffect(() => {
     if (dashboardData) {
       const apiCounts = {
@@ -118,11 +114,10 @@ export default function Home_Screen() {
           ? {...item, count: apiCounts[item.name]}
           : item,
       );
-      
+
       setUpdatedData(updatedDataCopy);
     }
   }, [dashboardData]);
-
 
   return (
     <View
@@ -175,93 +170,96 @@ export default function Home_Screen() {
           </TouchableOpacity>
         </View>
 
-        <View style={{marginTop: 20,height:hp(75)}}>
-          <View style={{marginTop:10}}>
-          <FlatList
-            data={updatedData}
-            numColumns={2}
-            renderItem={({item}) => (
-              <View style={{flex: 1}}>
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate(item.navigate);
-                  }}
-                  style={{
-                    height: hp(30),
-                    shadowColor: '#000',
-                    shadowOffset: {
-                      width: 0,
-                      height: 3,
-                    },
-                    shadowOpacity: 0.27,
-                    shadowRadius: 4.65,
+        <View style={{marginTop: 20,}}>
+          <View style={{marginTop: 10}}>
+            <FlatList
+              data={updatedData}
+              numColumns={2}
+              renderItem={({item}) => (
+                <View style={{flex: 1}}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate(item.navigate);
+                    }}
+                    style={{
+                      height:hp(25),
+                      shadowColor: '#000',
+                      shadowOffset: {
+                        width: 0,
+                        height: 3,
+                      },
+                      shadowOpacity: 0.27,
+                      shadowRadius: 4.65,
 
-                    elevation: 6,
-                    borderRadius: 10,
-                    backgroundColor: bgColor,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    margin: hp(1),
-                  }}>
-                  <View style={{alignItems: 'center'}}>
-                    {item.name == 'vcards' && (
-                      <FontAwesome name="vcard" size={30} color={'#ed2f95'} />
-                    )}
+                      elevation: 6,
+                      borderRadius: 10,
+                      backgroundColor: bgColor,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      margin:hp(1),
+                    }}>
+                    <View style={{alignItems: 'center'}}>
+                      {item.name == 'vcards' && (
+                        <FontAwesome name="vcard" size={30} color={'#ed2f95'} />
+                      )}
 
-                    {item.name == 'projects' && (
-                      <FontAwesome5
-                        name="project-diagram"
-                        size={30}
-                        color={'#ed2f95'}
-                      />
-                    )}
-                    {item.name == 'pixels' && (
-                      <MaterialIcons name="pix" size={30} color={'#ed2f95'} />
-                    )}
-                    {item.name == 'domains' && (
-                      <Feather name="globe" size={30} color={'#ed2f95'} />
-                    )}
+                      {item.name == 'projects' && (
+                        <FontAwesome5
+                          name="project-diagram"
+                          size={30}
+                          color={'#ed2f95'}
+                        />
+                      )}
+                      {item.name == 'pixels' && (
+                        <MaterialIcons name="pix" size={30} color={'#ed2f95'} />
+                      )}
+                      {item.name == 'domains' && (
+                        <Feather name="globe" size={30} color={'#ed2f95'} />
+                      )}
 
+                      <Text
+                        style={{
+                          fontSize: 22,
+                          fontWeight: '500',
+                          color: textColor,
+                          marginTop: 8,
+                        }}>
+                        {item.name}
+                      </Text>
+                    </View>
                     <Text
                       style={{
                         fontSize: 22,
-                        fontWeight: '500',
                         color: textColor,
-                        marginTop: 8,
+                        fontWeight: '500',
+                        marginTop: 1,
                       }}>
-                      {item.name}
+                      {item.count}
                     </Text>
-                  </View>
-                  <Text
-                    style={{
-                      fontSize: 22,
-                      color: textColor,
-                      fontWeight: '500',
-                      marginTop: 1,
-                    }}>
-                    {item.count}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            )}
-          />
-</View>
+                  </TouchableOpacity>
+                </View>
+              )}
+            />
+          </View>
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
-           
+alignItems:'center',
               marginHorizontal: 10,
               backgroundColor: bgColor,
-              height: '10%',
-              paddingHorizontal: 10,
-              paddingVertical: 5,
+              height:hp(8),
+
+             paddingHorizontal:5
+              
             }}>
             <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'center',
                 alignItems: 'center',
+                height:45,
+             
               }}>
               <FontAwesome name="vcard" size={25} color={textColor} />
               <Text
@@ -282,7 +280,7 @@ export default function Home_Screen() {
               style={{
                 flexDirection: 'row',
                 borderWidth: 1,
-
+height:45,
                 alignItems: 'center',
                 justifyContent: 'center',
                 borderColor: '#ed2f95',
@@ -305,7 +303,7 @@ export default function Home_Screen() {
         <View
           style={{
             backgroundColor: bgColor,
-         
+
             height: 45,
             marginHorizontal: 10,
             flexDirection: 'row',
@@ -339,18 +337,16 @@ export default function Home_Screen() {
             <Text style={{fontSize: 18, color: textColor}}>Action</Text>
           </View>
         </View>
-        <View >
+        <View>
           {VcardList && (
             <FlatList
               data={VcardList}
               renderItem={({item, index}) => (
                 <View style={{flex: 1}}>
                   <View
-                    onPress={() => {
-                      //navigation.navigate(item.navigate);
-                    }}
+                    onPress={() => {}}
                     style={{
-                      height: hp(15),
+                      height: hp(10),
                       shadowColor: '#000',
                       shadowOffset: {
                         width: 0,
@@ -370,20 +366,16 @@ export default function Home_Screen() {
                     }}>
                     <View
                       style={{
-                        height: 80,
-                        width: 80,
-                        borderRadius: 40,
+                        width: '18%',
                       }}>
                       <Image
                         source={{uri: item?.logo?.url}}
-                        style={{height: 80, width: 80, borderRadius: 40}}
+                        style={{height: 60, width: 60, borderRadius: 30}}
                       />
                     </View>
                     <View
                       style={{
-                        width: '45%',
-                        height: 80,
-                        marginLeft: 15,
+                        width: '42%',
                       }}>
                       <Text
                         style={{
@@ -391,23 +383,21 @@ export default function Home_Screen() {
                           fontWeight: '500',
                           color: textColor,
                         }}>
-                        {item.name}
+                        {item.name.substring(0, 10)}
                       </Text>
-                      {/*
-                    <Text style={{}}>
-                      https://cards.forebearpro.co.in/cards/{item.url_alias}
-                    </Text> */}
+
                       {!item.project_data?.name == '' && (
                         <TouchableOpacity
                           style={{
                             borderWidth: 1,
-                            padding: 5,
-                            borderColor:theme=='light'?'blue':'#fff',
+                            paddingHorizontal: 5,
+                            justifyContent: 'center',
+                            borderColor: theme == 'light' ? 'blue' : '#fff',
                             borderRadius: 5,
-                            marginTop: 10,
+                            width: '50%',
                           }}>
                           <Text style={{color: textColor}}>
-                            {item.project_data?.name}
+                            {item.project_data?.name.substring(0, 8)}
                           </Text>
                         </TouchableOpacity>
                       )}
@@ -415,7 +405,7 @@ export default function Home_Screen() {
 
                     <View
                       style={{
-                        width: '30%',
+                        width: '35%',
                         justifyContent: 'space-between',
                         paddingHorizontal: 5,
                         flexDirection: 'row',
@@ -426,16 +416,17 @@ export default function Home_Screen() {
                           alignItems: 'center',
                           padding: 5,
                           borderRadius: 5,
+                          width: '50%',
                         }}>
                         <FontAwesome5
                           name="chart-bar"
                           size={25}
-                          color={theme=='light'?'#4582e6':'#fff'}
+                          color={theme == 'light' ? '#4582e6' : '#fff'}
                         />
                         <Text
                           style={{
                             marginLeft: 5,
-                            color:theme=='light'?'#4582e6':'#fff',
+                            color: theme == 'light' ? '#4582e6' : '#fff',
                             fontSize: 18,
                           }}>
                           7
@@ -448,7 +439,7 @@ export default function Home_Screen() {
                         }}
                         style={{
                           flexDirection: 'row',
-                          width: '45%',
+                          width: '50%',
                           borderWidth: 1,
                           alignItems: 'center',
                           padding: 5,
@@ -467,9 +458,7 @@ export default function Home_Screen() {
                   </View>
 
                   {visibleMenuIndex == index && (
-                  
                     <View style={{height: '40%'}}>
-                     
                       <Menu
                         visible={visible}
                         onRequestClose={() => hideMenu(index)}
@@ -478,7 +467,7 @@ export default function Home_Screen() {
                           width: '17%',
                           justifyContent: 'center',
                           backgroundColor: bgColor,
-                          marginTop:hp(12),
+                          marginTop: hp(12),
                         }}>
                         <MenuItem
                           onPress={hideMenu}
@@ -486,7 +475,7 @@ export default function Home_Screen() {
                             marginLeft: -5,
                             justifyContent: 'center',
                             height: 30,
-                            marginTop:5
+                            marginTop: 5,
                           }}>
                           <Entypo
                             name="share-alternative"
@@ -504,10 +493,12 @@ export default function Home_Screen() {
                             Views
                           </Text>
                         </MenuItem>
-                        <MenuItem onPress={()=>{
-                             navigation.navigate(ScreenNameEnum.VCARD_QR)
-                             hideMenu()
-                        }} style={{marginTop:5}}>
+                        <MenuItem
+                          onPress={() => {
+                            navigation.navigate(ScreenNameEnum.VCARD_QR);
+                            hideMenu();
+                          }}
+                          style={{marginTop: 5}}>
                           <FontAwesome6
                             name="qrcode"
                             size={20}
@@ -539,10 +530,16 @@ export default function Home_Screen() {
                             Statistics
                           </Text>
                         </MenuItem>
-                        <MenuItem    onPress={()=>{
-                            hideMenu()
-                            navigation.navigate(ScreenNameEnum.EDIT_VCARD,{edit:false})
-                          }} style={{}}>
+                        <MenuItem
+                          onPress={() => {
+                            hideMenu();
+                            navigation.navigate(ScreenNameEnum.EDIT_VCARD, {
+                              edit: false,
+                              E_Id: item.id,
+                              item: item,
+                            });
+                          }}
+                          style={{}}>
                           <FontAwesome
                             name="bars"
                             size={20}
@@ -558,9 +555,7 @@ export default function Home_Screen() {
                             VCard Blocks
                           </Text>
                         </MenuItem>
-                        <MenuItem onPress={()=>{
-                         
-                        }} style={{}}>
+                        <MenuItem onPress={() => {}} style={{}}>
                           <Ionicons name="copy" size={20} color={textColor} />
                           <Text
                             style={{
@@ -573,9 +568,13 @@ export default function Home_Screen() {
                           </Text>
                         </MenuItem>
                         <MenuItem
-                          onPress={()=>{
-                            hideMenu()
-                            navigation.navigate(ScreenNameEnum.EDIT_VCARD,{edit:true,E_Id:item.id,item:item})
+                          onPress={() => {
+                            hideMenu();
+                            navigation.navigate(ScreenNameEnum.EDIT_VCARD, {
+                              edit: true,
+                              E_Id: item.id,
+                              item: item,
+                            });
                           }}
                           style={{justifyContent: 'center'}}>
                           <FontAwesome5
@@ -593,11 +592,11 @@ export default function Home_Screen() {
                             Edit
                           </Text>
                         </MenuItem>
-                        <MenuItem 
-                        onPress={()=>{
-                          VcardDelete(item.id)
-                        }}
-                        style={{}}>
+                        <MenuItem
+                          onPress={() => {
+                            VcardDelete(item.id);
+                          }}
+                          style={{}}>
                           {/* <TouchableOpacity onPress={()=>console.log('fsfssafs')
             }> */}
                           <AntDesign
@@ -617,7 +616,6 @@ export default function Home_Screen() {
                           {/* </TouchableOpacity> */}
                         </MenuItem>
                       </Menu>
-                      
                     </View>
                   )}
                 </View>
@@ -628,11 +626,10 @@ export default function Home_Screen() {
 
         <View
           style={{
-          
             paddingHorizontal: 10,
             marginHorizontal: 10,
             backgroundColor: bgColor,
-            paddingVertical:10
+            paddingVertical: 10,
           }}>
           <View
             style={{

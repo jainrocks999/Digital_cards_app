@@ -458,7 +458,7 @@ import { Vcard_delete } from '../redux/feature/featuresSlice';
                     </MenuItem>
                     <MenuItem onPress={()=>{
                             hideMenu()
-                            navigation.navigate(ScreenNameEnum.EDIT_VCARD,{edit:false})
+                            navigation.navigate(ScreenNameEnum.EDIT_VCARD,{edit:false,E_Id:item.id,item:item})
                           }} style={{}}>
                       <FontAwesome
                         name="bars"

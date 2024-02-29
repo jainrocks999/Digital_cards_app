@@ -17,7 +17,7 @@ const AccountStack: FunctionComponent = () => {
         gestureDirection: 'horizontal',
        
       }}>
-      {_routes.REGISTRATION_ROUTE.map(screen => (
+      {_routes.ACCOUNT_STACKS.map(screen => (
         <Stack.Screen
           key={screen.name}
           name={screen.name}
