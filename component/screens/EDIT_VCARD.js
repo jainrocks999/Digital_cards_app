@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import React, {useState, useEffect, useCallback} from 'react';
-import {useNavigation,useIsFocused} from '@react-navigation/native';
+import {useNavigation, useIsFocused} from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -46,18 +46,25 @@ import ColorPicker, {
   HueSlider,
   SaturationSlider,
 } from 'reanimated-color-picker';
-import { Block_Edit, Block_List, Blockdelete, CreateBlock, PixlsList, ProjectList, Vcard_Edit } from '../redux/feature/featuresSlice';
+import {
+  Block_Edit,
+  Block_List,
+  Blockdelete,
+  CreateBlock,
+  PixlsList,
+  ProjectList,
+  Vcard_Edit,
+} from '../redux/feature/featuresSlice';
 import Loader from '../Loader';
 export default function EDIT_VCARD({route}) {
-  const {edit ,E_Id,item} = route.params;
+  const {edit, E_Id, item} = route.params;
 
   useEffect(() => {
     setSetting(edit);
-    setEditName(item.name)
-    setEditDescription(item.description)
-    setUrlAlias(item.url_alias.substring(item.url_alias.lastIndexOf('/')+1))
-
-  }, [edit,item]);
+    setEditName(item.name);
+    setEditDescription(item.description);
+    setUrlAlias(item.url_alias.substring(item.url_alias.lastIndexOf('/') + 1));
+  }, [edit, item]);
   const navigation = useNavigation();
   const theme = useSelector(state => state.theme.data);
   const [selectedColor, setSelectedColor] = useState('red');
@@ -95,55 +102,55 @@ export default function EDIT_VCARD({route}) {
   const [BlockListIndex, setBlockListIndex] = useState(null);
   const [showBlockListDetails, setShowBlockListDetails] = useState(false);
   const BlockList = useSelector(state => state.feature.BlockList);
-  const [name,setName] =useState('')
-  const [BlockValue,setBlockValue] =useState('')
-  const [BlockName,setBlockName] =useState('')
-  const [blockValueupdated,setblockValueupdated] =useState('')
+  const [name, setName] = useState('');
+  const [BlockValue, setBlockValue] = useState('');
+  const [BlockName, setBlockName] = useState('');
+  const [blockValueupdated, setblockValueupdated] = useState('');
 
-// edit card state
-const [UrlAlias,setUrlAlias] = useState('')
-const [EditName,setEditName] = useState('')
-const [EditDescription,setEditDescription] = useState('')
-const [DSButton,setDSButton] =useState(false)
-const [DVDButton,setDVDButton] =useState(false)
-const [VAButton,setVAutton] =useState(false)
-//vcard details 
-const [FirstName,setFirstName] = useState('')
-const [LastName,setLastName] = useState('')
-const [Company,setCompany] = useState('')
-const [JobTitle,setJobTitle] = useState('')
-const [Birthday,setBirthday] = useState(new Date())
+  // edit card state
+  const [UrlAlias, setUrlAlias] = useState('');
+  const [EditName, setEditName] = useState('');
+  const [EditDescription, setEditDescription] = useState('');
+  const [DSButton, setDSButton] = useState(false);
+  const [DVDButton, setDVDButton] = useState(false);
+  const [VAButton, setVAutton] = useState(false);
+  //vcard details
+  const [FirstName, setFirstName] = useState('');
+  const [LastName, setLastName] = useState('');
+  const [Company, setCompany] = useState('');
+  const [JobTitle, setJobTitle] = useState('');
+  const [Birthday, setBirthday] = useState(new Date());
 
-// customizations
-const [CustomTheme,setCustomTheme] = useState('')
-const [Logo,setLogo] = useState('')
-const [Favicon,setFavicon] = useState('')
-const [Background, setBackground] =useState('')
-const [FontFamily, setFontFamily] =useState('')
-const [FontFamilyValue, setFontFamilyValue] =useState('')
-const [FontSize, setFontSize] =useState('')
-const [CustomIndex,setCustomIndex] =useState(0)
-const [firstColor,setFirstColor] = useState('red')
-const [firstChoiceColor,setfirstChoiceColor] = useState(true)
-const [SecondColor,setSecondColor] = useState('red')
-const [SecondChoiceColor,setSecondChoiceColor] = useState(true)
-const [CustImage,setcustImage] = useState('')
-//pixels  
-const [selectedItems, setSelectedItems] = useState([]);
-// seo 
-const [SEVisiable,setSEVisiable] = useState(false)
-const [PTitle, setPTitle] = useState('')
-const [MDescription, setMDescription] = useState('')
-const [MKeyword, setMKeyword] = useState('')
-const [OpenGImage,setOpenGImage] =useState('')
+  // customizations
+  const [CustomTheme, setCustomTheme] = useState('');
+  const [Logo, setLogo] = useState('');
+  const [Favicon, setFavicon] = useState('');
+  const [Background, setBackground] = useState('');
+  const [FontFamily, setFontFamily] = useState('');
+  const [FontFamilyValue, setFontFamilyValue] = useState('');
+  const [FontSize, setFontSize] = useState('');
+  const [CustomIndex, setCustomIndex] = useState(0);
+  const [firstColor, setFirstColor] = useState('red');
+  const [firstChoiceColor, setfirstChoiceColor] = useState(true);
+  const [SecondColor, setSecondColor] = useState('red');
+  const [SecondChoiceColor, setSecondChoiceColor] = useState(true);
+  const [CustImage, setcustImage] = useState('');
+  //pixels
+  const [selectedItems, setSelectedItems] = useState([]);
+  // seo
+  const [SEVisiable, setSEVisiable] = useState(false);
+  const [PTitle, setPTitle] = useState('');
+  const [MDescription, setMDescription] = useState('');
+  const [MKeyword, setMKeyword] = useState('');
+  const [OpenGImage, setOpenGImage] = useState('');
 
-//advance 
-const [RBranding,setRBranding] =useState(false)
-const [Project,setProject] =useState('')
-const [LeapLink,setLeapLink] =useState('')
-const [ProPassword,setProPassword] =useState('')
-const [customCSS,setcustomCSS] =useState('')
-const [customJS,setcustomJS] =useState('')
+  //advance
+  const [RBranding, setRBranding] = useState(false);
+  const [Project, setProject] = useState('');
+  const [LeapLink, setLeapLink] = useState('');
+  const [ProPassword, setProPassword] = useState('');
+  const [customCSS, setcustomCSS] = useState('');
+  const [customJS, setcustomJS] = useState('');
 
   const changeTheame = async () => {
     await AsyncStorage.setItem('theme', theme == 'light' ? 'dark' : 'light');
@@ -187,15 +194,19 @@ const [customJS,setcustomJS] =useState('')
     }
   };
 
-  const handleSelection = (index) => {
+  const handleSelection = index => {
     const selectedItem = PixelList[index];
 
     // Check if the item is already selected
-    const isSelected = selectedItems.some(item => item.name === selectedItem.name);
+    const isSelected = selectedItems.some(
+      item => item.name === selectedItem.name,
+    );
 
     if (isSelected) {
       // If selected, remove it from the list
-      const updatedItems = selectedItems.filter(item => item.name !== selectedItem.name);
+      const updatedItems = selectedItems.filter(
+        item => item.name !== selectedItem.name,
+      );
       setSelectedItems(updatedItems);
     } else {
       // If not selected, add it to the list
@@ -204,18 +215,15 @@ const [customJS,setcustomJS] =useState('')
   };
 
   const handleColorChange = color => {
-
     setSelectedColor(color.hex);
-    setBackground(color.hex)
+    setBackground(color.hex);
   };
   const handlefirstColor = color => {
-
     setFirstColor(color.hex);
-    setBackground(color.hex)
+    setBackground(color.hex);
   };
-  const secondHandlecolor = color => {  
+  const secondHandlecolor = color => {
     setSecondChoiceColor(color.hex);
-   
   };
   const check_Dropdown = (label, value) => {
     setValue(value);
@@ -253,7 +261,6 @@ const [customJS,setcustomJS] =useState('')
   const openCustomImage = () => {
     launchImageLibrary({mediaType: 'photo'}, async response => {
       if (!response.didCancel && !response.error) {
-       
         setcustImage(response.assets[0].uri);
       }
     });
@@ -262,7 +269,6 @@ const [customJS,setcustomJS] =useState('')
   const openLogoImage = () => {
     launchImageLibrary({mediaType: 'photo'}, async response => {
       if (!response.didCancel && !response.error) {
-       
         setLogo(response.assets[0].uri);
       }
     });
@@ -270,7 +276,6 @@ const [customJS,setcustomJS] =useState('')
   const openFaviconImage = () => {
     launchImageLibrary({mediaType: 'photo'}, async response => {
       if (!response.didCancel && !response.error) {
-       
         setFavicon(response.assets[0].uri);
       }
     });
@@ -278,7 +283,6 @@ const [customJS,setcustomJS] =useState('')
   const opengraphImage = () => {
     launchImageLibrary({mediaType: 'photo'}, async response => {
       if (!response.didCancel && !response.error) {
-       
         setOpenGImage(response.assets[0].uri);
       }
     });
@@ -333,7 +337,7 @@ const [customJS,setcustomJS] =useState('')
       authToken: user?.data.token,
     };
     dispatch(Block_List(params));
-  }, [dispatch, user?.data.id, user?.data.token,]);
+  }, [dispatch, user?.data.id, user?.data.token]);
   const getDataApiPixel = useCallback(async () => {
     const params = {
       user_id: user?.data.id,
@@ -348,53 +352,42 @@ const [customJS,setcustomJS] =useState('')
       authToken: user?.data.token,
     };
     dispatch(ProjectList(params));
-  }, [dispatch, user?.data.id, user?.data.token,]);
-
-
+  }, [dispatch, user?.data.id, user?.data.token]);
 
   useEffect(() => {
     getDataApi();
-    getDataApiPixel()
-    getDataApiProject()
-
-  }, [isFocused, getDataApi,]);
-
-
+    getDataApiPixel();
+    getDataApiProject();
+  }, [isFocused, getDataApi]);
 
   const Create_Block = () => {
-    if(name !== '' && BlockValue !== ''&& btnData !== ''){
-
-    const params = {
-      data: {
+    if (name !== '' && BlockValue !== '' && btnData !== '') {
+      const params = {
+        data: {
+          user_id: user?.data.id,
+          key: name,
+          value: BlockValue,
+          type: btnData,
+          created_by: user?.data.id,
+        },
+        authToken: user?.data.token,
         user_id: user?.data.id,
-        key:name,
-        value:BlockValue,
-        type:btnData,
-        created_by: user?.data.id,
-      },
-      authToken: user?.data.token,
-      user_id: user?.data.id,
-      
-    };
+      };
 
-
-   dispatch(CreateBlock(params));
-setModalVisible(false)
-getDataApi()
-check_Modal_click('none');
-}
-else {
-  alert('Please fill all field')
-}
+      dispatch(CreateBlock(params));
+      setModalVisible(false);
+      getDataApi();
+      check_Modal_click('none');
+    } else {
+      alert('Please fill all field');
+    }
   };
-  const Delete_Block = (id) => {
-    
-
+  const Delete_Block = id => {
     const params = {
       authToken: user?.data.token,
       user_id: user?.data.id,
-      id:id 
-    }
+      id: id,
+    };
     Alert.alert(
       'Delete Confirmation',
       'Are you sure you want to delete this?',
@@ -410,93 +403,95 @@ else {
           },
         },
       ],
-      { cancelable: false }
+      {cancelable: false},
     );
     setShowBlockListDetails(showBlockListDetails => !showBlockListDetails);
   };
 
-  const openBlockDetails =(item,  index)=>{
-setBlockName(item.key)
-setblockValueupdated(item.value)
-setBtnData(item.type)
+  const openBlockDetails = (item, index) => {
+    setBlockName(item.key);
+    setblockValueupdated(item.value);
+    setBtnData(item.type);
     setBlockListIndex(index);
- setShowBlockListDetails(showBlockListDetails => !showBlockListDetails);
- 
-}
-
-const Block_edit = (item) => {
-
-  const params = {
-    data: {
-       id:item.id,
-       user_id: user?.data.id,
-       key:BlockName,
-       value:blockValueupdated,
-       type:item.type,
-      created_by: user?.data.id,
-    },
-    authToken: user?.data.token,
-    navigation: navigation,
-  };
-   dispatch(Block_Edit(params))
-
-   getDataApi()
-   setShowBlockListDetails(showBlockListDetails => !showBlockListDetails);
- 
-};
-const EditVcards = () => {
-
-  const params = {
-    data: {
-   
-url_alias:UrlAlias,
-name:EditName,
-description:EditDescription,
-display_share_button:DSButton?1:0,
-display_vcard_download_button:DVDButton?1:0,
-vcard_is_active:VAButton?1:0,
-first_name:FirstName,
-last_name:LastName,
-company:Company,
-job_title:JobTitle,
-birthday:Birthday.toLocaleDateString('en-GB'),
-theme:CustomTheme,
-background:Background,
-color:Background,
-first_color:firstColor,
-second_color:SecondColor,
-font_family:FontFamily,
-font_size:FontSize,
-pixels:selectedItems,
-search_engine_visibility:SEVisiable?1:0,
-page_title:PTitle,
-meta_description:MDescription,
-meta_keywords:MKeyword,
-project:Project,
-leap_link_url:LeapLink,
-password:ProPassword,
-remove_branding:RBranding?1:0,
-custom_css:customCSS,
-custom_js:customJS,
-logo:Logo,
-opengraph_image:OpenGImage,
-id:E_Id,
-user_id: user?.data.id,
-    },
-    authToken: user?.data.token,
-    navigation: navigation,
+    setShowBlockListDetails(showBlockListDetails => !showBlockListDetails);
   };
 
-  dispatch(Vcard_Edit(params));
-};
+  const Block_edit = item => {
+    const params = {
+      data: {
+        id: item.id,
+        user_id: user?.data.id,
+        key: BlockName,
+        value: blockValueupdated,
+        type: item.type,
+        created_by: user?.data.id,
+      },
+      authToken: user?.data.token,
+      navigation: navigation,
+    };
+    dispatch(Block_Edit(params));
+
+    getDataApi();
+    setShowBlockListDetails(showBlockListDetails => !showBlockListDetails);
+  };
+  const EditVcards = () => {
+    const params = {
+      data: {
+        url_alias: UrlAlias,
+        name: EditName,
+        description: EditDescription,
+        display_share_button: DSButton ? 1 : 0,
+        display_vcard_download_button: DVDButton ? 1 : 0,
+        vcard_is_active: VAButton ? 1 : 0,
+        first_name: FirstName,
+        last_name: LastName,
+        company: Company,
+        job_title: JobTitle,
+        birthday: Birthday.toLocaleDateString('en-GB'),
+        theme: CustomTheme,
+        background: Background,
+        color: Background,
+        first_color: firstColor,
+        second_color: SecondColor,
+        font_family: FontFamily,
+        font_size: FontSize,
+        pixels: selectedItems,
+        search_engine_visibility: SEVisiable ? 1 : 0,
+        page_title: PTitle,
+        meta_description: MDescription,
+        meta_keywords: MKeyword,
+        project: Project,
+        leap_link_url: LeapLink,
+        password: ProPassword,
+        remove_branding: RBranding ? 1 : 0,
+        custom_css: customCSS,
+        custom_js: customJS,
+        logo: {
+          uri: Logo,
+          type: 'image/jpeg',
+          name: 'Logo.jpg',
+        },
+        opengraph_image: {
+          uri: OpenGImage,
+          type: 'image/jpeg',
+          name: 'OpenGImage.jpg',
+        },
+        id: E_Id,
+        user_id: user?.data.id,
+      },
+      authToken: user?.data.token,
+      navigation: navigation,
+    };
+
+    dispatch(Vcard_Edit(params));
+  };
   return (
     <View
       style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
-        {isLoading ? <Loader /> : null}
+      {isLoading ? <Loader /> : null}
       <ScrollView
         style={{paddingHorizontal: 5}}
         showsVerticalScrollIndicator={false}>
-      
         <View
           style={{
             flexDirection: 'row',
@@ -671,10 +666,8 @@ user_id: user?.data.id,
                       justifyContent: 'center',
                     }}>
                     <TextInput
-
-                    value={UrlAlias}
-
-                    onChangeText={(txt)=>setUrlAlias(txt)}
+                      value={UrlAlias}
+                      onChangeText={txt => setUrlAlias(txt)}
                       placeholder="my-page-url "
                       placeholderTextColor={textColor}
                       style={{
@@ -722,8 +715,7 @@ user_id: user?.data.id,
                     }}>
                     <TextInput
                       value={EditName}
-
-                      onChangeText={(txt)=>setEditName(txt)}
+                      onChangeText={txt => setEditName(txt)}
                       placeholderTextColor={textColor}
                       placeholder="name"
                       style={{
@@ -770,8 +762,7 @@ user_id: user?.data.id,
                     }}>
                     <TextInput
                       value={EditDescription}
-
-                      onChangeText={(txt)=>setEditDescription(txt)}
+                      onChangeText={txt => setEditDescription(txt)}
                       placeholder="description"
                       placeholderTextColor={textColor}
                       style={{
@@ -796,7 +787,7 @@ user_id: user?.data.id,
                       trackColor={{false: '#767577', true: '#81b0ff'}}
                       thumbColor={DSButton ? '#f5dd4b' : '#f4f3f4'}
                       ios_backgroundColor="#3e3e3e"
-                      onValueChange={()=>setDSButton(DSButton =>!DSButton)}
+                      onValueChange={() => setDSButton(DSButton => !DSButton)}
                       value={DSButton}
                     />
                   </View>
@@ -817,7 +808,9 @@ user_id: user?.data.id,
                       trackColor={{false: '#767577', true: '#81b0ff'}}
                       thumbColor={DVDButton ? '#f5dd4b' : '#f4f3f4'}
                       ios_backgroundColor="#3e3e3e"
-                      onValueChange={()=>setDVDButton(DVDButton =>!DVDButton)}
+                      onValueChange={() =>
+                        setDVDButton(DVDButton => !DVDButton)
+                      }
                       value={DVDButton}
                     />
                   </View>
@@ -838,7 +831,7 @@ user_id: user?.data.id,
                       trackColor={{false: '#767577', true: '#81b0ff'}}
                       thumbColor={VAButton ? '#f5dd4b' : '#f4f3f4'}
                       ios_backgroundColor="#3e3e3e"
-                      onValueChange={()=>setVAutton(VAButton=>!VAButton)}
+                      onValueChange={() => setVAutton(VAButton => !VAButton)}
                       value={VAButton}
                     />
                   </View>
@@ -854,9 +847,6 @@ user_id: user?.data.id,
                   </View>
                 </View>
               </View>
-
-
-
 
               <View style={{marginHorizontal: 10}}>
                 <FlatList
@@ -958,11 +948,11 @@ user_id: user?.data.id,
                                 },
                               ]}>
                               <TextInput
-                              value={FirstName}
-                              onChangeText={(txt)=>setFirstName(txt)}
+                                value={FirstName}
+                                onChangeText={txt => setFirstName(txt)}
                                 placeholder="name"
                                 placeholderTextColor={textColor}
-                                style={{color:textColor}}
+                                style={{color: textColor}}
                               />
                             </View>
                           </View>
@@ -997,9 +987,9 @@ user_id: user?.data.id,
                                 },
                               ]}>
                               <TextInput
-                                 style={{color:textColor}}
+                                style={{color: textColor}}
                                 value={LastName}
-                                onChangeText={(txt)=>setLastName(txt)}
+                                onChangeText={txt => setLastName(txt)}
                                 placeholder="last name"
                                 placeholderTextColor={textColor}
                               />
@@ -1036,9 +1026,9 @@ user_id: user?.data.id,
                                 },
                               ]}>
                               <TextInput
-                                 style={{color:textColor}}
+                                style={{color: textColor}}
                                 value={Company}
-                                onChangeText={(txt)=>setCompany(txt)}
+                                onChangeText={txt => setCompany(txt)}
                                 placeholder="Company"
                                 placeholderTextColor={textColor}
                               />
@@ -1072,9 +1062,9 @@ user_id: user?.data.id,
                                 {backgroundColor: bgColor},
                               ]}>
                               <TextInput
-                                 style={{color:textColor}}
+                                style={{color: textColor}}
                                 value={JobTitle}
-                                onChangeText={(txt)=>setJobTitle(txt)}
+                                onChangeText={txt => setJobTitle(txt)}
                                 placeholder="job title"
                                 placeholderTextColor={textColor}
                               />
@@ -1106,7 +1096,7 @@ user_id: user?.data.id,
                               style={[
                                 styles.nameDiv,
                                 {
-                                  height:45,
+                                  height: 45,
                                   flexDirection: 'row',
                                   alignItems: 'center',
                                   justifyContent: 'space-between',
@@ -1162,22 +1152,23 @@ user_id: user?.data.id,
                                 trackColor={{false: '#767577', true: '#81b0ff'}}
                                 thumbColor={SEVisiable ? '#f5dd4b' : '#f4f3f4'}
                                 ios_backgroundColor="#3e3e3e"
-                                onValueChange={()=>setSEVisiable(SEVisiable=>!SEVisiable)}
+                                onValueChange={() =>
+                                  setSEVisiable(SEVisiable => !SEVisiable)
+                                }
                                 value={SEVisiable}
                               />
                               <Text
                                 style={{
                                   fontSize: 18,
                                   fontWeight: '600',
-                                  color:textColor,
+                                  color: textColor,
                                 }}>
                                 Search Engine Visibility
                               </Text>
                             </View>
 
-                            <View style={{marginTop: 5,
-                              marginHorizontal: 5}}>
-                              <Text style={{color:textColor, }}>
+                            <View style={{marginTop: 5, marginHorizontal: 5}}>
+                              <Text style={{color: textColor}}>
                                 If disabled, the vcard will not be indexed by
                                 search engines, such as Google or Bing.
                               </Text>
@@ -1214,12 +1205,11 @@ user_id: user?.data.id,
                                 },
                               ]}>
                               <TextInput
-
-                              value={PTitle}
-                              onChangeText={(txt)=>setPTitle(txt)}
+                                value={PTitle}
+                                onChangeText={txt => setPTitle(txt)}
                                 placeholder="Page Title"
                                 placeholderTextColor={textColor}
-                                style={{color:textColor}}
+                                style={{color: textColor}}
                               />
                             </View>
                           </View>
@@ -1254,9 +1244,9 @@ user_id: user?.data.id,
                                 },
                               ]}>
                               <TextInput
-                                   style={{color:textColor}}
-                                     value={MDescription}
-                                     onChangeText={(txt)=>setMDescription(txt)}
+                                style={{color: textColor}}
+                                value={MDescription}
+                                onChangeText={txt => setMDescription(txt)}
                                 placeholder="Meta Description"
                                 placeholderTextColor={textColor}
                               />
@@ -1293,9 +1283,9 @@ user_id: user?.data.id,
                                 },
                               ]}>
                               <TextInput
-                                   style={{color:textColor}}
-                                     value={MKeyword}
-                                     onChangeText={(txt)=>setMKeyword(txt)}
+                                style={{color: textColor}}
+                                value={MKeyword}
+                                onChangeText={txt => setMKeyword(txt)}
                                 placeholder="Meta Keywords"
                                 placeholderTextColor={textColor}
                               />
@@ -1326,25 +1316,33 @@ user_id: user?.data.id,
                               </Text>
                             </View>
                             <TouchableOpacity
-                            onPress={()=>{
-                              opengraphImage()
-                            }}
+                              onPress={() => {
+                                opengraphImage();
+                              }}
                               style={{
                                 borderWidth: 1,
                                 marginTop: 5,
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                              height:hp(10),
+                                height: hp(10),
                                 borderColor: 'grey',
-                                 
                               }}>
-                             {OpenGImage === '' && <Text style={{fontSize: 16, color: textColor}}>
-                                Drop files here to upload
-                              </Text> }
-                              {OpenGImage !== '' && 
-                              <Image  source={{uri:OpenGImage}}   style={{ height:'90%',width:'95%',borderRadius:10}} resizeMode='contain' />}
-
-                          
+                              {OpenGImage === '' && (
+                                <Text style={{fontSize: 16, color: textColor}}>
+                                  Drop files here to upload
+                                </Text>
+                              )}
+                              {OpenGImage !== '' && (
+                                <Image
+                                  source={{uri: OpenGImage}}
+                                  style={{
+                                    height: '90%',
+                                    width: '95%',
+                                    borderRadius: 10,
+                                  }}
+                                  resizeMode="contain"
+                                />
+                              )}
                             </TouchableOpacity>
                           </View>
                         </View>
@@ -1388,7 +1386,8 @@ user_id: user?.data.id,
                                 alignItems: 'center',
                                 marginHorizontal: 10,
                                 marginTop: 10,
-                                backgroundColor:theme==='light'?'#f0f0f0':'#333',
+                                backgroundColor:
+                                  theme === 'light' ? '#f0f0f0' : '#333',
                                 width: '40%',
                                 height: 40,
                                 paddingHorizontal: 5,
@@ -1444,7 +1443,7 @@ user_id: user?.data.id,
                               placeholder={'Select item'}
                               value={Project}
                               onChange={item => {
-                               setProject(item.name)
+                                setProject(item.name);
                               }}
                             />
                           </View>
@@ -1480,9 +1479,9 @@ user_id: user?.data.id,
                                 },
                               ]}>
                               <TextInput
-                                 style={{color:textColor}}
-                              value={LeapLink}
-                              onChangeText={(txt)=>setLeapLink(txt)}
+                                style={{color: textColor}}
+                                value={LeapLink}
+                                onChangeText={txt => setLeapLink(txt)}
                                 placeholder="Page Title"
                                 placeholderTextColor={textColor}
                               />
@@ -1496,8 +1495,7 @@ user_id: user?.data.id,
                                 marginVertical: 10,
                               }}>
                               <Entypo name="lock" size={22} color={textColor} />
-                       
-                       
+
                               <Text
                                 style={{
                                   fontSize: 18,
@@ -1517,9 +1515,9 @@ user_id: user?.data.id,
                                 },
                               ]}>
                               <TextInput
-                                 style={{color:textColor}}
+                                style={{color: textColor}}
                                 value={ProPassword}
-                                onChangeText={(txt)=>setProPassword(txt)}
+                                onChangeText={txt => setProPassword(txt)}
                                 placeholder="Meta Description"
                                 placeholderTextColor={textColor}
                               />
@@ -1532,7 +1530,9 @@ user_id: user?.data.id,
                                 trackColor={{false: '#767577', true: '#81b0ff'}}
                                 thumbColor={RBranding ? '#f5dd4b' : '#f4f3f4'}
                                 ios_backgroundColor="#3e3e3e"
-                                onValueChange={()=>setRBranding(RBranding=>!RBranding)}
+                                onValueChange={() =>
+                                  setRBranding(RBranding => !RBranding)
+                                }
                                 value={RBranding}
                               />
                               <Text
@@ -1546,7 +1546,7 @@ user_id: user?.data.id,
                             </View>
 
                             <View style={{marginTop: 5, marginHorizontal: 5}}>
-                              <Text style={{color:textColor}}>
+                              <Text style={{color: textColor}}>
                                 If enabled, the vcard won't show the branding of
                                 our website.
                               </Text>
@@ -1594,9 +1594,9 @@ user_id: user?.data.id,
                                 },
                               ]}>
                               <TextInput
-                                 style={{color:textColor}}
+                                style={{color: textColor}}
                                 value={customCSS}
-                                onChangeText={(txt)=>setcustomCSS(txt)}
+                                onChangeText={txt => setcustomCSS(txt)}
                                 placeholder=""
                                 placeholderTextColor={textColor}
                                 multiline={true}
@@ -1648,9 +1648,9 @@ user_id: user?.data.id,
                                 },
                               ]}>
                               <TextInput
-                                 style={{color:textColor}}
+                                style={{color: textColor}}
                                 value={customJS}
-                                onChangeText={(txt)=>setcustomJS(txt)}
+                                onChangeText={txt => setcustomJS(txt)}
                                 placeholder=""
                                 placeholderTextColor={textColor}
                                 multiline={true}
@@ -1695,29 +1695,38 @@ user_id: user?.data.id,
                               numColumns={3}
                               data={CustomizationBtn}
                               keyExtractor={item => item.name.toString()}
-                              renderItem={({item,index}) => (
-                                <TouchableOpacity 
-
-                                onPress={()=>{
-                                  setCustomTheme(item.name)
-                                  setCustomIndex(index)
-                                }}
+                              renderItem={({item, index}) => (
+                                <TouchableOpacity
+                                  onPress={() => {
+                                    setCustomTheme(item.name);
+                                    setCustomIndex(index);
+                                  }}
                                   style={{
                                     height: 43,
                                     marginVertical: 10,
                                     borderRadius: 5,
-                                    borderWidth:CustomIndex ===index?0:1,
+                                    borderWidth: CustomIndex === index ? 0 : 1,
                                     width: '32%',
-                              marginHorizontal:2,
+                                    marginHorizontal: 2,
                                     alignItems: 'center',
                                     justifyContent: 'center',
 
                                     backgroundColor:
-                                      theme === 'light' ?  CustomIndex === index ?'#e5e7eb' :'#fff' :  CustomIndex !== index ?'#333':'#e5e7eb',
+                                      theme === 'light'
+                                        ? CustomIndex === index
+                                          ? '#e5e7eb'
+                                          : '#fff'
+                                        : CustomIndex !== index
+                                        ? '#333'
+                                        : '#e5e7eb',
                                   }}>
                                   <Text
                                     style={{
-                                      color: CustomIndex === index && theme === 'dark'?'#333':textColor,
+                                      color:
+                                        CustomIndex === index &&
+                                        theme === 'dark'
+                                          ? '#333'
+                                          : textColor,
                                       fontSize: 16,
                                       fontWeight: '600',
                                     }}>
@@ -1750,11 +1759,10 @@ user_id: user?.data.id,
                               Logo
                             </Text>
                           </View>
-                          <TouchableOpacity 
-
-                          onPress={()=>{
-                            openLogoImage()
-                          }}
+                          <TouchableOpacity
+                            onPress={() => {
+                              openLogoImage();
+                            }}
                             style={{
                               borderWidth: 1,
                               marginTop: 5,
@@ -1763,14 +1771,22 @@ user_id: user?.data.id,
                               height: hp(20),
                               borderColor: 'grey',
                             }}>
-                            {Logo ==='' && 
-                            <Text style={{fontSize: 16, color: textColor}}>
-                              Drop files here to upload
-                            </Text>}
-                            {Logo !== '' &&
-                            
-                            <Image  source={{uri:Logo}}   style={{ height:150,width:150,borderRadius:10}} resizeMode='contain' />}
-
+                            {Logo === '' && (
+                              <Text style={{fontSize: 16, color: textColor}}>
+                                Drop files here to upload
+                              </Text>
+                            )}
+                            {Logo !== '' && (
+                              <Image
+                                source={{uri: Logo}}
+                                style={{
+                                  height: 150,
+                                  width: 150,
+                                  borderRadius: 10,
+                                }}
+                                resizeMode="contain"
+                              />
+                            )}
                           </TouchableOpacity>
                           <View style={{marginHorizontal: 10}}>
                             <Text style={{color: textColor}}>
@@ -1803,10 +1819,9 @@ user_id: user?.data.id,
                             </Text>
                           </View>
                           <TouchableOpacity
-
-                          onPress={()=>{
-                            openFaviconImage()
-                          }}
+                            onPress={() => {
+                              openFaviconImage();
+                            }}
                             style={{
                               borderWidth: 1,
                               marginTop: 5,
@@ -1815,15 +1830,22 @@ user_id: user?.data.id,
                               height: hp(20),
                               borderColor: 'grey',
                             }}>
-                                                        {Favicon ==='' && 
-                            <Text style={{fontSize: 16, color: textColor}}>
-                              Drop files here to upload
-                            </Text>}
-                            {Favicon !== '' &&
-                            
-                            <Image  source={{uri:Favicon}}   style={{ height:150,width:150,borderRadius:10}} resizeMode='contain' />}
-
-  
+                            {Favicon === '' && (
+                              <Text style={{fontSize: 16, color: textColor}}>
+                                Drop files here to upload
+                              </Text>
+                            )}
+                            {Favicon !== '' && (
+                              <Image
+                                source={{uri: Favicon}}
+                                style={{
+                                  height: 150,
+                                  width: 150,
+                                  borderRadius: 10,
+                                }}
+                                resizeMode="contain"
+                              />
+                            )}
                           </TouchableOpacity>
                           <View style={{marginHorizontal: 10}}>
                             <Text style={{color: textColor}}>
@@ -1902,7 +1924,7 @@ user_id: user?.data.id,
                                     <TouchableOpacity
                                       onPress={() => {
                                         setselected(index);
-                                        setBackground(item.color)
+                                        setBackground(item.color);
                                       }}
                                       style={{
                                         borderWidth: 3,
@@ -2341,14 +2363,22 @@ user_id: user?.data.id,
                                     flexDirection: 'row',
                                     justifyContent: 'center',
                                   }}>
-                                                                  {CustImage ==='' && 
-                            <Text style={{fontSize: 16, color: textColor}}>
-                              Drop files here to upload
-                            </Text>}
-                            {CustImage !== '' &&
-                            
-                            <Image  source={{uri:CustImage}}   style={{ height:'90%',width:'95%',padding:5}} /> }
-  
+                                  {CustImage === '' && (
+                                    <Text
+                                      style={{fontSize: 16, color: textColor}}>
+                                      Drop files here to upload
+                                    </Text>
+                                  )}
+                                  {CustImage !== '' && (
+                                    <Image
+                                      source={{uri: CustImage}}
+                                      style={{
+                                        height: '90%',
+                                        width: '95%',
+                                        padding: 5,
+                                      }}
+                                    />
+                                  )}
                                 </TouchableOpacity>
                               </>
                             )}
@@ -2410,8 +2440,8 @@ user_id: user?.data.id,
                               placeholder={'Select item'}
                               value={FontFamilyValue}
                               onChange={item => {
-                               setFontFamily(item.label)
-                               setFontFamilyValue(item.value)
+                                setFontFamily(item.label);
+                                setFontFamilyValue(item.value);
                               }}
                             />
                           </View>
@@ -2449,10 +2479,10 @@ user_id: user?.data.id,
                               },
                             ]}>
                             <TextInput
-                               style={{color:textColor}}
-                            value={FontSize}
-                            onChangeText={(txt)=>setFontSize(txt)}
-                            style={{color:textColor}}
+                              style={{color: textColor}}
+                              value={FontSize}
+                              onChangeText={txt => setFontSize(txt)}
+                              style={{color: textColor}}
                               placeholder="font-size"
                               placeholderTextColor={textColor}
                             />
@@ -2490,16 +2520,18 @@ user_id: user?.data.id,
                               </Text>
                             </View>
                             <TouchableOpacity
-
-                            onPress={()=>{
-                              navigation.navigate(ScreenNameEnum.CREATE_PIXEL)
-                            }}
+                              onPress={() => {
+                                navigation.navigate(
+                                  ScreenNameEnum.CREATE_PIXEL,
+                                );
+                              }}
                               style={{
                                 flexDirection: 'row',
                                 alignItems: 'center',
                                 marginHorizontal: 10,
                                 marginTop: 10,
-                                backgroundColor:theme==='light'?'#f0f0f0':'#333',
+                                backgroundColor:
+                                  theme === 'light' ? '#f0f0f0' : '#333',
                                 width: '35%',
                                 height: 40,
                                 paddingHorizontal: 5,
@@ -2528,7 +2560,6 @@ user_id: user?.data.id,
                               marginTop: 10,
                             }}>
                             <FlatList
-                            
                               data={PixelList}
                               renderItem={({item, index}) => (
                                 <View
@@ -2536,16 +2567,19 @@ user_id: user?.data.id,
                                     flexDirection: 'row',
 
                                     height: 45,
-                                    
+
                                     backgroundColor: bgColor,
                                   }}>
-                                     <CheckBox
-                                      style={{color:textColor,marginLeft:10}}
-            disabled={false}
-            value={selectedItems.some(selectedItem => selectedItem.name === item.name)}
-            onValueChange={() => handleSelection(index)}
-          />
-                               
+                                  <CheckBox
+                                    style={{color: textColor, marginLeft: 10}}
+                                    disabled={false}
+                                    value={selectedItems.some(
+                                      selectedItem =>
+                                        selectedItem.name === item.name,
+                                    )}
+                                    onValueChange={() => handleSelection(index)}
+                                  />
+
                                   <Text
                                     style={{
                                       fontSize: 18,
@@ -2560,7 +2594,6 @@ user_id: user?.data.id,
                                       fontSize: 16,
                                       fontWeight: '600',
                                       color: textColor,
-                                      
                                     }}>
                                     - {item.type}
                                   </Text>
@@ -2576,7 +2609,7 @@ user_id: user?.data.id,
               </View>
               <TouchableOpacity
                 onPress={() => {
-                EditVcards()
+                  EditVcards();
                 }}
                 style={{
                   marginHorizontal: 20,
@@ -2630,7 +2663,7 @@ user_id: user?.data.id,
                 marginHorizontal: 20,
                 borderRadius: 5,
                 flexDirection: 'row',
-                backgroundColor:theme==='light'?'#4b5563':'#575757',
+                backgroundColor: theme === 'light' ? '#4b5563' : '#575757',
                 height: hp(6),
               }}>
               <AntDesign name="pluscircle" size={25} color={'#fff'} />
@@ -2668,7 +2701,9 @@ user_id: user?.data.id,
                 renderItem={({item, index}) => (
                   <>
                     <TouchableOpacity
-                      onPress={() => {openBlockDetails(item,index)}}
+                      onPress={() => {
+                        openBlockDetails(item, index);
+                      }}
                       style={[
                         styles.nameDiv,
                         {
@@ -2676,7 +2711,7 @@ user_id: user?.data.id,
                           height: hp(8),
                           alignItems: 'center',
                           flexDirection: 'row',
-                          backgroundColor: theme==='light'?'#fff':'#333',
+                          backgroundColor: theme === 'light' ? '#fff' : '#333',
                         },
                       ]}>
                       <Text
@@ -2691,15 +2726,13 @@ user_id: user?.data.id,
                       <Entypo name="plus" size={30} color={'blue'} />
                     </TouchableOpacity>
                     {BlockListIndex === index && showBlockListDetails && (
-                      <View style={{marginVertical:10}}>
+                      <View style={{marginVertical: 10}}>
                         <View style={{backgroundColor: bgColor}}>
                           <View
                             style={{
-                             
-                              marginHorizontal:5,
+                              marginHorizontal: 5,
                               marginTop: 10,
                             }}>
-                           
                             <Text
                               style={{
                                 fontSize: 18,
@@ -2731,7 +2764,7 @@ user_id: user?.data.id,
                                 placeholderTextColor={textColor}
                                 placeholder={item.key}
                                 value={BlockName}
-                                onChangeText={(txt)=>setBlockName(txt)}
+                                onChangeText={txt => setBlockName(txt)}
                                 style={{
                                   fontSize: 14,
                                   paddingHorizontal: 10,
@@ -2742,11 +2775,9 @@ user_id: user?.data.id,
                           </View>
                           <View
                             style={{
-                            
-                              marginHorizontal:5,
+                              marginHorizontal: 5,
                               marginTop: 10,
                             }}>
-                       
                             <Text
                               style={{
                                 fontSize: 18,
@@ -2772,7 +2803,8 @@ user_id: user?.data.id,
                             <View
                               style={{
                                 justifyContent: 'center',
-                                backgroundColor:theme==='light'?'#f0f0f0':'#333',
+                                backgroundColor:
+                                  theme === 'light' ? '#f0f0f0' : '#333',
                                 alignItems: 'center',
                                 height: '100%',
                                 width: Btnurl === '@' ? '15%' : '60%',
@@ -2787,9 +2819,8 @@ user_id: user?.data.id,
                               </Text>
                             </View>
                             <TextInput
-
-                            value={blockValueupdated}
-                            onChangeText={(txt)=>setblockValueupdated(txt)}
+                              value={blockValueupdated}
+                              onChangeText={txt => setblockValueupdated(txt)}
                               placeholderTextColor={textColor}
                               placeholder={item.value}
                               style={{
@@ -2801,96 +2832,99 @@ user_id: user?.data.id,
                             />
                           </View>
 
-
-                          <View style={{flexDirection: 'row',
-                          alignItems:'center',
-                          marginTop:20}}>
-                              <Switch
-                                trackColor={{false: '#767577', true: '#81b0ff'}}
-                                thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-                                ios_backgroundColor="#3e3e3e"
-                                onValueChange={toggleSwitch}
-                                value={isEnabled}
-                              />
-                              <Text
-                                style={{
-                                  fontSize: 18,
-                                  fontWeight: '600',
-                                  color: textColor,
-                                }}>
-                               Open link in new tab
-                              </Text>
-                            </View>
-                          <View style={{flexDirection: 'row',
-                          alignItems:'center',
-                          marginTop:20}}>
-                              <Switch
-                                trackColor={{false: '#767577', true: '#81b0ff'}}
-                                thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-                                ios_backgroundColor="#3e3e3e"
-                                onValueChange={toggleSwitch}
-                                value={isEnabled}
-                              />
-                              <Text
-                                style={{
-                                  fontSize: 18,
-                                  fontWeight: '600',
-                                  color: textColor,
-                                }}>
+                          <View
+                            style={{
+                              flexDirection: 'row',
+                              alignItems: 'center',
+                              marginTop: 20,
+                            }}>
+                            <Switch
+                              trackColor={{false: '#767577', true: '#81b0ff'}}
+                              thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+                              ios_backgroundColor="#3e3e3e"
+                              onValueChange={toggleSwitch}
+                              value={isEnabled}
+                            />
+                            <Text
+                              style={{
+                                fontSize: 18,
+                                fontWeight: '600',
+                                color: textColor,
+                              }}>
+                              Open link in new tab
+                            </Text>
+                          </View>
+                          <View
+                            style={{
+                              flexDirection: 'row',
+                              alignItems: 'center',
+                              marginTop: 20,
+                            }}>
+                            <Switch
+                              trackColor={{false: '#767577', true: '#81b0ff'}}
+                              thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+                              ios_backgroundColor="#3e3e3e"
+                              onValueChange={toggleSwitch}
+                              value={isEnabled}
+                            />
+                            <Text
+                              style={{
+                                fontSize: 18,
+                                fontWeight: '600',
+                                color: textColor,
+                              }}>
                               Block is active
-                              </Text>
-                            </View>
+                            </Text>
+                          </View>
 
-                            <TouchableOpacity
-              onPress={() => {
-                Block_edit(item)
-              }}
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginTop:20,
-                marginHorizontal: 20,
-                borderRadius: 5,
-          
-                backgroundColor:theme ==='light'?'#4b5563':'#333',
-                height: hp(5),
-              }}>
-             
-              <Text
-                style={{
-                  fontSize: 18,
-                  color: '#fff',
-                  fontWeight: '600',
-              
-                }}>
-                Update
-              </Text>
-            </TouchableOpacity>
-                            <TouchableOpacity
-              onPress={() => {
-                Delete_Block(item.id)
-              }}
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginTop:20,
-                marginHorizontal: 20,
-                borderRadius: 5,
-          
-                backgroundColor:theme ==='light'?'#4b5563':'#333',
-                height: hp(5),
-              }}>
-             
-              <Text
-                style={{
-                  fontSize: 18,
-                  color: '#fff',
-                  fontWeight: '600',
-              
-                }}>
-                Delete
-              </Text>
-            </TouchableOpacity>
+                          <TouchableOpacity
+                            onPress={() => {
+                              Block_edit(item);
+                            }}
+                            style={{
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              marginTop: 20,
+                              marginHorizontal: 20,
+                              borderRadius: 5,
+
+                              backgroundColor:
+                                theme === 'light' ? '#4b5563' : '#333',
+                              height: hp(5),
+                            }}>
+                            <Text
+                              style={{
+                                fontSize: 18,
+                                color: '#fff',
+                                fontWeight: '600',
+                              }}>
+                              Update
+                            </Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            onPress={() => {
+                              Delete_Block(item.id);
+                            }}
+                            style={{
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              marginTop: 20,
+                              marginHorizontal: 20,
+                              borderRadius: 5,
+
+                              backgroundColor:
+                                theme === 'light' ? '#4b5563' : '#333',
+                              height: hp(5),
+                            }}>
+                            <Text
+                              style={{
+                                fontSize: 18,
+                                color: '#fff',
+                                fontWeight: '600',
+                              }}>
+                              Delete
+                            </Text>
+                          </TouchableOpacity>
                         </View>
                       </View>
                     )}
@@ -3033,12 +3067,12 @@ user_id: user?.data.id,
                                 width: '100%',
                               }}>
                               <TextInput
-                                   value={name}
-                                   onChangeText={(txt)=>setName(txt)}
+                                value={name}
+                                onChangeText={txt => setName(txt)}
                                 placeholderTextColor={textColor}
                                 placeholder=""
                                 style={{
-                                  width:'100%',
+                                  width: '100%',
                                   fontSize: 14,
                                   paddingHorizontal: 10,
                                   color: textColor,
@@ -3097,14 +3131,14 @@ user_id: user?.data.id,
                               </Text>
                             </View>
                             <TextInput
-                            value={BlockValue}
-                            onChangeText={(txt)=>setBlockValue(txt)}
+                              value={BlockValue}
+                              onChangeText={txt => setBlockValue(txt)}
                               placeholderTextColor={textColor}
                               placeholder=""
                               style={{
                                 fontSize: 14,
                                 height: '100%',
-                                width:'100%',
+                                width: '100%',
                                 color: textColor,
                               }}
                             />
@@ -3137,7 +3171,7 @@ user_id: user?.data.id,
                             </TouchableOpacity>
                             <TouchableOpacity
                               onPress={() => {
-                                Create_Block()
+                                Create_Block();
                               }}
                               style={{
                                 paddingHorizontal: 20,
@@ -3341,7 +3375,6 @@ const GradientPresetData = [
   },
 ];
 
-
 const DropDown = [
   {label: 'Gradient Preset', value: '1'},
   {label: 'Color', value: '2'},
@@ -3350,44 +3383,44 @@ const DropDown = [
 ];
 
 const Font_Family = [
-{
-  label:'Arial',
-  value: '1'
-},
-{
-  label:'Verdana',
-  value: '2'
-},
-{
-  label:'Helvetica',
-  value: '3'
-},
-{
-  label:'Times New Roman',
-  value: '4'
-},
-{
-  label:'Inter',
-  value: '5'
-},
-{
-  label:'Lato',
-  value: '6'
-},
-{
-  label:'Open Sans',
-  value: '7'
-},
-{
-  label:'Montserrat',
-  value: '8'
-},
-{
-  label:'Kerla',
-  value: '9'
-},
-{
-  label:'Incosolata',
-  value: '10'
-},
-]
+  {
+    label: 'Arial',
+    value: '1',
+  },
+  {
+    label: 'Verdana',
+    value: '2',
+  },
+  {
+    label: 'Helvetica',
+    value: '3',
+  },
+  {
+    label: 'Times New Roman',
+    value: '4',
+  },
+  {
+    label: 'Inter',
+    value: '5',
+  },
+  {
+    label: 'Lato',
+    value: '6',
+  },
+  {
+    label: 'Open Sans',
+    value: '7',
+  },
+  {
+    label: 'Montserrat',
+    value: '8',
+  },
+  {
+    label: 'Kerla',
+    value: '9',
+  },
+  {
+    label: 'Incosolata',
+    value: '10',
+  },
+];

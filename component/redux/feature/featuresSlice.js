@@ -11,15 +11,16 @@ const initialState = {
   Domainlists: null,
   VcardList:null,
   ProjectList:null,
+  DownloadCardData:null,
   BlockList:null
 };
   
 
-// register
+// dashboard
 export const dashboard = createAsyncThunk(
   'dashboard',
   async (params, thunkApi) => {
-
+console.log('dashboard called=>>>>>',params);
     try {
       const response = await API.get(
         `/vcards-dashboard?user_id=${params.user_id}`,
@@ -52,13 +53,12 @@ export const dashboard = createAsyncThunk(
 );
 
 // create Vcard
-export const CreateCard = createAsyncThunk(
-  'CreateCard',
+export const Create_Card = createAsyncThunk(
+  'Create_Card',
   async (params, thunkApi) => {
-
+console.log('create_vcards=>>>>>>>>>',params);
     try {
-      const response = await API.get(
-        '/vcards-store',
+      const response = await API.post('/vcards-store',
         params.data
         ,
         {
@@ -73,9 +73,27 @@ export const CreateCard = createAsyncThunk(
         response.data.status,
       );
 
-      if (response.data.status) {
-        // params.navigation.navigate(ScreenNameEnum.LOGIN_SCREEN);
-        console.log('User CreateCard Succesfuly');
+      if (response.data.status) {       
+         params.navigation.navigate(ScreenNameEnum.VCARD_SCREEN);
+         Alert.alert(
+          'Success!',
+          'Card created successfully.',
+          [
+            { text: 'OK',  },
+          ],
+          { cancelable: false }
+        );
+      }
+
+      if(response.data.status === false){
+        Alert.alert(
+          'Failed!',
+          `Card created Failed.${response.data.message}`,
+          [
+            { text: 'OK',  },
+          ],
+          { cancelable: false }
+        );
       }
       return response.data.data;
     } catch (error) {
@@ -324,7 +342,7 @@ export const PixlsList = createAsyncThunk(
       });
 
       console.log(
-        '🚀 ~ file: CreateCard.js:12 ~ PixlsList ~ response:',
+        '🚀 ~ file: PixlsList.js:12 ~ PixlsList ~ response:',
         response.data.status,
       );
 
@@ -676,6 +694,36 @@ console.log('Block_Edit=>>>>>>>>>>',params);
   },
 );
 
+// download Vcard
+export const Download_VCard = createAsyncThunk(
+  'Download_VCard',
+  async (params, thunkApi) => {
+
+    try {
+      const response = await API.get(`/vcards-download?user_id=${params.user_id}`, {
+        headers: {
+          Authorization: `Bearer ${params.authToken}`,
+        },
+      });
+
+      console.log(
+        '🚀 ~ file: Download_VCard.js:12 ~ Download_VCard ~ response:',
+        response.data.status,
+      );
+
+      if (response.data.status) {
+        // params.navigation.navigate(ScreenNameEnum.LOGIN_SCREEN);
+       
+      }
+      return response.data.data;
+    } catch (error) {
+      console.log('🚀 ~ file: Download_VCard.js:16 ~ Download_VCard ~ error:', error);
+
+      return thunkApi.rejectWithValue(error);
+    }
+  },
+);
+
 const FeatureSlice = createSlice({
   name: 'featureSlice',
   initialState,
@@ -823,6 +871,22 @@ const FeatureSlice = createSlice({
       
     });
     builder.addCase(CreatePixel.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+    });
+    //vcards create 
+    builder.addCase(Create_Card.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(Create_Card.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+      
+      
+    });
+    builder.addCase(Create_Card.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;
@@ -995,6 +1059,25 @@ const FeatureSlice = createSlice({
       state.isError = true;
       state.isSuccess = false;
     });
+
+    //download vcard
+    builder.addCase(Download_VCard.pending, state => {
+      state.isLoading = true;
+    });
+    builder.addCase(Download_VCard.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.isError = false;
+      state.DownloadCardData = action.payload;
+    
+
+    });
+    builder.addCase(Download_VCard.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+    });
+
   },
 });
 

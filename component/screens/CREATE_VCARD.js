@@ -26,10 +26,12 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {changeTheme} from '../redux/feature/ThemeSlice';
-import {CreateCard} from '../redux/feature/featuresSlice';
+import { Create_Card} from '../redux/feature/featuresSlice';
 
+import Loader from '../Loader';
 export default function CREATE_VCARD() {
   const navigation = useNavigation();
+  const isLoading= useSelector (state=> state.feature.isLoading); 
   const theme = useSelector(state => state.theme.data);
   const [urlAlias, setUrlAlias] = useState('');
   const [Name, setName] = useState();
@@ -55,14 +57,16 @@ export default function CREATE_VCARD() {
       },
       authToken: user?.data.token,
       navigation: navigation,
+      user_id: user?.data.id,
     };
 
-    dispatch(CreateCard(params));
+    dispatch(Create_Card(params));
   };
 
   return (
     <View
       style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
+      {isLoading ? <Loader /> : null}
       <ScrollView
         style={{paddingHorizontal: 5}}
         showsVerticalScrollIndicator={false}>
