@@ -34,6 +34,7 @@ import {Vcard_delete, dashboard} from '../redux/feature/featuresSlice';
 import Loader from '../Loader';
 import {check, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
+import { heightPercent, widthPrecent } from '../config/responsiveScreen';
 export default function Home_Screen() {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -252,28 +253,27 @@ export default function Home_Screen() {
 alignItems:'center',
               marginHorizontal: 10,
               backgroundColor: bgColor,
-              height:hp(8),
-
-             paddingHorizontal:5
-              
-            }}>
+              height:heightPercent(8),
+   }}>
             <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'center',
                 alignItems: 'center',
                 height:45,
-             
+                borderWidth:1,
+                paddingHorizontal:5,
+                width:'50%'
               }}>
-              <FontAwesome name="vcard" size={25} color={textColor} />
+              <FontAwesome name="vcard" size={20} color={textColor} />
               <Text
                 style={{
                   marginLeft: 10,
                   fontWeight: '600',
-                  fontSize: 20,
+                  fontSize:18,
                   color: textColor,
                 }}>
-                LETEST VCARDS
+                LATEST VCARDS
               </Text>
             </View>
 
@@ -284,7 +284,8 @@ alignItems:'center',
               style={{
                 flexDirection: 'row',
                 borderWidth: 1,
-height:45,
+                height:45,
+                width:'45%',
                 alignItems: 'center',
                 justifyContent: 'center',
                 borderColor: '#ed2f95',
@@ -307,41 +308,40 @@ height:45,
         <View
           style={{
             backgroundColor: bgColor,
-
-            height: 45,
-            marginHorizontal: 10,
+                height: 45,
+                paddingHorizontal:20,
             flexDirection: 'row',
             borderBottomWidth: 2,
             borderTopWidth: 2,
             borderColor: '#f0f0f0',
+            
           }}>
           <View
             style={{
-              width: '70%',
-              justifyContent: 'center',
-
-              paddingHorizontal: 10,
+           width:widthPrecent(60),
+           justifyContent:'center',
+           
             }}>
             <Text style={{fontSize: 18, color: textColor}}>Name</Text>
           </View>
           <View
             style={{
-              width: '15%',
+              width:widthPrecent(15),
               justifyContent: 'center',
-              alignItems: 'center',
+             
             }}>
-            <Text style={{fontSize: 18, color: textColor}}>Stats</Text>
+            <Text style={{fontSize: 16, color: textColor}}>Stats</Text>
           </View>
           <View
             style={{
-              width: '15%',
+              width:widthPrecent(15),
               justifyContent: 'center',
-              alignItems: 'center',
+             
             }}>
-            <Text style={{fontSize: 18, color: textColor}}>Action</Text>
+            <Text style={{fontSize: 16, color: textColor}}>Action</Text>
           </View>
         </View>
-        <View>
+        <View style={{flex:1}}>
           {VcardList && (
             <FlatList
               data={VcardList}
@@ -350,7 +350,7 @@ height:45,
                   <View
                     onPress={() => {}}
                     style={{
-                      height: hp(10),
+                      height:heightPercent(12),
                       shadowColor: '#000',
                       shadowOffset: {
                         width: 0,
@@ -363,14 +363,15 @@ height:45,
                       borderRadius: 10,
                       backgroundColor: bgColor,
                       alignItems: 'center',
-
                       margin: hp(1),
                       flexDirection: 'row',
                       paddingHorizontal: 10,
                     }}>
                     <View
                       style={{
-                        width: '18%',
+                        width:widthPrecent(18) ,
+                       
+                        alignItems:'center'
                       }}>
                       <Image
                         source={{uri: item?.logo?.url}}
@@ -379,10 +380,13 @@ height:45,
                     </View>
                     <View
                       style={{
-                        width: '42%',
+                        width:widthPrecent(40),
+                      
+                        height:heightPercent(8)
                       }}>
                       <Text
                         style={{
+                          marginLeft:5,
                           fontSize: 20,
                           fontWeight: '500',
                           color: textColor,
@@ -398,7 +402,10 @@ height:45,
                             justifyContent: 'center',
                             borderColor: theme == 'light' ? 'blue' : '#fff',
                             borderRadius: 5,
-                            width: '50%',
+                            width:'50%',
+                            marginLeft:10,
+                            marginTop:5
+                            
                           }}>
                           <Text style={{color: textColor}}>
                             {item.project_data?.name.substring(0, 8)}
@@ -409,10 +416,12 @@ height:45,
 
                     <View
                       style={{
-                        width: '35%',
+                        width: widthPrecent(35),
                         justifyContent: 'space-between',
                         paddingHorizontal: 5,
                         flexDirection: 'row',
+                        height:heightPercent(8),
+                        alignItems:'center'
                       }}>
                       <TouchableOpacity
                         style={{
@@ -420,7 +429,9 @@ height:45,
                           alignItems: 'center',
                           padding: 5,
                           borderRadius: 5,
-                          width: '50%',
+                          width:50,
+                 
+                          height:50
                         }}>
                         <FontAwesome5
                           name="chart-bar"
@@ -443,7 +454,8 @@ height:45,
                         }}
                         style={{
                           flexDirection: 'row',
-                          width: '50%',
+                          width:50,
+                          height:50,
                           borderWidth: 1,
                           alignItems: 'center',
                           padding: 5,

@@ -7,7 +7,7 @@ import {
   ScrollView,
   StyleSheet,
   Alert,
-  Modal
+  Modal,
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useNavigation, useIsFocused} from '@react-navigation/native';
@@ -30,7 +30,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {changeTheme} from '../redux/feature/ThemeSlice';
 import {DomainList, Domain_delete} from '../redux/feature/featuresSlice';
 import Loader from '../Loader';
-import ScreenNameEnum from '../navigation/routes/screenName.enum'
+import ScreenNameEnum from '../navigation/routes/screenName.enum';
+import {heightPercent, widthPrecent} from '../config/responsiveScreen';
 
 export default function CUSTOMDOMAIN_SCREEN() {
   const navigation = useNavigation();
@@ -39,8 +40,8 @@ export default function CUSTOMDOMAIN_SCREEN() {
   const user = useSelector(state => state.auth.userData);
   const [viewDomainData, setViewDomainData] = useState([]);
 
-  const [ModalVisible,setModalVisible]=useState(false)
-  const isLoading = useSelector(state => state.feature.isLoading); 
+  const [ModalVisible, setModalVisible] = useState(false);
+  const isLoading = useSelector(state => state.feature.isLoading);
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
 
@@ -64,11 +65,11 @@ export default function CUSTOMDOMAIN_SCREEN() {
     dispatch(changeTheme(theme == 'light' ? 'dark' : 'light'));
   };
 
-  const DomainDelete =(id)=>{
+  const DomainDelete = id => {
     const params = {
       user_id: user?.data.id,
       authToken: user?.data.token,
-      id:id
+      id: id,
     };
 
     Alert.alert(
@@ -86,18 +87,14 @@ export default function CUSTOMDOMAIN_SCREEN() {
           },
         },
       ],
-      { cancelable: false }
+      {cancelable: false},
     );
-
-
-    
-  }
+  };
 
   return (
     <View
       style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
-     
-     {isLoading ? <Loader /> : null}
+      {isLoading ? <Loader /> : null}
       <ScrollView>
         <View
           style={{
@@ -183,6 +180,8 @@ export default function CUSTOMDOMAIN_SCREEN() {
               justifyContent: 'center',
               borderColor: '#ed2f95',
               paddingHorizontal: 10,
+              height: 45,
+              width: wp(60),
             }}>
             <AntDesign name="pluscircle" size={25} color={'#ed2f95'} />
             <Text
@@ -246,43 +245,49 @@ export default function CUSTOMDOMAIN_SCREEN() {
             </Text>
           </View>
         )}
-        <View style={{backgroundColor:bgColor,
-          flex:1,shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.25,
-          shadowRadius: 3.84,
-          
-          elevation: 5,
-          marginTop:10, marginHorizontal: 10, borderRadius: 5}}>
+        <View
+          style={{
+            backgroundColor: bgColor,
+            flex: 1,
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+
+            elevation: 5,
+            marginTop: 10,
+            marginHorizontal: 10,
+            borderRadius: 5,
+          }}>
           <View
             style={{
-              shadowColor: "#000",
+              shadowColor: '#000',
               shadowOffset: {
                 width: 0,
                 height: 2,
               },
               shadowOpacity: 0.25,
               shadowRadius: 3.84,
-              
+
               elevation: 5,
               height: 45,
               justifyContent: 'center',
               paddingHorizontal: 10,
-            backgroundColor:bgColor,
-            borderTopRightRadius:5,
-            borderTopLeftRadius:5
+              backgroundColor: bgColor,
+              borderTopRightRadius: 5,
+              borderTopLeftRadius: 5,
             }}>
-            <Text style={{fontSize: 18, color: textColor, fontWeight: '700'}}>
+            <Text style={{fontSize: 16, color: textColor, fontWeight: '700'}}>
               Connect Custom Domain List
             </Text>
           </View>
 
           {DomainData !== null && (
             <>
-              <View style={{flex: 1}}>
+              <View style={{flex: 1, marginTop: 20}}>
                 <FlatList
                   data={DomainData}
                   renderItem={({item, index}) => (
@@ -290,32 +295,31 @@ export default function CUSTOMDOMAIN_SCREEN() {
                       <View
                         style={{
                           backgroundColor: bgColor,
-                         
-                          height: hp(28),
-                          marginHorizontal: 10,
-                          marginVertical: 10,
+                          height: heightPercent(28),
+                          padding: 5,
+                          margin: 10,
+
                           borderRadius: 5,
-                          shadowColor: "#000",
+                          shadowColor: '#000',
                           shadowOffset: {
                             width: 0,
                             height: 2,
                           },
                           shadowOpacity: 0.25,
                           shadowRadius: 3.84,
-                          
+
                           elevation: 5,
                         }}>
                         <View
                           style={{
                             flexDirection: 'row',
                             marginHorizontal: 10,
-
                             alignItems: 'center',
                           }}>
                           <View style={{width: '10%'}}>
                             <Text
                               style={{
-                                fontSize: 18,
+                                fontSize: 16,
                                 fontWeight: '700',
                                 color: textColor,
                               }}>
@@ -325,7 +329,7 @@ export default function CUSTOMDOMAIN_SCREEN() {
                           <View style={{width: '85%'}}>
                             <Text
                               style={{
-                                fontSize: 18,
+                                fontSize: 16,
                                 fontWeight: '500',
                                 color: textColor,
                               }}>
@@ -337,13 +341,13 @@ export default function CUSTOMDOMAIN_SCREEN() {
                           style={{
                             flexDirection: 'row',
                             marginHorizontal: 10,
-
+                            marginTop: 5,
                             alignItems: 'center',
                           }}>
                           <View style={{width: '30%'}}>
                             <Text
                               style={{
-                                fontSize: 18,
+                                fontSize: 16,
                                 fontWeight: '700',
                                 color: textColor,
                               }}>
@@ -353,7 +357,7 @@ export default function CUSTOMDOMAIN_SCREEN() {
                           <View style={{width: '45%'}}>
                             <Text
                               style={{
-                                fontSize: 18,
+                                fontSize: 16,
                                 fontWeight: '500',
                                 color: textColor,
                               }}>
@@ -366,11 +370,12 @@ export default function CUSTOMDOMAIN_SCREEN() {
                             flexDirection: 'row',
                             marginHorizontal: 10,
                             alignItems: 'center',
+                            marginTop: 5,
                           }}>
                           <View style={{width: '45%'}}>
                             <Text
                               style={{
-                                fontSize: 18,
+                                fontSize: 16,
                                 fontWeight: '700',
                                 color: textColor,
                               }}>
@@ -380,7 +385,7 @@ export default function CUSTOMDOMAIN_SCREEN() {
                           <View style={{width: '85%'}}>
                             <Text
                               style={{
-                                fontSize: 18,
+                                fontSize: 16,
                                 fontWeight: '500',
                                 color: textColor,
                               }}>
@@ -394,11 +399,12 @@ export default function CUSTOMDOMAIN_SCREEN() {
                             marginHorizontal: 10,
                             height: 45,
                             alignItems: 'center',
+                            marginTop: 5,
                           }}>
-                          <View style={{width: '45%'}}>
+                          <View style={{width: '45%', marginTop: 5}}>
                             <Text
                               style={{
-                                fontSize: 18,
+                                fontSize: 16,
                                 fontWeight: '700',
                                 color: textColor,
                               }}>
@@ -408,7 +414,7 @@ export default function CUSTOMDOMAIN_SCREEN() {
                           <View style={{width: '50%'}}>
                             <Text
                               style={{
-                                fontSize: 18,
+                                fontSize: 16,
                                 fontWeight: '500',
                                 color: textColor,
                               }}>
@@ -420,25 +426,24 @@ export default function CUSTOMDOMAIN_SCREEN() {
                           style={{
                             flexDirection: 'row',
                             justifyContent: 'space-around',
-                            marginTop: 10,
+                            marginTop: 15,
                           }}>
                           <TouchableOpacity
-
-                          onPress={()=>{
-                            setModalVisible(true)
-                            setViewDomainData(item)
-                          }}
+                            onPress={() => {
+                              setModalVisible(true);
+                              setViewDomainData(item);
+                            }}
                             style={{
                               backgroundColor: '#4b5563',
-                              width: '30%',
                               height: 45,
+                              width: 80,
                               borderRadius: 5,
                               alignItems: 'center',
                               justifyContent: 'center',
                             }}>
                             <Text
                               style={{
-                                fontSize: 18,
+                                fontSize: 16,
                                 color: '#fff',
                                 fontWeight: '600',
                               }}>
@@ -446,23 +451,22 @@ export default function CUSTOMDOMAIN_SCREEN() {
                             </Text>
                           </TouchableOpacity>
                           <TouchableOpacity
-
-                          onPress={()=>{
-                            navigation.navigate(ScreenNameEnum.Edit_Domain,{
-                              item:item
-                            })
-                          }}
+                            onPress={() => {
+                              navigation.navigate(ScreenNameEnum.Edit_Domain, {
+                                item: item,
+                              });
+                            }}
                             style={{
                               backgroundColor: '#17a2b8',
-                              width: '30%',
                               height: 45,
+                              width: 80,
                               borderRadius: 5,
                               alignItems: 'center',
                               justifyContent: 'center',
                             }}>
                             <Text
                               style={{
-                                fontSize: 18,
+                                fontSize: 16,
                                 color: '#fff',
                                 fontWeight: '600',
                               }}>
@@ -470,21 +474,20 @@ export default function CUSTOMDOMAIN_SCREEN() {
                             </Text>
                           </TouchableOpacity>
                           <TouchableOpacity
-
-                          onPress={()=>{
-                            DomainDelete(item.id)
-                          }}
+                            onPress={() => {
+                              DomainDelete(item.id);
+                            }}
                             style={{
                               backgroundColor: '#dc3545',
-                              width: '30%',
                               height: 45,
+                              width: 80,
                               borderRadius: 5,
                               alignItems: 'center',
                               justifyContent: 'center',
                             }}>
                             <Text
                               style={{
-                                fontSize: 18,
+                                fontSize: 16,
                                 color: '#fff',
                                 fontWeight: '600',
                               }}>
@@ -519,104 +522,113 @@ export default function CUSTOMDOMAIN_SCREEN() {
         </View>
 
         <Modal
-animationType="slide"
-transparent={false}
-visible={ModalVisible}
-onRequestClose={() => setModalVisible(false)}>
-   <View style={{flex:1,}}>
+          animationType="slide"
+          transparent={false}
+          visible={ModalVisible}
+          onRequestClose={() => setModalVisible(false)}>
+          <View style={{flex: 1}}>
             <TouchableOpacity
               onPress={() => {
                 setModalVisible(false);
               }}
               style={{
                 alignItems: 'flex-start',
-               marginVertical:10,
-                backgroundColor:'#f0f0f0',
-                padding:10,
-                width:'30%',
+                marginVertical: 10,
+                backgroundColor: '#f0f0f0',
+                padding: 10,
+                width:120,
                 height: 50,
                 justifyContent: 'center',
-                alignItems:'center',
+                alignItems: 'center',
                 borderRadius: 5,
                 marginHorizontal: 10,
                 marginTop: 20,
               }}>
-              <Text style={{fontSize: 18, color: textColor, fontWeight: '600'}}>
+              <Text style={{fontSize: 16, color: textColor, fontWeight: '600'}}>
                 Back to list
               </Text>
             </TouchableOpacity>
-            <View style={{marginHorizontal:10,marginBottom:10}}>
-              <Text style={{fontSize:18,fontWeight:'500',color:textColor}}>Show Connect Custom Domain
-</Text>
+            <View style={{height: 45, marginHorizontal: 20}}>
+              <Text style={{fontSize: 18, fontWeight: '500', color: textColor}}>
+                Show Connect Custom Domain
+              </Text>
             </View>
 
             <View
               style={{
-                borderWidth: 1,
-                height: hp(24.3),
+               
+                height: heightPercent(25),
                 marginHorizontal: 10,
-                borderBottomWidth: 0,
-                justifyContent:'center'
+
+                borderRadius: 5,
               }}>
-              <View
-                style={[
-                  styles.viewDiv,
-                  {
-                    backgroundColor: bgColor,
-                  },
-                ]}>
-                <Text style={[styles.viewTxt, {color: textColor}]}>ID</Text>
-                <Text style={[styles.viewTxt, {  fontWeight:'400',color: textColor,borderRightWidth:0,marginLeft:10,width:'52%'}]}>
-                  {viewDomainData.id}
-                </Text>
+            <View  
+                style={{flexDirection: 'row',
+                height:45,alignItems:'center',backgroundColor:'#f0f0f0',
+                justifyContent: 'space-between'}}>
+                <View style={{width: '50%',paddingHorizontal:20}}>
+                  <Text style={[{color: textColor, fontWeight: '500'}]}>
+                    ID
+                  </Text>
+                </View>
+                <View style={{width: '50%',paddingHorizontal:20}}>
+                  <Text
+                    style={{fontSize: 16, fontWeight: '400', color: textColor}}>
+                    {viewDomainData.id}
+                  </Text>
+                </View>
               </View>
-              <View
-                style={[
-                  styles.viewDiv,
-                  {
-                    backgroundColor: bgColor,
-                  },
-                ]}>
-               <Text style={[styles.viewTxt, {color: textColor}]}>
-               Domain or subdomain
-                </Text>
-                <Text style={[styles.viewTxt, {  fontWeight:'400',color: textColor,borderRightWidth:0,marginLeft:10,width:'52%'}]}>
-                  {viewDomainData.domain_or_subdomain}
-                </Text>
+            <View  
+                style={{flexDirection: 'row',
+                height:45,alignItems:'center',backgroundColor:'#fff',
+                justifyContent: 'space-between'}}>
+                <View style={{width: '50%',paddingHorizontal:20}}>
+                  <Text style={[{color: textColor, fontWeight: '500'}]}>
+                  Domain or subdomain
+                  </Text>
+                </View>
+                <View style={{width: '50%',paddingHorizontal:20}}>
+                  <Text
+                    style={{fontSize: 16, fontWeight: '400', color: textColor}}>
+                   {viewDomainData.domain_or_subdomain}
+                  </Text>
+                </View>
               </View>
-              <View
-                style={[
-                  styles.viewDiv,
-                  {
-                    backgroundColor: bgColor,
-                  },
-                ]}>
-             <Text style={[styles.viewTxt, {color: textColor}]}>
-             Custom Index Url
-                </Text>
-                <Text style={[styles.viewTxt, {  fontWeight:'400',color: textColor,borderRightWidth:0,marginLeft:10,width:'52%'}]}>
-                  {viewDomainData.custom_index_url}
-                </Text>
+            <View  
+                style={{flexDirection: 'row',
+                height:45,alignItems:'center',backgroundColor:'#f0f0f0',
+                justifyContent: 'space-between'}}>
+                <View style={{width: '50%',paddingHorizontal:20}}>
+                  <Text style={[{color: textColor, fontWeight: '500'}]}>
+                  Custom Index Url
+                  </Text>
+                </View>
+                <View style={{width: '50%',paddingHorizontal:20}}>
+                  <Text
+                    style={{fontSize: 16, fontWeight: '400', color: textColor}}>
+                   {viewDomainData.custom_index_url}
+                  </Text>
+                </View>
               </View>
-              <View
-                style={[
-                  styles.viewDiv,
-                  {
-                    backgroundColor: bgColor,
-                  },
-                ]}>
-             <Text style={[styles.viewTxt, {color: textColor}]}>
-             Custom 404 Not Found Url
-                </Text>
-                <Text style={[styles.viewTxt, {color: textColor,borderRightWidth:0,
-                  fontWeight:'400',
-                  marginLeft:10,width:'52%'}]}>
+            <View  
+                style={{flexDirection: 'row',
+                height:45,alignItems:'center',backgroundColor:'#fff',
+                justifyContent: 'space-between'}}>
+                <View style={{width: '50%',paddingHorizontal:20}}>
+                  <Text style={[{color: textColor, fontWeight: '500'}]}>
+                  Custom 404 Not Found Url
+                  </Text>
+                </View>
+                <View style={{width: '50%',paddingHorizontal:20}}>
+                  <Text
+                    style={{fontSize: 16, fontWeight: '400', color: textColor}}>
                   {viewDomainData.custom_404_not_found_url}
-                </Text>
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
-</Modal>
+        </Modal>
         <View style={{height: hp(10)}} />
       </ScrollView>
     </View>
@@ -626,21 +638,14 @@ onRequestClose={() => setModalVisible(false)}>
 const styles = StyleSheet.create({
   viewDiv: {
     flexDirection: 'row',
-    alignItems: 'center',
-
-
-height:50,
-    paddingHorizontal: 10,
-    borderBottomWidth: 1,
   },
   viewTxt: {
-   
-    fontSize:16,
+    fontSize: 16,
     fontWeight: '600',
-  paddingTop:10,
+    paddingTop: 10,
     width: '50%',
     borderRightWidth: 1,
-    height:55,
+    height: 55,
   },
   option: {
     backgroundColor: 'red',

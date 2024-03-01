@@ -29,6 +29,7 @@ import {changeTheme} from '../redux/feature/ThemeSlice';
 import {Pixel_delete, PixlsList} from '../redux/feature/featuresSlice';
 import Loader from '../Loader';
 import ScreenNameEnum from '../navigation/routes/screenName.enum';
+import {heightPercent} from '../config/responsiveScreen';
 export default function PIXELS_SCREEN() {
   const isLoading = useSelector(state => state.feature.isLoading);
   const navigation = useNavigation();
@@ -42,7 +43,7 @@ export default function PIXELS_SCREEN() {
   const [visibleMenuIndex, setVisibleMenuIndex] = useState(null);
   const [viewPixelData, setViewPixelData] = useState([]);
 
-  const [ModalVisible,setModalVisible]=useState(false)
+  const [ModalVisible, setModalVisible] = useState(false);
   const isFocused = useIsFocused();
   const changeTheame = async () => {
     await AsyncStorage.setItem('theme', theme == 'light' ? 'dark' : 'light');
@@ -67,7 +68,6 @@ export default function PIXELS_SCREEN() {
 
   useEffect(() => {
     getDataApi();
-
   }, [isFocused, getDataApi]);
 
   const PixelDelete = id => {
@@ -147,390 +147,510 @@ export default function PIXELS_SCREEN() {
           </TouchableOpacity>
         </View>
 
-   
-            <View
+        <View
+          style={{
+            flexDirection: 'row',
+            height: hp(8),
+            backgroundColor: bgColor,
+            alignItems: 'center',
+            marginTop: 20,
+          }}>
+          <Text
+            style={{
+              fontSize: 22,
+              fontWeight: '600',
+              marginHorizontal: 20,
+              color: textColor,
+            }}>
+            Pixels
+          </Text>
+          <AntDesign name="infocirlce" size={20} color={textColor} />
+        </View>
+
+        <View
+          style={{
+            flexDirection: 'row',
+            marginTop: 15,
+            marginHorizontal: 10,
+            height: hp(8),
+            paddingHorizontal: 10,
+            paddingVertical: 5,
+            backgroundColor: bgColor,
+          }}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate(ScreenNameEnum.CREATE_PIXEL);
+            }}
+            style={{
+              flexDirection: 'row',
+              borderWidth: 1,
+
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderColor: '#ed2f95',
+              paddingHorizontal: 10,
+            }}>
+            <AntDesign name="pluscircle" size={25} color={'#ed2f95'} />
+            <Text
               style={{
-                flexDirection: 'row',
-                height: hp(8),
-                backgroundColor: bgColor,
-                alignItems: 'center',
-                marginTop: 20,
+                marginLeft: 10,
+                fontWeight: '600',
+                fontSize: 16,
+                color: '#ed2f95',
               }}>
-              <Text
-                style={{
-                  fontSize: 22,
-                  fontWeight: '600',
-                  marginHorizontal: 20,
-                  color: textColor,
-                }}>
-                Pixels
-              </Text>
-              <AntDesign name="infocirlce" size={20} color={textColor} />
+              Create Pixel
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{
+              height: 45,
+              width: 45,
+              marginHorizontal: 10,
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 5,
+              borderWidth: 1,
+              borderColor: textColor,
+            }}>
+            <Foundation name="download" size={30} color={textColor} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              height: 45,
+              width: 45,
+              borderColor: textColor,
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 5,
+              borderWidth: 1,
+            }}>
+            <FontAwesome name="filter" size={30} color={textColor} />
+          </TouchableOpacity>
+        </View>
+
+        {PixelList == null && (
+          <View
+            style={{
+              marginTop: 10,
+              paddingHorizontal: 10,
+              alignItems: 'center',
+              marginVertical: 20,
+              backgroundColor: bgColor,
+            }}>
+            <View style={{height: hp(40), width: '100%', marginVertical: 20}}>
+              <Image
+                source={require('../image/empty.png')}
+                style={{height: '100%', width: '100%'}}
+                resizeMode="contain"
+              />
             </View>
+            <Text style={{fontSize: 22, fontWeight: '600', color: textColor}}>
+              There are no Pixels for now
+            </Text>
+            <Text style={{fontSize: 16, color: textColor, marginVertical: 10}}>
+              Start by creating your first Pixels.
+            </Text>
+          </View>
+        )}
+        {PixelList !== null && (
+          <>
+            <View style={{flex: 1, marginTop: 20}}>
+              <FlatList
+                data={PixelList}
+                renderItem={({item, index}) => (
+                  <>
+                    <View
+                      style={{
+                        backgroundColor: bgColor,
+                        height: heightPercent(28),
+                        padding: 5,
+                        margin: 10,
 
-            <View
-              style={{
-                flexDirection: 'row',
-                marginTop: 15,
-                marginHorizontal: 10,
-                height: hp(8),
-                paddingHorizontal: 10,
-                paddingVertical: 5,
-                backgroundColor: bgColor,
-              }}>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate(ScreenNameEnum.CREATE_PIXEL);
-                }}
-                style={{
-                  flexDirection: 'row',
-                  borderWidth: 1,
+                        borderRadius: 5,
+                        shadowColor: '#000',
+                        shadowOffset: {
+                          width: 0,
+                          height: 2,
+                        },
+                        shadowOpacity: 0.25,
+                        shadowRadius: 3.84,
 
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderColor: '#ed2f95',
-                  paddingHorizontal: 10,
-                }}>
-                <AntDesign name="pluscircle" size={25} color={'#ed2f95'} />
-                <Text
-                  style={{
-                    marginLeft: 10,
-                    fontWeight: '600',
-                    fontSize: 16,
-                    color: '#ed2f95',
-                  }}>
-                  Create Pixel
-                </Text>
-              </TouchableOpacity>
+                        elevation: 5,
+                      }}>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          marginHorizontal: 10,
+                          alignItems: 'center',
 
-              <TouchableOpacity
-                style={{
-                  height: 45,
-                  width: 45,
-                  marginHorizontal: 10,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: 5,
-                  borderWidth: 1,
-                  borderColor: textColor,
-                }}>
-                <Foundation name="download" size={30} color={textColor} />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  height: 45,
-                  width: 45,
-                  borderColor: textColor,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: 5,
-                  borderWidth: 1,
-                }}>
-                <FontAwesome name="filter" size={30} color={textColor} />
-              </TouchableOpacity>
-            </View>
-
-            {PixelList == null && (
-              <View
-                style={{
-                  marginTop: 10,
-                  paddingHorizontal: 10,
-                  alignItems: 'center',
-                  marginVertical: 20,
-                  backgroundColor: bgColor,
-                }}>
-                <View
-                  style={{height: hp(40), width: '100%', marginVertical: 20}}>
-                  <Image
-                    source={require('../image/empty.png')}
-                    style={{height: '100%', width: '100%'}}
-                    resizeMode="contain"
-                  />
-                </View>
-                <Text
-                  style={{fontSize: 22, fontWeight: '600', color: textColor}}>
-                  There are no Pixels for now
-                </Text>
-                <Text
-                  style={{fontSize: 16, color: textColor, marginVertical: 10}}>
-                  Start by creating your first Pixels.
-                </Text>
-              </View>
-            )}
-            {PixelList !== null && (
-              <>
-                <View
-                  style={{
-                    borderWidth: 1,
-                    height: 45,
-                    flexDirection: 'row',
-                    marginHorizontal: 10,
-                    marginTop: 5,
-                    borderColor: 'grey',
-                  }}>
-                  <View style={[styles.table, {width: '10%'}]}>
-                    <Text style={[styles.tableText, {color: textColor}]}>
-                      ID
-                    </Text>
-                  </View>
-                  <View style={[styles.table, {width: '20%'}]}>
-                    <Text style={[styles.tableText, {color: textColor}]}>
-                      Name
-                    </Text>
-                  </View>
-                  <View style={[styles.table, {width: '30%'}]}>
-                    <Text style={[styles.tableText, {color: textColor}]}>
-                      Type
-                    </Text>
-                  </View>
-                  <View style={[styles.table, {width: '25%'}]}>
-                    <Text style={[styles.tableText, {color: textColor}]}>
-                      Pixel ID
-                    </Text>
-                  </View>
-                </View>
-                <View style={{flex: 1}}>
-                  <FlatList
-                    data={PixelList}
-                    renderItem={({item, index}) => (
-                      <>
+                          height: 30,
+                        }}>
+                        <View style={{width: '30%', justifyContent: 'center'}}>
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              fontWeight: '700',
+                              color: textColor,
+                            }}>
+                            ID
+                          </Text>
+                        </View>
+                        <Text
+                          style={{
+                            marginHorizontal: 10,
+                            fontWeight: '800',
+                            color: textColor,
+                            fontSize: 16,
+                          }}>
+                          :
+                        </Text>
                         <View
                           style={{
-                            borderWidth: 1,
-                            height: 45,
-                            flexDirection: 'row',
-                            marginHorizontal: 10,
-                            marginTop: 5,
-                            borderColor: 'grey',
+                            width: '30%',
+                            marginLeft: 20,
+                            justifyContent: 'center',
                           }}>
-                          <View style={[styles.table, {width: '10%'}]}>
-                            <Text
-                              style={[styles.tableText, {color: textColor}]}>
-                              {item.id}
-                            </Text>
-                          </View>
-                          <View style={[styles.table, {width: '20%'}]}>
-                            <Text
-                              style={[styles.tableText, {color: textColor}]}>
-                              {item.name}
-                            </Text>
-                          </View>
-                          <View style={[styles.table, {width: '30%'}]}>
-                            <Text
-                              style={[styles.tableText, {color: textColor}]}>
-                              {item.type}
-                            </Text>
-                          </View>
-                          <View style={[styles.table, {width: '25%'}]}>
-                            <Text
-                              style={[styles.tableText, {color: textColor}]}>
-                              {item.pixelid}
-                            </Text>
-                          </View>
-                          <TouchableOpacity
-                            onPress={() => {
-                              showMenu(index);
-                            }}
+                          <Text
                             style={{
-                              width: '15%',
-                              alignItems: 'center',
-                              justifyContent: 'center',
+                              fontSize: 16,
+                              fontWeight: '500',
+                              color: textColor,
                             }}>
-                            <AntDesign
-                              name="caretdown"
-                              size={15}
-                              color={'#333'}
-                            />
-                          </TouchableOpacity>
-
-                          {visibleMenuIndex == index && (
-                            <View style={{height: '20%'}}>
-                              <Menu
-                                visible={visible}
-                                onRequestClose={() => hideMenu(index)}
-                                style={{
-                                  marginLeft: '58%',
-                                  width: '17%',
-                                  justifyContent: 'center',
-                                  backgroundColor: bgColor,
-                                  marginTop: hp(6),
-                                }}>
-                                <MenuItem
-                                  onPress={() => {
-                                   setModalVisible(true)
-                                   setViewPixelData(item)
-                                    hideMenu()
-                                  }}
-                                  style={[
-                                    styles.option,
-                                    {
-                                      backgroundColor: '#3b3d3d',
-                                      marginVertical: 5,
-                                    },
-                                  ]}>
-                                  <Text
-                                    style={{
-                                      fontSize: 18,
-                                      fontWeight: '400',
-
-                                      color: '#fff',
-                                    }}>
-                                    {' '}
-                                    View
-                                  </Text>
-                                </MenuItem>
-                                <MenuItem
-                                  onPress={() => {
-                                    navigation.navigate(
-                                      ScreenNameEnum.Edit_Pixel,
-                                      {
-                                        Pixel_name: item.name,
-                                        Pixel_id: item.pixelid,
-                                        Pixel_type: item.type,
-                                        id: item.id,
-                                      },
-                                    );
-                                    hideMenu();
-                                  }}
-                                  style={[
-                                    styles.option,
-                                    {backgroundColor: '#69b9c9'},
-                                  ]}>
-                                  <Text
-                                    style={{
-                                      fontSize: 18,
-                                      fontWeight: '400',
-                                      color: '#fff',
-                                    }}>
-                                    Edit
-                                  </Text>
-                                </MenuItem>
-                                <MenuItem
-                                  onPress={() => {
-                                    PixelDelete(item.id);
-                                  }}
-                                  style={[
-                                    styles.option,
-                                    {backgroundColor: 'red', marginVertical: 5},
-                                  ]}>
-                                  <Text
-                                    style={{
-                                      fontSize: 18,
-                                      fontWeight: '400',
-                                      color: '#fff',
-                                    }}>
-                                    Delete
-                                  </Text>
-                                </MenuItem>
-                              </Menu>
-                            </View>
-                          )}
+                            {item.id}
+                          </Text>
                         </View>
-                      </>
-                    )}
-                  />
-                </View>
-              </>
-            )}
-    
+                      </View>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          marginHorizontal: 10,
+                          alignItems: 'center',
 
-       
-<Modal
-animationType="slide"
-transparent={false}
-visible={ModalVisible}
-onRequestClose={() => setModalVisible(false)}>
-   <View style={{flex:1,}}>
+                          height: 30,
+                        }}>
+                        <View style={{width: '30%', justifyContent: 'center'}}>
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              fontWeight: '700',
+                              color: textColor,
+                            }}>
+                            Name
+                          </Text>
+                        </View>
+                        <Text
+                          style={{
+                            marginHorizontal: 10,
+                            fontWeight: '800',
+                            color: textColor,
+                            fontSize: 16,
+                          }}>
+                          :
+                        </Text>
+                        <View
+                          style={{
+                            width: '30%',
+                            marginLeft: 20,
+                            justifyContent: 'center',
+                          }}>
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              fontWeight: '500',
+                              color: textColor,
+                            }}>
+                            {item.name}
+                          </Text>
+                        </View>
+                      </View>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          marginHorizontal: 10,
+                          alignItems: 'center',
+
+                          height: 30,
+                        }}>
+                        <View style={{width: '30%', justifyContent: 'center'}}>
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              fontWeight: '700',
+                              color: textColor,
+                            }}>
+                            Type
+                          </Text>
+                        </View>
+                        <Text
+                          style={{
+                            marginHorizontal: 10,
+                            fontWeight: '800',
+                            color: textColor,
+                            fontSize: 16,
+                          }}>
+                          :
+                        </Text>
+                        <View
+                          style={{
+                            width: '45%',
+                            marginLeft: 20,
+                            justifyContent: 'center',
+                          }}>
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              fontWeight: '500',
+                              color: textColor,
+                            }}>
+                            {item.type}
+                          </Text>
+                        </View>
+                      </View>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          marginHorizontal: 10,
+                          alignItems: 'center',
+
+                          height: 30,
+                        }}>
+                        <View style={{width: '30%', justifyContent: 'center'}}>
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              fontWeight: '700',
+                              color: textColor,
+                            }}>
+                            Pixel ID
+                          </Text>
+                        </View>
+                        <Text
+                          style={{
+                            marginHorizontal: 10,
+                            fontWeight: '800',
+                            color: textColor,
+                            fontSize: 16,
+                          }}>
+                          :
+                        </Text>
+                        <View
+                          style={{
+                            width: '45%',
+                            marginLeft: 20,
+                            justifyContent: 'center',
+                          }}>
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              fontWeight: '500',
+                              color: textColor,
+                            }}>
+                            {item.pixelid}
+                          </Text>
+                        </View>
+                      </View>
+
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-around',
+                          marginTop: 15,
+                        }}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            setModalVisible(true);
+                            setViewPixelData(item);
+                          }}
+                          style={{
+                            backgroundColor: '#4b5563',
+                            height: 45,
+                            width: 80,
+                            borderRadius: 5,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                          }}>
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              color: '#fff',
+                              fontWeight: '600',
+                            }}>
+                            View
+                          </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() => {
+                            navigation.navigate(ScreenNameEnum.Edit_Pixel, {
+                              item: item,
+                            });
+                          }}
+                          style={{
+                            backgroundColor: '#17a2b8',
+                            height: 45,
+                            width: 80,
+                            borderRadius: 5,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                          }}>
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              color: '#fff',
+                              fontWeight: '600',
+                            }}>
+                            Edit
+                          </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() => {
+                            PixelDelete(item.id);
+                          }}
+                          style={{
+                            backgroundColor: '#dc3545',
+                            height: 45,
+                            width: 80,
+                            borderRadius: 5,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                          }}>
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              color: '#fff',
+                              fontWeight: '600',
+                            }}>
+                            Delete
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </>
+                )}
+              />
+            </View>
+          </>
+        )}
+
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={ModalVisible}
+          onRequestClose={() => setModalVisible(false)}>
+          <View style={{flex: 1}}>
             <TouchableOpacity
               onPress={() => {
                 setModalVisible(false);
               }}
               style={{
                 alignItems: 'flex-start',
-               marginVertical:10,
-                backgroundColor:'#f0f0f0',
-                padding:10,
-                width:'30%',
+                marginVertical: 10,
+                backgroundColor: '#f0f0f0',
+                padding: 10,
+                width: 120,
                 height: 50,
                 justifyContent: 'center',
-                alignItems:'center',
+                alignItems: 'center',
                 borderRadius: 5,
                 marginHorizontal: 10,
                 marginTop: 20,
               }}>
-              <Text style={{fontSize: 18, color: textColor, fontWeight: '600'}}>
+              <Text style={{fontSize: 16, color: textColor, fontWeight: '600'}}>
                 Back to list
               </Text>
             </TouchableOpacity>
 
             <View
               style={{
-                borderWidth: 1,
-                height: hp(24.3),
+                height: heightPercent(25),
                 marginHorizontal: 10,
-                borderBottomWidth: 0,
-                justifyContent:'center'
+
+                borderRadius: 5,
               }}>
               <View
-                style={[
-                  styles.viewDiv,
-                  {
-                    backgroundColor: bgColor,
-                  },
-                ]}>
-                <Text style={[styles.viewTxt, {color: textColor}]}>ID</Text>
-                <Text style={[styles.viewTxt, {  fontWeight:'400',color: textColor,borderRightWidth:0,marginLeft:10,width:'52%'}]}>
-                  {viewPixelData.id}
-                </Text>
+                style={{
+                  flexDirection: 'row',
+                  height: 30,
+                  alignItems: 'center',
+                  backgroundColor: '#f0f0f0',
+                  justifyContent: 'space-between',
+                }}>
+                <View style={{width: '50%', paddingHorizontal: 20}}>
+                  <Text style={[{color: textColor, fontWeight: '500'}]}>
+                    ID
+                  </Text>
+                </View>
+                <View style={{width: '50%', paddingHorizontal: 20}}>
+                  <Text
+                    style={{fontSize: 16, fontWeight: '400', color: textColor}}>
+                    {viewPixelData.id}
+                  </Text>
+                </View>
               </View>
               <View
-                style={[
-                  styles.viewDiv,
-                  {
-                    backgroundColor: bgColor,
-                  },
-                ]}>
-               <Text style={[styles.viewTxt, {color: textColor}]}>
-                  Name
-                </Text>
-                <Text style={[styles.viewTxt, {  fontWeight:'400',color: textColor,borderRightWidth:0,marginLeft:10,width:'52%'}]}>
-                  {viewPixelData.name}
-                </Text>
+                style={{
+                  flexDirection: 'row',
+                  height: 30,
+                  alignItems: 'center',
+                  backgroundColor: '#fff',
+                  justifyContent: 'space-between',
+                }}>
+                <View style={{width: '50%', paddingHorizontal: 20}}>
+                  <Text style={[{color: textColor, fontWeight: '500'}]}>
+                    Name
+                  </Text>
+                </View>
+                <View style={{width: '50%', paddingHorizontal: 20}}>
+                  <Text
+                    style={{fontSize: 16, fontWeight: '400', color: textColor}}>
+                    {viewPixelData.name}
+                  </Text>
+                </View>
               </View>
               <View
-                style={[
-                  styles.viewDiv,
-                  {
-                    backgroundColor: bgColor,
-                  },
-                ]}>
-             <Text style={[styles.viewTxt, {color: textColor}]}>
-                  Type
-                </Text>
-                <Text style={[styles.viewTxt, {  fontWeight:'400',color: textColor,borderRightWidth:0,marginLeft:10,width:'52%'}]}>
-                  {viewPixelData.type}
-                </Text>
+                style={{
+                  flexDirection: 'row',
+                  height: 30,
+                  alignItems: 'center',
+                  backgroundColor: '#f0f0f0',
+                  justifyContent: 'space-between',
+                }}>
+                <View style={{width: '50%', paddingHorizontal: 20}}>
+                  <Text style={[{color: textColor, fontWeight: '500'}]}>
+                    Type
+                  </Text>
+                </View>
+                <View style={{width: '50%', paddingHorizontal: 20}}>
+                  <Text
+                    style={{fontSize: 16, fontWeight: '400', color: textColor}}>
+                    {viewPixelData.type}
+                  </Text>
+                </View>
               </View>
               <View
-                style={[
-                  styles.viewDiv,
-                  {
-                    backgroundColor: bgColor,
-                  },
-                ]}>
-             <Text style={[styles.viewTxt, {color: textColor}]}>
-                  Pixel ID
-                </Text>
-                <Text style={[styles.viewTxt, {color: textColor,borderRightWidth:0,
-                  fontWeight:'400',
-                  marginLeft:10,width:'52%'}]}>
-                  {viewPixelData.pixelid}
-                </Text>
+                style={{
+                  flexDirection: 'row',
+                  height: 30,
+                  alignItems: 'center',
+                  backgroundColor: '#fff',
+                  justifyContent: 'space-between',
+                }}>
+                <View style={{width: '50%', paddingHorizontal: 20}}>
+                  <Text style={[{color: textColor, fontWeight: '500'}]}>
+                    Pixel ID
+                  </Text>
+                </View>
+                <View style={{width: '50%', paddingHorizontal: 20}}>
+                  <Text
+                    style={{fontSize: 16, fontWeight: '400', color: textColor}}>
+                    {viewPixelData.pixelid}
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
-</Modal>
-  
+        </Modal>
+
         <View style={{height: hp(20), marginTop: 20, marginHorizontal: 10}}>
           <View style={{height: hp(10), width: '40%'}}>
             <Image
@@ -560,16 +680,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
 
-
-height:50,
+    height: 50,
     paddingHorizontal: 10,
     borderBottomWidth: 1,
   },
   viewTxt: {
-    paddingTop:10,
+    paddingTop: 10,
     fontSize: 20,
     fontWeight: '600',
-  
+
     width: '45%',
     borderRightWidth: 1,
     height: 45,
