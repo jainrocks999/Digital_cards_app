@@ -225,7 +225,7 @@ export default function VCARD_SCREEN() {
           }}>
           <Text
             style={{
-              fontSize: 22,
+              fontSize: 20,
               fontWeight: '600',
               marginHorizontal: 20,
               color: textColor,
@@ -235,30 +235,32 @@ export default function VCARD_SCREEN() {
           <AntDesign name="infocirlce" size={20} color={textColor} />
         </View>
 
+      
         <View
           style={{
             flexDirection: 'row',
             marginTop: 15,
             marginHorizontal: 10,
-            height: 55,
+            height:hp(7),
             paddingHorizontal: 10,
             paddingVertical: 5,
-            backgroundColor: bgColor,
+           
           }}>
           <TouchableOpacity
-            onPress={() => {
-              navigation.navigate(ScreenNameEnum.CREATE_VCARD);
-            }}
+        onPress={() => {
+          navigation.navigate(ScreenNameEnum.CREATE_VCARD);
+        }}
             style={{
               flexDirection: 'row',
               borderWidth: 1,
-
+            height:40, 
+            width:'42%',
               alignItems: 'center',
               justifyContent: 'center',
               borderColor: '#ed2f95',
-              paddingHorizontal: 10,
+             
             }}>
-            <AntDesign name="pluscircle" size={25} color={'#ed2f95'} />
+            <AntDesign name="pluscircle" size={20} color={'#ed2f95'} />
             <Text
               style={{
                 marginLeft: 10,
@@ -271,12 +273,12 @@ export default function VCARD_SCREEN() {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => {
-              downloadAndSaveFile();
-            }}
+          onPress={() => {
+            downloadAndSaveFile();
+          }}
             style={{
-              height: 45,
-              width: 45,
+              height: 40,
+              width: 40,
               marginHorizontal: 10,
               alignItems: 'center',
               justifyContent: 'center',
@@ -288,8 +290,8 @@ export default function VCARD_SCREEN() {
           </TouchableOpacity>
           <TouchableOpacity
             style={{
-              height: 45,
-              width: 45,
+              height:40,
+              width:40,
               borderColor: textColor,
               alignItems: 'center',
               justifyContent: 'center',
@@ -299,7 +301,6 @@ export default function VCARD_SCREEN() {
             <FontAwesome name="filter" size={30} color={textColor} />
           </TouchableOpacity>
         </View>
-
         {VcardList === null && (
           <View
             style={{

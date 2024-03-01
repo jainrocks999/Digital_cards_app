@@ -56,6 +56,7 @@ import {
   Vcard_Edit,
 } from '../redux/feature/featuresSlice';
 import Loader from '../Loader';
+import {heightPercent, widthPrecent} from '../config/responsiveScreen';
 export default function EDIT_VCARD({route}) {
   const {edit, E_Id, item} = route.params;
 
@@ -64,46 +65,53 @@ export default function EDIT_VCARD({route}) {
     setEditName(item.name);
     setEditDescription(item.description);
     setUrlAlias(item.url_alias.substring(item.url_alias.lastIndexOf('/') + 1));
-    setDSButton(item.display_share_button == 1?true:false)
-    setDVDButton(item.display_vcard_download_button == 1?true:false)
-    setVAButton(item.vcard_is_active == 1?true:false)
-    setFirstName(item.first_name==null?'':item.first_name)
-    setLastName(item.last_name==null?'':item.last_name)
-    setCompany(item.company==null?'':item.company)
-    setJobTitle(item.job_title==null?'':item.job_title)
-    setBirthday(item.birthday == null?new Date().toISOString().split('T')[0]:item.birthday)
-    setCustomIndex(Number(item.theme) == 0?Number(item.theme):Number(item.theme)-1)
-    setBackground(item.background)
-    check_Dropdown(item.background,null)
-    setFavicon(item.favicon==null?'':item.favicon?.url)
-    setLogo(item.logo==null?'':item.logo?.url)
-    setcustImage(item.custom_image==null?'':item.custom_image)
- setSelectedColor(item.color==null?'skyblue':item.color)
- setFirstColor(item.first_color ==null?item.first_color:'blue')
- setSecondColor(item.second_color==null?item.second_color:'red')
- setFontFamily(item.font_family)
- setFontSize(''+item.font_size)
- setSEVisiable(item.search_engine_visibility == 1?true:false)
- setPTitle(item.page_title)
- setMKeyword(item.meta_keywords)
- setMDescription(item.meta_description)
- setOpenGImage(item.opengraph_image==null?'':item.opengraph_image?.url)
-setLeapLink(item.leap_link_url)
-setProject(item.project)
-setRBranding(item.remove_branding==1?true:false)
-setcustomCSS(item.custom_css)
-setcustomJS(item.custom_js)
-setProject(item.project)
-checkProject()
-
+    setDSButton(item.display_share_button == 1 ? true : false);
+    setDVDButton(item.display_vcard_download_button == 1 ? true : false);
+    setVAButton(item.vcard_is_active == 1 ? true : false);
+    setFirstName(item.first_name == null ? '' : item.first_name);
+    setLastName(item.last_name == null ? '' : item.last_name);
+    setCompany(item.company == null ? '' : item.company);
+    setJobTitle(item.job_title == null ? '' : item.job_title);
+    setBirthday(
+      item.birthday == null
+        ? new Date().toISOString().split('T')[0]
+        : item.birthday,
+    );
+    setCustomIndex(
+      Number(item.theme) == 0 ? Number(item.theme) : Number(item.theme) - 1,
+    );
+    setBackground(item.background);
+    check_Dropdown(item.background, null);
+    setFavicon(item.favicon == null ? '' : item.favicon?.url);
+    setLogo(item.logo == null ? '' : item.logo?.url);
+    setcustImage(item.custom_image == null ? null : item.custom_image);
+    setSelectedColor(item.color == null ? 'skyblue' : item.color);
+    setFirstColor(item.first_color == null ? item.first_color : 'blue');
+    setSecondColor(item.second_color == null ? item.second_color : 'red');
+    setFontFamily(item.font_family);
+    setFontSize('' + item.font_size);
+    setSEVisiable(item.search_engine_visibility == 1 ? true : false);
+    setPTitle(item.page_title);
+    setMKeyword(item.meta_keywords);
+    setMDescription(item.meta_description);
+    setOpenGImage(
+      item.opengraph_image == null ? '' : item.opengraph_image?.url,
+    );
+    setLeapLink(item.leap_link_url);
+    setProject(item.project);
+    setRBranding(item.remove_branding == 1 ? true : false);
+    setcustomCSS(item.custom_css);
+    setcustomJS(item.custom_js);
+    setProject(item.project);
+    checkProject();
   }, [edit, item]);
 
   const navigation = useNavigation();
   const theme = useSelector(state => state.theme.data);
   const [selectedColor, setSelectedColor] = useState('red');
-  const [GPreset, setGPreset] = useState(  {
+  const [GPreset, setGPreset] = useState({
     color: ['#53bcc9', '#9198cc', '#b881cf', '#d787af', '#f4a373'],
-  },);
+  });
   const PixelList = useSelector(state => state.feature.PixelList);
   const [showIndex, setShowIndex] = useState('21-12-2023');
   const ProjectData = useSelector(state => state.feature.ProjectList);
@@ -115,7 +123,7 @@ checkProject()
   let textColor = theme == 'light' ? '#000' : '#fff';
   let bgColor = theme == 'light' ? '#fff' : '#575757';
   const [showVcard, SetshowVcard] = useState(false);
-  const [PrValue,setPrValue] =useState('select project')
+  const [PrValue, setPrValue] = useState('select project');
   const [showCustom, setShowCustom] = useState(false);
   const [showPixel, setShowPixel] = useState(false);
   const [showSeo, setShowSeo] = useState(false);
@@ -266,7 +274,7 @@ checkProject()
   };
   const check_Dropdown = (label, value) => {
     setValue(value);
-setBackground(label)
+    setBackground(label);
     if (label === 'Gradient Preset') {
       setGradientPreset(true);
       setColor(false);
@@ -305,16 +313,18 @@ setBackground(label)
     });
   };
 
-  const checkProject = ()=>{
-    ProjectData?.map(item=>{
-if(item.id == Project){
-setPrValue(item.name)
-}
-    })
-  }
+  const checkProject = () => {
+    ProjectData?.map(item => {
+      if (item.id == Project) {
+        setPrValue(item.name);
+      }
+    });
+  };
   function arraysMatch(arr1, arr2) {
-
-    return arr1.length === arr2.length && arr1.every((value, index) => value === arr2[index]);
+    return (
+      arr1.length === arr2.length &&
+      arr1.every((value, index) => value === arr2[index])
+    );
   }
   const openLogoImage = () => {
     launchImageLibrary({mediaType: 'photo'}, async response => {
@@ -500,7 +510,7 @@ setPrValue(item.name)
         birthday: Birthday,
         theme: CustomTheme,
         background: Background,
-        background_preset:GPreset,
+        background_preset: GPreset,
         color: selectedColor,
         first_color: firstColor,
         second_color: SecondColor,
@@ -517,9 +527,9 @@ setPrValue(item.name)
         remove_branding: RBranding ? 1 : 0,
         custom_css: customCSS,
         custom_js: customJS,
-        logo:Logo,
-        favicon:Favicon,
-        opengraph_image:OpenGImage,
+        logo: Logo,
+        favicon: Favicon,
+        opengraph_image: OpenGImage,
         id: E_Id,
         user_id: user?.data.id,
       },
@@ -960,7 +970,7 @@ setPrValue(item.name)
                       </TouchableOpacity>
 
                       {showIndex == index && showVcard && (
-                        <View style={{height: hp(65), paddingHorizontal: 10}}>
+                        <View style={{paddingHorizontal: 10}}>
                           <View style={{marginTop: 10}}>
                             <View
                               style={{
@@ -1182,12 +1192,12 @@ setPrValue(item.name)
                               }}
                             />
                           </View>
+                          <View style={{height: heightPercent(5)}} />
                         </View>
                       )}
                       {showIndex == index && showSeo && (
                         <View
                           style={{
-                            height: hp(65),
                             paddingHorizontal: 10,
                             marginTop: 10,
                           }}>
@@ -1379,7 +1389,7 @@ setPrValue(item.name)
                               )}
                               {OpenGImage !== null && (
                                 <Image
-                                  source={{uri:OpenGImage}}
+                                  source={{uri: OpenGImage}}
                                   style={{
                                     height: '90%',
                                     width: '95%',
@@ -1390,6 +1400,7 @@ setPrValue(item.name)
                               )}
                             </TouchableOpacity>
                           </View>
+                          <View style={{height: heightPercent(5)}} />
                         </View>
                       )}
                       {showIndex == index && showAdvanced && (
@@ -1488,8 +1499,8 @@ setPrValue(item.name)
                               placeholder={PrValue}
                               value={Project}
                               onChange={item => {
-                                setProject(item.name);  }}
-                            
+                                setProject(item.name);
+                              }}
                             />
                           </View>
 
@@ -1703,13 +1714,11 @@ setPrValue(item.name)
                               />
                             </View>
                           </View>
+                          <View style={{height: heightPercent(5)}} />
                         </View>
                       )}
                       {showIndex == index && showCustom && (
-                        <View
-                          style={{
-                            paddingBottom: hp(5),
-                          }}>
+                        <View style={{}}>
                           <View
                             style={{
                               marginTop: 10,
@@ -1734,8 +1743,7 @@ setPrValue(item.name)
                             </Text>
                           </View>
 
-                          <View
-                            style={{height: hp(15), justifyContent: 'center'}}>
+                          <View style={{height: hp(15), alignItems: 'center'}}>
                             <FlatList
                               numColumns={3}
                               data={CustomizationBtn}
@@ -1748,11 +1756,11 @@ setPrValue(item.name)
                                   }}
                                   style={{
                                     height: 43,
-                                    marginVertical: 10,
+                                    marginVertical: 5,
                                     borderRadius: 5,
                                     borderWidth: CustomIndex == index ? 0 : 1,
-                                    width: '32%',
-                                    marginHorizontal: 2,
+                                    width: widthPrecent(25),
+                                    marginRight: 10,
                                     alignItems: 'center',
                                     justifyContent: 'center',
 
@@ -1768,11 +1776,10 @@ setPrValue(item.name)
                                   <Text
                                     style={{
                                       color:
-                                        CustomIndex == index &&
-                                        theme === 'dark'
+                                        CustomIndex == index && theme === 'dark'
                                           ? '#333'
                                           : textColor,
-                                      fontSize: 16,
+                                      fontSize: 14,
                                       fontWeight: '600',
                                     }}>
                                     {item.name}
@@ -1813,7 +1820,7 @@ setPrValue(item.name)
                               marginTop: 5,
                               alignItems: 'center',
                               justifyContent: 'center',
-                              height: hp(20),
+                              height: heightPercent(20),
                               borderColor: 'grey',
                             }}>
                             {Logo === '' && (
@@ -1825,8 +1832,8 @@ setPrValue(item.name)
                               <Image
                                 source={{uri: Logo}}
                                 style={{
-                                  height: 150,
-                                  width: 150,
+                                  height: '90%',
+                                  width: '90%',
                                   borderRadius: 10,
                                 }}
                                 resizeMode="contain"
@@ -1884,8 +1891,8 @@ setPrValue(item.name)
                               <Image
                                 source={{uri: Favicon}}
                                 style={{
-                                  height: 150,
-                                  width: 150,
+                                  height: '90%',
+                                  width: '90%',
                                   borderRadius: 10,
                                 }}
                                 resizeMode="contain"
@@ -1961,7 +1968,7 @@ setPrValue(item.name)
                               />
                             </View>
                             {GradientPreset && (
-                              <>
+                              <View styles={{}}>
                                 <FlatList
                                   numColumns={3}
                                   data={GradientPresetData}
@@ -1969,12 +1976,16 @@ setPrValue(item.name)
                                     <TouchableOpacity
                                       onPress={() => {
                                         setselected(index);
-                                      setGPreset(item);
-                                       
+                                        setGPreset(item);
                                       }}
                                       style={{
                                         borderWidth: 3,
-                                        borderColor: arraysMatch(item.color, GPreset.color)? 'green' : '#fff',
+                                        borderColor: arraysMatch(
+                                          item.color,
+                                          GPreset.color,
+                                        )
+                                          ? 'green'
+                                          : '#fff',
                                         height: hp(12),
                                         marginVertical: 10,
 
@@ -1991,7 +2002,9 @@ setPrValue(item.name)
                                     </TouchableOpacity>
                                   )}
                                 />
-                              </>
+
+                                <View style={{height: heightPercent(5)}} />
+                              </View>
                             )}
 
                             {Gradient && (
@@ -2023,7 +2036,11 @@ setPrValue(item.name)
                                     </Text>
                                   </View>
                                 </View>
-                                <View style={{marginTop: 10}}>
+                                <View
+                                  style={{
+                                    marginTop: 10,
+                                    height: heightPercent(30),
+                                  }}>
                                   <View
                                     style={{
                                       paddingHorizontal: 10,
@@ -2105,7 +2122,7 @@ setPrValue(item.name)
                                                 <Text
                                                   style={{
                                                     fontSize: 18,
-                                                    color:'#fff',
+                                                    color: '#fff',
                                                   }}>
                                                   Save
                                                 </Text>
@@ -2144,7 +2161,11 @@ setPrValue(item.name)
                                     </Text>
                                   </View>
                                 </View>
-                                <View style={{marginTop: 10}}>
+                                <View
+                                  style={{
+                                    marginTop: 10,
+                                    height: heightPercent(30),
+                                  }}>
                                   <View
                                     style={{
                                       paddingHorizontal: 10,
@@ -2226,7 +2247,7 @@ setPrValue(item.name)
                                                 <Text
                                                   style={{
                                                     fontSize: 18,
-                                                    color:'#fff',
+                                                    color: '#fff',
                                                   }}>
                                                   Save
                                                 </Text>
@@ -2238,6 +2259,8 @@ setPrValue(item.name)
                                     </View>
                                   </View>
                                 </View>
+
+                                <View style={{height: heightPercent(5)}} />
                               </>
                             )}
                             {Color && (
@@ -2269,7 +2292,7 @@ setPrValue(item.name)
                                     </Text>
                                   </View>
                                 </View>
-                                <View style={{marginTop: 10}}>
+                                <View style={{marginTop: 10, height: hp(30)}}>
                                   <View
                                     style={{
                                       paddingHorizontal: 10,
@@ -2351,7 +2374,7 @@ setPrValue(item.name)
                                                 <Text
                                                   style={{
                                                     fontSize: 18,
-                                                    color:'#fff',
+                                                    color: '#fff',
                                                   }}>
                                                   Save
                                                 </Text>
@@ -2363,6 +2386,7 @@ setPrValue(item.name)
                                     </View>
                                   </View>
                                 </View>
+                                <View style={{height: hp(10)}} />
                               </>
                             )}
 
@@ -2399,7 +2423,7 @@ setPrValue(item.name)
                                     backgroundColor:
                                       theme === 'light' ? '#f0f0f0' : '#333',
 
-                                    height: hp(15),
+                                    height: hp(18),
                                     marginHorizontal: 10,
                                     marginTop: 10,
                                     borderWidth: 1,
@@ -2408,13 +2432,13 @@ setPrValue(item.name)
                                     flexDirection: 'row',
                                     justifyContent: 'center',
                                   }}>
-                                  {CustImage === null && (
+                                  {CustImage == null && (
                                     <Text
                                       style={{fontSize: 16, color: textColor}}>
                                       Drop files here to upload
                                     </Text>
                                   )}
-                                  {CustImage !== null && (
+                                  {CustImage != null && (
                                     <Image
                                       source={{uri: CustImage}}
                                       style={{
@@ -2425,6 +2449,8 @@ setPrValue(item.name)
                                     />
                                   )}
                                 </TouchableOpacity>
+
+                                <View style={{height: heightPercent(5)}} />
                               </>
                             )}
                           </View>
@@ -2524,14 +2550,14 @@ setPrValue(item.name)
                               },
                             ]}>
                             <TextInput
-                             
                               value={FontSize}
                               onChangeText={txt => setFontSize(txt)}
-                              style={{color: textColor,}}
+                              style={{color: textColor}}
                               placeholder={FontSize}
                               placeholderTextColor={textColor}
                             />
                           </View>
+                          <View style={{height: heightPercent(5)}} />
                         </View>
                       )}
 
@@ -2541,12 +2567,15 @@ setPrValue(item.name)
                             style={{
                               flexDirection: 'row',
                               justifyContent: 'space-between',
+                              alignItems: 'center',
+                              height: 50,
                             }}>
                             <View
                               style={{
                                 flexDirection: 'row',
                                 marginHorizontal: 10,
-                                marginTop: 10,
+                                width: '40%',
+
                                 alignItems: 'center',
                               }}>
                               <Ionicons
@@ -2564,45 +2593,44 @@ setPrValue(item.name)
                                 Pixels
                               </Text>
                             </View>
-                            <TouchableOpacity
-                              onPress={() => {
-                                navigation.navigate(
-                                  ScreenNameEnum.CREATE_PIXEL,
-                                );
-                              }}
-                              style={{
-                                flexDirection: 'row',
-                                alignItems: 'center',
-                                marginHorizontal: 10,
-                                marginTop: 10,
-                                backgroundColor:
-                                  theme === 'light' ? '#f0f0f0' : '#333',
-                                width: '35%',
-                                height: 40,
-                                paddingHorizontal: 5,
-                                borderRadius: 5,
-                              }}>
-                              <AntDesign
-                                name="plus"
-                                size={20}
-                                color={textColor}
-                              />
-                              <Text
+                            <View style={{width: '50%', paddingHorizontal: 15}}>
+                              <TouchableOpacity
+                                onPress={() => {
+                                  navigation.navigate(
+                                    ScreenNameEnum.CREATE_PIXEL,
+                                  );
+                                }}
                                 style={{
-                                  fontSize: 16,
-                                  fontWeight: '400',
-                                  color: textColor,
+                                  height: 40,
+                                  flexDirection: 'row',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  backgroundColor:
+                                    theme === 'light' ? '#f0f0f0' : '#333',
+                                  borderRadius: 5,
                                 }}>
-                                {' '}
-                                Create Pixel
-                              </Text>
-                            </TouchableOpacity>
+                                <AntDesign
+                                  name="plus"
+                                  size={20}
+                                  color={textColor}
+                                />
+                                <Text
+                                  style={{
+                                    fontSize: 16,
+                                    fontWeight: '500',
+                                    color: textColor,
+                                  }}>
+                                  {' '}
+                                  Create Pixel
+                                </Text>
+                              </TouchableOpacity>
+                            </View>
                           </View>
 
                           <View
                             style={{
-                              justifyContent: 'center',
                               marginTop: 10,
+                              borderWidth: 1,
                             }}>
                             <FlatList
                               data={PixelList}
@@ -2610,14 +2638,17 @@ setPrValue(item.name)
                                 <View
                                   style={{
                                     flexDirection: 'row',
+                                    alignItems: 'center',
 
-                                    height: 45,
-width:'100%',
+                                    width: '100%',
                                     backgroundColor: bgColor,
                                   }}>
                                   <CheckBox
                                     style={{color: textColor, marginLeft: 10}}
-                                    tintColors={{ true: '#5ea671', false: 'black' }} 
+                                    tintColors={{
+                                      true: '#5ea671',
+                                      false: 'black',
+                                    }}
                                     disabled={false}
                                     value={selectedItems.some(
                                       selectedItem =>
@@ -2646,7 +2677,10 @@ width:'100%',
                                 </View>
                               )}
                             />
+                            <View style={{height: heightPercent(5)}} />
                           </View>
+
+                          <View style={{height: heightPercent(5)}} />
                         </View>
                       )}
                     </View>

@@ -34,7 +34,8 @@ import {Vcard_delete, dashboard} from '../redux/feature/featuresSlice';
 import Loader from '../Loader';
 import {check, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
-import { heightPercent, widthPrecent } from '../config/responsiveScreen';
+import {heightPercent, widthPrecent} from '../config/responsiveScreen';
+import {flingGestureHandlerProps} from 'react-native-gesture-handler/lib/typescript/handlers/FlingGestureHandler';
 export default function Home_Screen() {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -54,8 +55,6 @@ export default function Home_Screen() {
     dispatch(changeTheme(theme === 'light' ? 'dark' : 'light'));
   };
 
-
- 
   const showMenu = index => {
     setVisible(true);
     setVisibleMenuIndex(index);
@@ -175,7 +174,7 @@ export default function Home_Screen() {
           </TouchableOpacity>
         </View>
 
-        <View style={{marginTop: 20,}}>
+        <View style={{marginTop: 20}}>
           <View style={{marginTop: 10}}>
             <FlatList
               data={updatedData}
@@ -187,7 +186,7 @@ export default function Home_Screen() {
                       navigation.navigate(item.navigate);
                     }}
                     style={{
-                      height:hp(25),
+                      height: hp(25),
                       shadowColor: '#000',
                       shadowOffset: {
                         width: 0,
@@ -201,7 +200,7 @@ export default function Home_Screen() {
                       backgroundColor: bgColor,
                       alignItems: 'center',
                       justifyContent: 'center',
-                      margin:hp(1),
+                      margin: hp(1),
                     }}>
                     <View style={{alignItems: 'center'}}>
                       {item.name == 'vcards' && (
@@ -250,27 +249,27 @@ export default function Home_Screen() {
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
-alignItems:'center',
+              alignItems: 'center',
               marginHorizontal: 10,
               backgroundColor: bgColor,
-              height:heightPercent(8),
-   }}>
+              height: heightPercent(8),
+            }}>
             <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'center',
                 alignItems: 'center',
-                height:45,
-                borderWidth:1,
-                paddingHorizontal:5,
-                width:'50%'
+                height: 45,
+
+                paddingHorizontal: 5,
+                width: '50%',
               }}>
               <FontAwesome name="vcard" size={20} color={textColor} />
               <Text
                 style={{
                   marginLeft: 10,
                   fontWeight: '600',
-                  fontSize:18,
+                  fontSize: 18,
                   color: textColor,
                 }}>
                 LATEST VCARDS
@@ -284,14 +283,13 @@ alignItems:'center',
               style={{
                 flexDirection: 'row',
                 borderWidth: 1,
-                height:45,
-                width:'45%',
+                height: 45,
+                width: '40%',
                 alignItems: 'center',
                 justifyContent: 'center',
                 borderColor: '#ed2f95',
-                paddingHorizontal: 10,
               }}>
-              <AntDesign name="pluscircle" size={25} color={'#ed2f95'} />
+              <AntDesign name="pluscircle" size={20} color={'#ed2f95'} />
               <Text
                 style={{
                   marginLeft: 10,
@@ -308,40 +306,36 @@ alignItems:'center',
         <View
           style={{
             backgroundColor: bgColor,
-                height: 45,
-                paddingHorizontal:20,
+            height: 45,
+            paddingHorizontal: 20,
             flexDirection: 'row',
             borderBottomWidth: 2,
             borderTopWidth: 2,
             borderColor: '#f0f0f0',
-            
           }}>
           <View
             style={{
-           width:widthPrecent(60),
-           justifyContent:'center',
-           
+              width: widthPrecent(60),
+              justifyContent: 'center',
             }}>
             <Text style={{fontSize: 18, color: textColor}}>Name</Text>
           </View>
           <View
             style={{
-              width:widthPrecent(15),
+              width: widthPrecent(15),
               justifyContent: 'center',
-             
             }}>
             <Text style={{fontSize: 16, color: textColor}}>Stats</Text>
           </View>
           <View
             style={{
-              width:widthPrecent(15),
+              width: widthPrecent(15),
               justifyContent: 'center',
-             
             }}>
             <Text style={{fontSize: 16, color: textColor}}>Action</Text>
           </View>
         </View>
-        <View style={{flex:1}}>
+        <View style={{flex: 1}}>
           {VcardList && (
             <FlatList
               data={VcardList}
@@ -350,7 +344,7 @@ alignItems:'center',
                   <View
                     onPress={() => {}}
                     style={{
-                      height:heightPercent(12),
+                      height: heightPercent(12),
                       shadowColor: '#000',
                       shadowOffset: {
                         width: 0,
@@ -369,9 +363,9 @@ alignItems:'center',
                     }}>
                     <View
                       style={{
-                        width:widthPrecent(18) ,
-                       
-                        alignItems:'center'
+                        width: widthPrecent(18),
+
+                        alignItems: 'center',
                       }}>
                       <Image
                         source={{uri: item?.logo?.url}}
@@ -380,13 +374,13 @@ alignItems:'center',
                     </View>
                     <View
                       style={{
-                        width:widthPrecent(40),
-                      
-                        height:heightPercent(8)
+                        width: widthPrecent(40),
+
+                        height: heightPercent(8),
                       }}>
                       <Text
                         style={{
-                          marginLeft:5,
+                          marginLeft: 5,
                           fontSize: 20,
                           fontWeight: '500',
                           color: textColor,
@@ -402,10 +396,9 @@ alignItems:'center',
                             justifyContent: 'center',
                             borderColor: theme == 'light' ? 'blue' : '#fff',
                             borderRadius: 5,
-                            width:'50%',
-                            marginLeft:10,
-                            marginTop:5
-                            
+                            width: '50%',
+                            marginLeft: 10,
+                            marginTop: 5,
                           }}>
                           <Text style={{color: textColor}}>
                             {item.project_data?.name.substring(0, 8)}
@@ -420,8 +413,8 @@ alignItems:'center',
                         justifyContent: 'space-between',
                         paddingHorizontal: 5,
                         flexDirection: 'row',
-                        height:heightPercent(8),
-                        alignItems:'center'
+                        height: heightPercent(8),
+                        alignItems: 'center',
                       }}>
                       <TouchableOpacity
                         style={{
@@ -429,9 +422,9 @@ alignItems:'center',
                           alignItems: 'center',
                           padding: 5,
                           borderRadius: 5,
-                          width:50,
-                 
-                          height:50
+                          width: 50,
+
+                          height: 50,
                         }}>
                         <FontAwesome5
                           name="chart-bar"
@@ -454,8 +447,8 @@ alignItems:'center',
                         }}
                         style={{
                           flexDirection: 'row',
-                          width:50,
-                          height:50,
+                          width: 50,
+                          height: 50,
                           borderWidth: 1,
                           alignItems: 'center',
                           padding: 5,
@@ -474,7 +467,7 @@ alignItems:'center',
                   </View>
 
                   {visibleMenuIndex == index && (
-                    <View style={{height: '40%'}}>
+                    <View style={{}}>
                       <Menu
                         visible={visible}
                         onRequestClose={() => hideMenu(index)}
@@ -485,152 +478,154 @@ alignItems:'center',
                           backgroundColor: bgColor,
                           marginTop: hp(12),
                         }}>
-                        <MenuItem
-                          onPress={hideMenu}
-                          style={{
-                            marginLeft: -5,
-                            justifyContent: 'center',
-                            height: 30,
-                            marginTop: 5,
-                          }}>
-                          <Entypo
-                            name="share-alternative"
-                            size={25}
-                            color={textColor}
-                          />
-                          <Text
+                        <ScrollView canCancelContentTouches={{flex: 1}}>
+                          <MenuItem
+                            onPress={hideMenu}
                             style={{
-                              fontSize: 16,
-                              fontWeight: '400',
+                              marginLeft: -5,
+                              justifyContent: 'center',
+                              height: 30,
+                              marginTop: 5,
+                            }}>
+                            <Entypo
+                              name="share-alternative"
+                              size={25}
+                              color={textColor}
+                            />
+                            <Text
+                              style={{
+                                fontSize: 16,
+                                fontWeight: '400',
 
-                              color: textColor,
-                            }}>
-                            {' '}
-                            Views
-                          </Text>
-                        </MenuItem>
-                        <MenuItem
-                          onPress={() => {
-                            navigation.navigate(ScreenNameEnum.VCARD_QR);
-                            hideMenu();
-                          }}
-                          style={{marginTop: 5}}>
-                          <FontAwesome6
-                            name="qrcode"
-                            size={20}
-                            color={textColor}
-                          />
-                          <Text
-                            style={{
-                              fontSize: 16,
-                              fontWeight: '400',
-                              color: textColor,
-                            }}>
-                            {' '}
-                            QR Code
-                          </Text>
-                        </MenuItem>
-                        <MenuItem onPress={hideMenu} style={{}}>
-                          <FontAwesome5
-                            name="chart-bar"
-                            size={20}
-                            color={textColor}
-                          />
-                          <Text
-                            style={{
-                              fontSize: 16,
-                              fontWeight: '400',
-                              color: textColor,
-                            }}>
-                            {' '}
-                            Statistics
-                          </Text>
-                        </MenuItem>
-                        <MenuItem
-                          onPress={() => {
-                            hideMenu();
-                            navigation.navigate(ScreenNameEnum.EDIT_VCARD, {
-                              edit: false,
-                              E_Id: item.id,
-                              item: item,
-                            });
-                          }}
-                          style={{}}>
-                          <FontAwesome
-                            name="bars"
-                            size={20}
-                            color={textColor}
-                          />
-                          <Text
-                            style={{
-                              fontSize: 16,
-                              fontWeight: '400',
-                              color: textColor,
-                            }}>
-                            {' '}
-                            VCard Blocks
-                          </Text>
-                        </MenuItem>
-                        <MenuItem onPress={() => {}} style={{}}>
-                          <Ionicons name="copy" size={20} color={textColor} />
-                          <Text
-                            style={{
-                              fontSize: 16,
-                              fontWeight: '400',
-                              color: textColor,
-                            }}>
-                            {' '}
-                            Duplicate
-                          </Text>
-                        </MenuItem>
-                        <MenuItem
-                          onPress={() => {
-                            hideMenu();
-                            navigation.navigate(ScreenNameEnum.EDIT_VCARD, {
-                              edit: true,
-                              E_Id: item.id,
-                              item: item,
-                            });
-                          }}
-                          style={{justifyContent: 'center'}}>
-                          <FontAwesome5
-                            name="pencil-alt"
-                            size={20}
-                            color={textColor}
-                          />
-                          <Text
-                            style={{
-                              fontSize: 16,
-                              fontWeight: '400',
-                              color: textColor,
-                            }}>
-                            {' '}
-                            Edit
-                          </Text>
-                        </MenuItem>
-                        <MenuItem
-                          onPress={() => {
-                            VcardDelete(item.id);
-                          }}
-                          style={{}}>
-                          {/* <TouchableOpacity onPress={()=>console.log('fsfssafs')
+                                color: textColor,
+                              }}>
+                              {' '}
+                              Views
+                            </Text>
+                          </MenuItem>
+                          <MenuItem
+                            onPress={() => {
+                              navigation.navigate(ScreenNameEnum.VCARD_QR);
+                              hideMenu();
+                            }}
+                            style={{marginTop: 5}}>
+                            <FontAwesome6
+                              name="qrcode"
+                              size={20}
+                              color={textColor}
+                            />
+                            <Text
+                              style={{
+                                fontSize: 16,
+                                fontWeight: '400',
+                                color: textColor,
+                              }}>
+                              {' '}
+                              QR Code
+                            </Text>
+                          </MenuItem>
+                          <MenuItem onPress={hideMenu} style={{}}>
+                            <FontAwesome5
+                              name="chart-bar"
+                              size={20}
+                              color={textColor}
+                            />
+                            <Text
+                              style={{
+                                fontSize: 16,
+                                fontWeight: '400',
+                                color: textColor,
+                              }}>
+                              {' '}
+                              Statistics
+                            </Text>
+                          </MenuItem>
+                          <MenuItem
+                            onPress={() => {
+                              hideMenu();
+                              navigation.navigate(ScreenNameEnum.EDIT_VCARD, {
+                                edit: false,
+                                E_Id: item.id,
+                                item: item,
+                              });
+                            }}
+                            style={{}}>
+                            <FontAwesome
+                              name="bars"
+                              size={20}
+                              color={textColor}
+                            />
+                            <Text
+                              style={{
+                                fontSize: 16,
+                                fontWeight: '400',
+                                color: textColor,
+                              }}>
+                              {' '}
+                              VCard Blocks
+                            </Text>
+                          </MenuItem>
+                          <MenuItem onPress={() => {}} style={{}}>
+                            <Ionicons name="copy" size={20} color={textColor} />
+                            <Text
+                              style={{
+                                fontSize: 16,
+                                fontWeight: '400',
+                                color: textColor,
+                              }}>
+                              {' '}
+                              Duplicate
+                            </Text>
+                          </MenuItem>
+                          <MenuItem
+                            onPress={() => {
+                              hideMenu();
+                              navigation.navigate(ScreenNameEnum.EDIT_VCARD, {
+                                edit: true,
+                                E_Id: item.id,
+                                item: item,
+                              });
+                            }}
+                            style={{justifyContent: 'center'}}>
+                            <FontAwesome5
+                              name="pencil-alt"
+                              size={20}
+                              color={textColor}
+                            />
+                            <Text
+                              style={{
+                                fontSize: 16,
+                                fontWeight: '400',
+                                color: textColor,
+                              }}>
+                              {' '}
+                              Edit
+                            </Text>
+                          </MenuItem>
+                          <MenuItem
+                            onPress={() => {
+                              VcardDelete(item.id);
+                            }}
+                            style={{}}>
+                            {/* <TouchableOpacity onPress={()=>console.log('fsfssafs')
             }> */}
-                          <AntDesign
-                            name="delete"
-                            size={25}
-                            color={textColor}
-                          />
-                          <Text
-                            style={{
-                              fontSize: 16,
-                              fontWeight: '400',
-                              color: textColor,
-                            }}>
-                            {' '}
-                            Delete
-                          </Text>
-                          {/* </TouchableOpacity> */}
-                        </MenuItem>
+                            <AntDesign
+                              name="delete"
+                              size={25}
+                              color={textColor}
+                            />
+                            <Text
+                              style={{
+                                fontSize: 16,
+                                fontWeight: '400',
+                                color: textColor,
+                              }}>
+                              {' '}
+                              Delete
+                            </Text>
+                            {/* </TouchableOpacity> */}
+                          </MenuItem>
+                        </ScrollView>
                       </Menu>
                     </View>
                   )}

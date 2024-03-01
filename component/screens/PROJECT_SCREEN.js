@@ -29,6 +29,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {ProjectList, Project_delete} from '../redux/feature/featuresSlice';
 import Loader from '../Loader';
 import ScreenNameEnum from '../navigation/routes/screenName.enum'
+import { heightPercent } from '../config/responsiveScreen';
 export default function PROJECT_SCREEN() {
   const navigation = useNavigation();
   const isLoading = useSelector(state => state.feature.isLoading);
@@ -152,13 +153,14 @@ export default function PROJECT_SCREEN() {
           style={{
             flexDirection: 'row',
             backgroundColor: bgColor,
-            height: hp(8),
+            height: hp(5),
             alignItems: 'center',
             marginTop: 20,
+          
           }}>
           <Text
             style={{
-              fontSize: 22,
+              fontSize:20,
               fontWeight: '600',
               marginHorizontal: 20,
             }}>
@@ -172,9 +174,10 @@ export default function PROJECT_SCREEN() {
             flexDirection: 'row',
             marginTop: 15,
             marginHorizontal: 10,
-            height: hp(8),
+            height:hp(7),
             paddingHorizontal: 10,
             paddingVertical: 5,
+           
           }}>
           <TouchableOpacity
             onPress={() => {
@@ -183,13 +186,14 @@ export default function PROJECT_SCREEN() {
             style={{
               flexDirection: 'row',
               borderWidth: 1,
-
+            height:40, 
+            width:'42%',
               alignItems: 'center',
               justifyContent: 'center',
               borderColor: '#ed2f95',
-              paddingHorizontal: 10,
+             
             }}>
-            <AntDesign name="pluscircle" size={25} color={'#ed2f95'} />
+            <AntDesign name="pluscircle" size={20} color={'#ed2f95'} />
             <Text
               style={{
                 marginLeft: 10,
@@ -203,8 +207,8 @@ export default function PROJECT_SCREEN() {
 
           <TouchableOpacity
             style={{
-              height: 45,
-              width: 45,
+              height: 40,
+              width: 40,
               marginHorizontal: 10,
               alignItems: 'center',
               justifyContent: 'center',
@@ -216,8 +220,8 @@ export default function PROJECT_SCREEN() {
           </TouchableOpacity>
           <TouchableOpacity
             style={{
-              height: 45,
-              width: 45,
+              height:40,
+              width:40,
               borderColor: textColor,
               alignItems: 'center',
               justifyContent: 'center',
@@ -417,83 +421,97 @@ animationType="slide"
 transparent={false}
 visible={ModalVisible}
 onRequestClose={() => setModalVisible(false)}>
-   <View style={{flex:1,}}>
+      <View style={{flex: 1}}>
             <TouchableOpacity
               onPress={() => {
                 setModalVisible(false);
               }}
               style={{
                 alignItems: 'flex-start',
-               marginVertical:10,
-                backgroundColor:'#f0f0f0',
-                padding:10,
-                width:'30%',
+                marginVertical: 10,
+                backgroundColor: '#f0f0f0',
+                padding: 10,
+                width: 120,
                 height: 50,
                 justifyContent: 'center',
-                alignItems:'center',
+                alignItems: 'center',
                 borderRadius: 5,
                 marginHorizontal: 10,
                 marginTop: 20,
               }}>
-              <Text style={{fontSize: 18, color: textColor, fontWeight: '600'}}>
+              <Text style={{fontSize: 16, color: textColor, fontWeight: '600'}}>
                 Back to list
               </Text>
             </TouchableOpacity>
-            <View style={{marginHorizontal:10,marginBottom:10}}>
-              <Text style={{fontSize:18,fontWeight:'500',color:textColor}}>Show Connect Custom Domain
-</Text>
-            </View>
 
             <View
               style={{
-                borderWidth: 1,
-                height: hp(18.6),
+                height: heightPercent(25),
                 marginHorizontal: 10,
-              
-                justifyContent:'center'
+
+                borderRadius: 5,
               }}>
               <View
-                style={[
-                  styles.viewDiv,
-                  {
-                    backgroundColor: bgColor,
-                  },
-                ]}>
-                <Text style={[styles.viewTxt, {color: textColor}]}>ID</Text>
-                <Text style={[styles.viewTxt, {  fontWeight:'400',color: textColor,borderRightWidth:0,marginLeft:10,width:'52%'}]}>
-                  {viewProjectData.id}
-                </Text>
+                style={{
+                  flexDirection: 'row',
+                  height: 30,
+                  alignItems: 'center',
+                  backgroundColor: '#f0f0f0',
+                  justifyContent: 'space-between',
+                }}>
+                <View style={{width: '50%', paddingHorizontal: 20}}>
+                  <Text style={[{color: textColor, fontWeight: '500'}]}>
+                    ID
+                  </Text>
+                </View>
+                <View style={{width: '50%', paddingHorizontal: 20}}>
+                  <Text
+                    style={{fontSize: 16, fontWeight: '400', color: textColor}}>
+                    {viewProjectData.id}
+                  </Text>
+                </View>
               </View>
               <View
-                style={[
-                  styles.viewDiv,
-                  {
-                    backgroundColor: bgColor,
-                  },
-                ]}>
-               <Text style={[styles.viewTxt, {color: textColor}]}>
-               Name
-                </Text>
-                <Text style={[styles.viewTxt, {  fontWeight:'400',color: textColor,borderRightWidth:0,marginLeft:10,width:'52%'}]}>
-                  {viewProjectData.name}
-                </Text>
+                style={{
+                  flexDirection: 'row',
+                  height: 30,
+                  alignItems: 'center',
+                  backgroundColor: '#fff',
+                  justifyContent: 'space-between',
+                }}>
+                <View style={{width: '50%', paddingHorizontal: 20}}>
+                  <Text style={[{color: textColor, fontWeight: '500'}]}>
+                    Name
+                  </Text>
+                </View>
+                <View style={{width: '50%', paddingHorizontal: 20}}>
+                  <Text
+                    style={{fontSize: 16, fontWeight: '400', color: textColor}}>
+                    {viewProjectData.name}
+                  </Text>
+                </View>
               </View>
               <View
-                style={[
-                  styles.viewDiv,
-                  {
-                    backgroundColor: bgColor,
-                    borderBottomWidth:0
-                  },
-                ]}>
-             <Text style={[styles.viewTxt, {color: textColor,}]}>
-             Color
-                </Text>
-                <Text style={[styles.viewTxt, {  fontWeight:'400',color: textColor,borderRightWidth:0,marginLeft:10,width:'52%'}]}>
-                  {viewProjectData.color}
-                </Text>
+                style={{
+                  flexDirection: 'row',
+                  height: 30,
+                  alignItems: 'center',
+                  backgroundColor: '#f0f0f0',
+                  justifyContent: 'space-between',
+                }}>
+                <View style={{width: '50%', paddingHorizontal: 20}}>
+                  <Text style={[{color: textColor, fontWeight: '500'}]}>
+                    Type
+                  </Text>
+                </View>
+                <View style={{width: '50%', paddingHorizontal: 20}}>
+                  <Text
+                    style={{fontSize: 16, fontWeight: '400', color: textColor}}>
+                    {viewProjectData.color}
+                  </Text>
+                </View>
               </View>
-           
+             
             </View>
           </View>
 </Modal>
