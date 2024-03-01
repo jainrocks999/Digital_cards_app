@@ -67,27 +67,27 @@ export default function EDIT_VCARD({route}) {
     setDSButton(item.display_share_button == 1?true:false)
     setDVDButton(item.display_vcard_download_button == 1?true:false)
     setVAButton(item.vcard_is_active == 1?true:false)
-    setFirstName(item.first_name)
-    setLastName(item.last_name)
-    setCompany(item.company)
-    setJobTitle(item.job_title)
-    setBirthday(item.birthday == null?new Date():item.birthday)
-    setCustomIndex(item.theme)
+    setFirstName(item.first_name==null?'':item.first_name)
+    setLastName(item.last_name==null?'':item.last_name)
+    setCompany(item.company==null?'':item.company)
+    setJobTitle(item.job_title==null?'':item.job_title)
+    setBirthday(item.birthday == null?new Date().toISOString().split('T')[0]:item.birthday)
+    setCustomIndex(Number(item.theme) == 0?Number(item.theme):Number(item.theme)-1)
     setBackground(item.background)
     check_Dropdown(item.background,null)
-    setFavicon(item.favicon.url)
-    setLogo(item.logo.url)
-    setcustImage(item.custom_image)
- setSelectedColor(item.color)
- setFirstColor(item.first_color)
- setSecondColor(item.second_color)
+    setFavicon(item.favicon==null?'':item.favicon?.url)
+    setLogo(item.logo==null?'':item.logo?.url)
+    setcustImage(item.custom_image==null?'':item.custom_image)
+ setSelectedColor(item.color==null?'skyblue':item.color)
+ setFirstColor(item.first_color ==null?item.first_color:'blue')
+ setSecondColor(item.second_color==null?item.second_color:'red')
  setFontFamily(item.font_family)
- setFontSize(item.font_size)
+ setFontSize(''+item.font_size)
  setSEVisiable(item.search_engine_visibility == 1?true:false)
  setPTitle(item.page_title)
  setMKeyword(item.meta_keywords)
  setMDescription(item.meta_description)
- setOpenGImage(item.opengraph_image)
+ setOpenGImage(item.opengraph_image==null?'':item.opengraph_image?.url)
 setLeapLink(item.leap_link_url)
 setProject(item.project)
 setRBranding(item.remove_branding==1?true:false)
@@ -98,19 +98,12 @@ checkProject()
 
   }, [edit, item]);
 
-
-
-
-
-
-
-
-
-
-
   const navigation = useNavigation();
   const theme = useSelector(state => state.theme.data);
   const [selectedColor, setSelectedColor] = useState('red');
+  const [GPreset, setGPreset] = useState(  {
+    color: ['#53bcc9', '#9198cc', '#b881cf', '#d787af', '#f4a373'],
+  },);
   const PixelList = useSelector(state => state.feature.PixelList);
   const [showIndex, setShowIndex] = useState('21-12-2023');
   const ProjectData = useSelector(state => state.feature.ProjectList);
@@ -188,7 +181,7 @@ checkProject()
   const [PTitle, setPTitle] = useState('');
   const [MDescription, setMDescription] = useState('');
   const [MKeyword, setMKeyword] = useState('');
-  const [OpenGImage, setOpenGImage] = useState('');
+  const [OpenGImage, setOpenGImage] = useState(null);
 
   //advance
   const [RBranding, setRBranding] = useState(false);
@@ -313,13 +306,16 @@ setBackground(label)
   };
 
   const checkProject = ()=>{
-    ProjectData.map(item=>{
-      if(Project == item.id){
-      setPrValue(item.name)
-    }
+    ProjectData?.map(item=>{
+if(item.id == Project){
+setPrValue(item.name)
+}
     })
   }
+  function arraysMatch(arr1, arr2) {
 
+    return arr1.length === arr2.length && arr1.every((value, index) => value === arr2[index]);
+  }
   const openLogoImage = () => {
     launchImageLibrary({mediaType: 'photo'}, async response => {
       if (!response.didCancel && !response.error) {
@@ -501,9 +497,10 @@ setBackground(label)
         last_name: LastName,
         company: Company,
         job_title: JobTitle,
-        birthday: Birthday.toLocaleDateString('en-GB'),
+        birthday: Birthday,
         theme: CustomTheme,
         background: Background,
+        background_preset:GPreset,
         color: selectedColor,
         first_color: firstColor,
         second_color: SecondColor,
@@ -520,16 +517,9 @@ setBackground(label)
         remove_branding: RBranding ? 1 : 0,
         custom_css: customCSS,
         custom_js: customJS,
-        logo: {
-          uri: Logo,
-          type: 'image/jpeg',
-          name: 'Logo.jpg',
-        },
-        opengraph_image: {
-          uri: OpenGImage,
-          type: 'image/jpeg',
-          name: 'OpenGImage.jpg',
-        },
+        logo:Logo,
+        favicon:Favicon,
+        opengraph_image:OpenGImage,
         id: E_Id,
         user_id: user?.data.id,
       },
@@ -1180,11 +1170,12 @@ setBackground(label)
                             <DatePicker
                               mode="date"
                               modal
+                              format="YYYY-MM-DD"
                               open={open}
                               date={new Date()}
                               onConfirm={date => {
                                 setOpen(false);
-                                setBirthday(date);
+                                setBirthday(date.toISOString().split('T')[0]);
                               }}
                               onCancel={() => {
                                 setOpen(false);
@@ -1381,14 +1372,14 @@ setBackground(label)
                                 height: hp(10),
                                 borderColor: 'grey',
                               }}>
-                              {OpenGImage === '' && (
+                              {OpenGImage === null && (
                                 <Text style={{fontSize: 16, color: textColor}}>
                                   Drop files here to upload
                                 </Text>
                               )}
-                              {OpenGImage !== '' && (
+                              {OpenGImage !== null && (
                                 <Image
-                                  source={{uri: OpenGImage}}
+                                  source={{uri:OpenGImage}}
                                   style={{
                                     height: '90%',
                                     width: '95%',
@@ -1978,12 +1969,12 @@ setBackground(label)
                                     <TouchableOpacity
                                       onPress={() => {
                                         setselected(index);
-                                        setBackground(item.color);
+                                      setGPreset(item);
+                                       
                                       }}
                                       style={{
                                         borderWidth: 3,
-                                        borderColor:
-                                          selected === index ? 'green' : '#fff',
+                                        borderColor: arraysMatch(item.color, GPreset.color)? 'green' : '#fff',
                                         height: hp(12),
                                         marginVertical: 10,
 
@@ -2114,7 +2105,7 @@ setBackground(label)
                                                 <Text
                                                   style={{
                                                     fontSize: 18,
-                                                    color: textColor,
+                                                    color:'#fff',
                                                   }}>
                                                   Save
                                                 </Text>
@@ -2235,7 +2226,7 @@ setBackground(label)
                                                 <Text
                                                   style={{
                                                     fontSize: 18,
-                                                    color: textColor,
+                                                    color:'#fff',
                                                   }}>
                                                   Save
                                                 </Text>
@@ -2360,7 +2351,7 @@ setBackground(label)
                                                 <Text
                                                   style={{
                                                     fontSize: 18,
-                                                    color: textColor,
+                                                    color:'#fff',
                                                   }}>
                                                   Save
                                                 </Text>
@@ -2536,8 +2527,8 @@ setBackground(label)
                              
                               value={FontSize}
                               onChangeText={txt => setFontSize(txt)}
-                              style={{color: textColor}}
-                              placeholder={''}
+                              style={{color: textColor,}}
+                              placeholder={FontSize}
                               placeholderTextColor={textColor}
                             />
                           </View>
@@ -3426,7 +3417,7 @@ const GradientPresetData = [
   },
 
   {
-    color: ['#8fc8f4', '#cae8bc'],
+    color: ['#4BC0C8', '#C779D0', '#FEAC5E'],
   },
 ];
 
@@ -3477,5 +3468,9 @@ const Font_Family = [
   {
     label: 'Incosolata',
     value: '10',
+  },
+  {
+    label: 'default',
+    value: '11',
   },
 ];
