@@ -70,7 +70,7 @@ const Account_check =()=>{
 
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate(ScreenNameEnum.VCARD_STACK);
+          navigation.navigate(ScreenNameEnum.HOME_TAB_SCREEN);
         }}
         style={[styles.screen1, {marginTop: 25, backgroundColor: bgColor}]}>
         <View style={styles.logo}>

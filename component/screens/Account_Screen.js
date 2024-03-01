@@ -30,7 +30,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Dropdown} from 'react-native-element-dropdown';
 
 export default function Account_Screen() {
-  console.log('=>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+
   const navigation = useNavigation();
   const isLoading = useSelector(state => state.feature.isLoading);
   const theme = useSelector(state => state.theme.data);
@@ -41,6 +41,9 @@ export default function Account_Screen() {
   const [visibleMenuIndex, setVisibleMenuIndex] = useState(null);
   let textColor = theme == 'light' ? '#000' : '#fff';
   let bgColor = theme == 'light' ? '#fff' : '#575757';
+  const[Name,setName]= useState('')
+  const [Email,setEmail] =useState('')
+
   const isFocused = useIsFocused();
 
   const changeTheame = async () => {
@@ -53,6 +56,13 @@ export default function Account_Screen() {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
+  useEffect(()=>{
+
+  
+  setName(user.data?.name)
+  setEmail(user.data?.email)
+
+  },[isFocused])
   return (
     <View
       style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
@@ -139,8 +149,10 @@ export default function Account_Screen() {
                   {backgroundColor: theme == 'light' ? '#fff' : '#474747'},
                 ]}>
                 <TextInput
+                  value={Name}
+                  onChangeText={(txt)=> setName(txt)}
                   placeholderTextColor={textColor}
-                  placeholder="name"
+                  placeholder={Name}
                   style={{
                     fontSize: 14,
                     paddingHorizontal: 20,
@@ -174,8 +186,11 @@ export default function Account_Screen() {
                   {backgroundColor: theme == 'light' ? '#fff' : '#474747'},
                 ]}>
                 <TextInput
-                  placeholder="Email"
+                  placeholder={Email}
                   placeholderTextColor={textColor}
+                  value={Email}
+                  onChangeText={(txt)=> setEmail(txt)
+                  }
                   style={{
                     fontSize: 14,
                     paddingHorizontal: 20,

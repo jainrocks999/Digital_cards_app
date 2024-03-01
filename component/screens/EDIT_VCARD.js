@@ -901,7 +901,7 @@ export default function EDIT_VCARD({route}) {
                   </View>
                 </View>
               </View>
-
+<View style={{height:heightPercent(5)}} />
               <View style={{marginHorizontal: 10}}>
                 <FlatList
                   data={data}
@@ -1818,10 +1818,12 @@ export default function EDIT_VCARD({route}) {
                             style={{
                               borderWidth: 1,
                               marginTop: 5,
-                              alignItems: 'center',
+                             // alignItems: 'center',
                               justifyContent: 'center',
                               height: heightPercent(20),
                               borderColor: 'grey',
+                              paddingLeft:20,
+                              
                             }}>
                             {Logo === '' && (
                               <Text style={{fontSize: 16, color: textColor}}>
@@ -1832,12 +1834,14 @@ export default function EDIT_VCARD({route}) {
                               <Image
                                 source={{uri: Logo}}
                                 style={{
-                                  height: '90%',
-                                  width: '90%',
+                                  height:'80%',
+                                  width:'35%',
                                   borderRadius: 10,
+                                 
                                 }}
-                                resizeMode="contain"
+                                
                               />
+                              
                             )}
                           </TouchableOpacity>
                           <View style={{marginHorizontal: 10}}>
