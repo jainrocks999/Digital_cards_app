@@ -7,6 +7,8 @@ import {
   ScrollView,
   Appearance,
   Alert,
+  Platform,
+  PermissionsAndroid,
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
@@ -30,7 +32,7 @@ import {changeTheme} from '../redux/feature/ThemeSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Vcard_delete, dashboard} from '../redux/feature/featuresSlice';
 import Loader from '../Loader';
-
+import {check, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
 export default function Home_Screen() {
   const dispatch = useDispatch();
@@ -51,6 +53,8 @@ export default function Home_Screen() {
     dispatch(changeTheme(theme === 'light' ? 'dark' : 'light'));
   };
 
+
+ 
   const showMenu = index => {
     setVisible(true);
     setVisibleMenuIndex(index);
