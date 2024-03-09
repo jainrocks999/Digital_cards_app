@@ -1444,19 +1444,19 @@ export default function EDIT_VCARD({route}) {
                                 marginTop: 10,
                                 backgroundColor:
                                   theme === 'light' ? '#f0f0f0' : '#333',
-                                width: '40%',
+                               paddingHorizontal:10,
                                 height: 40,
-                                paddingHorizontal: 5,
+                               
                                 borderRadius: 5,
                               }}>
                               <AntDesign
                                 name="plus"
-                                size={20}
+                                size={15}
                                 color={textColor}
                               />
                               <Text
                                 style={{
-                                  fontSize: 16,
+                                  fontSize: 14,
                                   fontWeight: '400',
                                   color: textColor,
                                   marginLeft: 5,
@@ -3066,7 +3066,7 @@ export default function EDIT_VCARD({route}) {
                                   check_Modal_click(item.title, item.url);
                                 }}
                                 style={{
-                                  paddingHorizontal: 20,
+                                  paddingHorizontal:15,
                                   marginHorizontal: 5,
                                   borderRadius: 5,
                                   marginVertical: 5,
@@ -3195,6 +3195,7 @@ export default function EDIT_VCARD({route}) {
                                 borderColor: '#f0f0f0',
                                 alignItems: 'center',
                                 flexDirection: 'row',
+                                
                               },
                             ]}>
                             <View
@@ -3203,7 +3204,7 @@ export default function EDIT_VCARD({route}) {
                                 backgroundColor: '#f0f0f0',
                                 alignItems: 'center',
                                 height: '100%',
-                                width: Btnurl === '@' ? '15%' : '50%',
+                                width: Btnurl === '@' ? '15%' : '51%',
                               }}>
                               <Text
                                 style={{
@@ -3431,7 +3432,7 @@ const ModalData = [
   {title: 'Email', color: '#4b5563', url: '@'},
   {title: 'YouTube', color: '#dc3545', url: 'https://youtube.com/'},
   {title: 'Instagram', color: '#ffc107', url: 'https://instagram.com/'},
-  {title: 'FaceBook', color: '#4b5563', url: 'https://instagram.com/'},
+  {title: 'FaceBook', color: '#4b5563', url: 'https://Facebook.com/'},
   {title: 'Twitter', color: '#4b5563', url: 'https://twitter.com/'},
 ];
 const GradientPresetData = [
