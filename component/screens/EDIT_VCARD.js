@@ -541,6 +541,61 @@ export default function EDIT_VCARD({route}) {
 
     dispatch(Vcard_Edit(params));
   };
+
+  const modalRenderItem = ({ item }) => {
+    const icons = {
+      Link: <Entypo name="link" size={25} />,
+      Email: <MaterialCommunityIcons name="email" size={25} />,
+      Twitter: <AntDesign name="twitter" size={20} />,
+      Phone: <AntDesign name="phone" size={20} />,
+      YouTube: <AntDesign name="youtube" size={20} />,
+      Instagram: <AntDesign name="instagram" size={20} />,
+      Github: <AntDesign name="github" size={25} />,
+      Linkedin: <AntDesign name="linkedin-square" size={25} />,
+      'Facebook-messenger': <FontAwesome5 name="facebook-messenger" size={20} />,
+      Address: <Entypo name="location-pin" size={25} />,
+      Spotify: <Entypo name="spotify" size={25} />,
+      FaceBook: <Entypo name="facebook" size={25} />,
+      Whatsapp: <FontAwesome name="whatsapp" size={25} />,
+      reddit: <FontAwesome name="reddit" size={25} />,
+      Twitch: <FontAwesome name="twitch" size={25} />,
+      Snapchat: <FontAwesome name="snapchat" size={25} />,
+      Telegram: <FontAwesome name="telegram" size={25} />,
+      TikTok: <FontAwesome5 name="tiktok" size={20} />,
+      Discord: <FontAwesome5 name="discord" size={25} />,
+      Pinterest: <FontAwesome5 name="pinterest" size={25} />,
+    };
+
+    return (
+      <TouchableOpacity
+        onPress={() => check_Modal_click(item.title, item.url)}
+        style={{
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
+          elevation: 5,
+          paddingHorizontal: 15,
+          marginHorizontal: 5,
+          borderRadius: 5,
+          marginVertical: 5,
+          backgroundColor: bgColor,
+          height: 50,
+          alignItems: 'center',
+          flexDirection: 'row',
+          justifyContent: 'center',
+        }}>
+        {icons[item.title]}
+        <Text style={{ fontSize: 18, marginLeft: 10, color: textColor, fontWeight: '500' }}>
+          {item.title}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <View
       style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
@@ -3070,135 +3125,27 @@ export default function EDIT_VCARD({route}) {
                       !ModalYoutube &&
                       !ModalTwitter && (
                         <>
-                          <FlatList
-                            data={ModalData}
-                            keyExtractor={item => item.id}
-                            showsVerticalScrollIndicator={false}
-                            renderItem={({item}) => (
-                              <TouchableOpacity
-                                onPress={() => {
-                                  check_Modal_click(item.title, item.url);
-                                }}
-                                style={{
-                                  shadowColor: '#000',
-                                  shadowOffset: {
-                                    width: 0,
-                                    height: 2,
-                                  },
-                                  shadowOpacity: 0.25,
-                                  shadowRadius: 3.84,
-
-                                  elevation: 5,
-                                  paddingHorizontal: 15,
-                                  marginHorizontal: 5,
-                                  borderRadius: 5,
-                                  marginVertical: 5,
-                                  backgroundColor: bgColor,
-                                  height: 50,
-                                  alignItems: 'center',
-                                  flexDirection: 'row',
-                                  justifyContent: 'center',
-                                }}>
-                                {item.title == 'Link' && (
-                                  <Entypo name="link" size={25} />
-                                )}
-                                {item.title == 'Email' && (
-                                  <MaterialCommunityIcons
-                                    name="email"
-                                    size={25}
-                                  />
-                                )}
-                                {item.title == 'Twitter' && (
-                                  <AntDesign name="twitter" size={20} />
-                                )}
-                                {item.title == 'Phone' && (
-                                  <AntDesign name="phone" size={20} />
-                                )}
-                                {item.title == 'YouTube' && (
-                                  <AntDesign name="youtube" size={20} />
-                                )}
-                                {item.title == 'Instagram' && (
-                                  <AntDesign name="instagram" size={20} />
-                                )}
-                                {item.title == 'Github' && (
-                                  <AntDesign name="github" size={25} />
-                                )}
-                                {item.title == 'Linkedin' && (
-                                  <AntDesign name="linkedin-square" size={25} />
-                                )}
-                                {item.title == 'Facebook-messenger' && (
-                                  <FontAwesome5
-                                    name="facebook-messenger"
-                                    size={20}
-                                  />
-                                )}
-                                {item.title == 'Address' && (
-                                  <Entypo name="location-pin" size={25} />
-                                )}
-                                {item.title == 'Spotify' && (
-                                  <Entypo name="spotify" size={25} />
-                                )}
-                                {item.title == 'FaceBook' && (
-                                  <Entypo name="facebook" size={25} />
-                                )}
-                                {item.title == 'Whatsapp' && (
-                                  <FontAwesome name="whatsapp" size={25} />
-                                )}
-                                {item.title == 'reddit' && (
-                                  <FontAwesome name="reddit" size={25} />
-                                )}
-                                {item.title == 'Twitch' && (
-                                  <FontAwesome name="twitch" size={25} />
-                                )}
-                                {item.title == 'Snapchat' && (
-                                  <FontAwesome name="snapchat" size={25} />
-                                )}
-                                {item.title == 'Telegram' && (
-                                  <FontAwesome name="telegram" size={25} />
-                                )}
-                                {item.title == 'TikTok' && (
-                                  <FontAwesome5 name="tiktok" size={20} />
-                                )}
-                                {item.title == 'Discord' && (
-                                  <FontAwesome5 name="discord" size={25} />
-                                )}
-                                {item.title == 'Pinterest' && (
-                                  <FontAwesome5 name="pinterest" size={25} />
-                                )}
-
-                                <Text
-                                  style={{
-                                    fontSize: 18,
-                                    marginLeft: 10,
-                                    color: textColor,
-                                    fontWeight: '500',
-                                  }}>
-                                  {item.title}
-                                </Text>
-                              </TouchableOpacity>
-                            )}
-                            ListHeaderComponent={() => (
-                              <View
-                                style={{
-                                  height: hp(6),
-                                  justifyContent: 'center',
-                                  borderTopWidth: 1,
-                                  marginHorizontal: 5,
-                                  borderColor: '#f0f0f0',
-
-                                  marginTop: 10,
-                                }}>
-                                <Text
-                                  style={{
-                                    fontSize: 20,
-                                    fontWeight: '500',
-                                    color: '#333',
-                                  }}>
-                                  Choose an option:
-                                </Text>
-                              </View>
-                            )}
-                          />
+                         <FlatList
+      data={ModalData}
+      keyExtractor={(item) => item.id}
+      showsVerticalScrollIndicator={false}
+      renderItem={modalRenderItem}
+      ListHeaderComponent={() => (
+        <View
+          style={{
+            height: hp(6),
+            justifyContent: 'center',
+            borderTopWidth: 1,
+            marginHorizontal: 5,
+            borderColor: '#f0f0f0',
+            marginTop: 10,
+          }}>
+          <Text style={{ fontSize: 20, fontWeight: '500', color: '#333' }}>
+            Choose an option:
+          </Text>
+        </View>
+      )}
+    />
                         </>
                       )}
 
