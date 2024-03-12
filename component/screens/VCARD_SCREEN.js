@@ -171,12 +171,22 @@ export default function VCARD_SCREEN() {
       style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
       {isLoading ? <Loader /> : null}
    
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            backgroundColor: bgColor,
-          }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          backgroundColor: bgColor,
+          shadowColor: "#000",
+          shadowOffset: {
+              width: 0,
+              height: 2,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
+          
+          elevation: 5,
+          height:50
+        }}>
           <TouchableOpacity
             onPress={() => navigation.openDrawer()}
             style={{width: '20%'}}>
@@ -410,7 +420,9 @@ export default function VCARD_SCREEN() {
                         </View>
                         <View
                           style={{
-                            width: '42%',
+                            width: '40%',
+                            height:65,
+                           marginLeft:5
                           }}>
                           <Text
                             style={{
@@ -429,8 +441,18 @@ export default function VCARD_SCREEN() {
                                 justifyContent: 'center',
                                 borderColor: theme == 'light' ? 'blue' : '#fff',
                                 borderRadius: 5,
-                                width: '50%',
-                              }}>
+                                marginTop:10,
+                         width: '50%',
+                               
+                              }}
+                              onPress={()=>{
+                                navigation.navigate(ScreenNameEnum.EDIT_VCARD, {
+                                  edit: true,
+                                  E_Id: item.id,
+                                  item: item,
+                                });
+                              }}
+                              >
                               <Text style={{color: textColor}}>
                                 {item.project_data?.name.substring(0, 8)}
                               </Text>

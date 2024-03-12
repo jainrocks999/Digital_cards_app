@@ -20,12 +20,12 @@ import Feather from 'react-native-vector-icons/Feather';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDispatch, useSelector} from 'react-redux';
-import ScreenNameEnum from '../navigation/routes/screenName.enum'
+import ScreenNameEnum from '../navigation/routes/screenName.enum';
 import Loader from '../Loader';
-import { logout } from '../redux/feature/authSlice';
+import {logout} from '../redux/feature/authSlice';
+import {heightPercent} from '../config/responsiveScreen';
 
 const DrawerContent = ({navigation}) => {
-  
   const [visible, setVisible] = useState(false);
   const theme = useSelector(state => state.theme.data);
   const userData = useSelector(state => state.auth?.userData?.data);
@@ -49,12 +49,12 @@ const DrawerContent = ({navigation}) => {
 
   const hideMenu = () => setVisible(false);
   const showMenu = () => setVisible(true);
-  
-const Account_check =()=>{
-  console.log('called account stack');
-  navigation.navigate(ScreenNameEnum.ACCOUNT_STACK)
-  hideMenu()
-}
+
+  const Account_check = () => {
+    console.log('called account stack');
+    navigation.navigate(ScreenNameEnum.ACCOUNT_SCREEN);
+    hideMenu();
+  };
   return (
     <View
       style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
@@ -140,11 +140,7 @@ const Account_check =()=>{
 
           elevation: 10,
         }}>
-        <TouchableOpacity
-          onPress={() => {
-          
-          }}
-          style={styles.logout}>
+        <TouchableOpacity onPress={() => {}} style={styles.logout}>
           <Image
             source={require('../image/dp.png')}
             style={{height: 45, width: 45, borderRadius: 22.5}}
@@ -156,39 +152,56 @@ const Account_check =()=>{
             {userData?.name}
           </Text>
           <Text style={{color: textColor}}>{userData?.email}</Text>
-        </View> 
+        </View>
       </TouchableOpacity>
-      <View style={{height: '50%', 
-marginTop:20}}>
+      <View
+        style={{
+          marginTop:heightPercent(8),
+        }}>
         <Menu
           visible={visible}
           onRequestClose={hideMenu}
           style={{
-            marginLeft: '22%',
-            width: '17%',
+            marginLeft: '26%',
+            width: '10%',
+            alignItems: 'center',
             justifyContent: 'center',
             backgroundColor: bgColor,
+           
           }}>
-          <MenuItem onPress={()=>{Account_check()}} style={{}}>
+          <MenuItem
+            onPress={() => {
+              Account_check();
+            }}
+            style={{}}>
             <Feather name="tool" size={20} color={textColor} />
-            <Text style={{fontSize: 16, fontWeight: '400', color: textColor}}>  Account
+            <Text style={{fontSize: 16, fontWeight: '400', color: textColor}}>
+              {' '}
+              Account
             </Text>
           </MenuItem>
-          <MenuItem onPress={hideMenu} style={{}}>
+          <MenuItem
+            onPress={() => {
+              hideMenu();
+              navigation.navigate(ScreenNameEnum.PLAN_SCREEN);
+            }}
+            style={{}}>
             <FontAwesome6 name="box-open" size={20} color={textColor} />
             <Text style={{fontSize: 16, fontWeight: '400', color: textColor}}>
               {' '}
               Plan
             </Text>
           </MenuItem>
-          <MenuItem onPress={hideMenu} style={{}}>
+          {/* <MenuItem onPress={hideMenu} style={{}}>
             <FontAwesome6 name="scroll" size={20} color={textColor} />
             <Text style={{fontSize: 16, fontWeight: '400', color: textColor}}>  Logs
             </Text>
-          </MenuItem>
+          </MenuItem> */}
           <MenuItem onPress={hideMenu} style={{}}>
             <Entypo name="code" size={20} color={textColor} />
-            <Text style={{fontSize: 16, fontWeight: '400', color: textColor}}>  Api
+            <Text style={{fontSize: 16, fontWeight: '400', color: textColor}}>
+              {' '}
+              Api
             </Text>
           </MenuItem>
           <MenuItem
@@ -218,34 +231,6 @@ marginTop:20}}>
             <Text style={{fontSize: 16, fontWeight: '400', color: textColor}}>
               {' '}
               Logout
-            </Text>
-            {/* </TouchableOpacity> */}
-          </MenuItem>
-          <MenuItem
-            onPress={() => {
-              Alert.alert(
-                'Logout',
-                'Are you sure you want to log out?',
-                [
-                  {
-                    text: 'Cancel',
-                    style: 'cancel',
-                  },
-                  {
-                    text: 'Logout',
-                    onPress: () => {
-                      UserLogOut();
-                    },
-                  },
-                ],
-                {cancelable: false},
-              );
-            }}
-            style={{}}>
-            {/* <TouchableOpacity onPress={()=>console.log('fsfssafs')
-            }> */}
-            <Entypo name="cross" size={20} color={textColor} />
-            <Text style={{fontSize: 16, fontWeight: '400', color: textColor}}> Delete Account
             </Text>
             {/* </TouchableOpacity> */}
           </MenuItem>

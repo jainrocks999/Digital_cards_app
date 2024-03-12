@@ -90,15 +90,24 @@ import {
       <View
         style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
         {isLoading ? <Loader /> : null}
-        <ScrollView
-          style={{paddingHorizontal: 5}}
-          showsVerticalScrollIndicator={false}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              backgroundColor: bgColor,
-            }}>
+      
+         
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          backgroundColor: bgColor,
+          shadowColor: "#000",
+          shadowOffset: {
+              width: 0,
+              height: 2,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
+          
+          elevation: 5,
+          height:50
+        }}>
             <TouchableOpacity
               onPress={() => navigation.openDrawer()}
               style={{width: '20%'}}>
@@ -137,6 +146,9 @@ import {
               </Text>
             </TouchableOpacity>
           </View>
+          <ScrollView
+          style={{paddingHorizontal: 5}}
+          showsVerticalScrollIndicator={false}>
           <View
             style={{
               flexDirection: 'row',

@@ -19,11 +19,11 @@ import Vcard_QR from "../../screens/Vcard_QR";
 import Edit_Project from "../../screens/Edit_Project";
 import Edit_Pixel from "../../screens/Pixel_Edit";
 import Edit_Domain from "../../screens/Edit_Domain";
-import AccountStack from "../AccountStack";
 import PixelStack from "../PixelStack";
 import ProjectStack from "../ProjectStack";
 import VcardStack from "../VcardStack";
 import DomainStack from "../DomainStack";
+import Plan_Screen from "../../screens/Plan_Screen";
 
 
 const _routes = {
@@ -46,7 +46,8 @@ const _routes = {
     { name: ScreenNameEnum.PIXEL_STACK, Component: PixelStack },
     { name: ScreenNameEnum.PROJECT_STACK, Component: ProjectStack },
     { name: ScreenNameEnum.DOMAIN_STACK, Component: DomainStack },
-    { name: ScreenNameEnum.ACCOUNT_STACK, Component:AccountStack },
+    { name: ScreenNameEnum.ACCOUNT_SCREEN, Component: Account_Screen, },
+    { name: ScreenNameEnum.PLAN_SCREEN, Component: Plan_Screen, },
 
   ],
 
@@ -73,9 +74,7 @@ const _routes = {
     { name: ScreenNameEnum.CONNECT_DOMAIN, Component: CONNECT_DOMAIN, },
     { name: ScreenNameEnum.Edit_Domain, Component: Edit_Domain, },
   ],
-  ACCOUNT_STACKS:[
-    { name: ScreenNameEnum.ACCOUNT_SCREEN, Component: Account_Screen, },
-  ]
+
 };
 
 export default _routes;

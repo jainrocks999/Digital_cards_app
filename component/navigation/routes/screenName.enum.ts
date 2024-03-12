@@ -25,6 +25,7 @@ enum ScreenNameEnum {
   PROJECT_STACK = 'PROJECT_STACK',
   VCARD_STACK = 'VCARD_STACK',
   ACCOUNT_STACK = 'ACCOUNT_STACK',
+ 
   DOMAIN_STACK = 'DOMAIN_STACK',
 
   //Features
@@ -37,7 +38,8 @@ enum ScreenNameEnum {
   VCARD_QR = 'Vcard_QR',
   Edit_Project = 'Edit_Project',
   Edit_Pixel = 'Edit_Pixel',
-  Edit_Domain = 'Edit_Domain'
+  Edit_Domain = 'Edit_Domain',
+  PLAN_SCREEN= 'PLAN_SCREEN'
 
 
 
