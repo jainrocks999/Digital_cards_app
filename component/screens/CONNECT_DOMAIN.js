@@ -66,9 +66,7 @@ const [custom404Url,set404Url] =useState('');
       
       {isLoading ? <Loader /> : null}
       
-      <ScrollView
-        style={{paddingHorizontal: 5}}
-        showsVerticalScrollIndicator={false}>
+      
         <View
           style={{
             flexDirection: 'row',
@@ -113,6 +111,10 @@ const [custom404Url,set404Url] =useState('');
             </Text>
           </TouchableOpacity>
         </View>
+      
+        <ScrollView
+        style={{paddingHorizontal: 5}}
+        showsVerticalScrollIndicator={false}>
         <View style={{justifyContent: 'center', marginTop: 20}}>
           <Text
             style={{

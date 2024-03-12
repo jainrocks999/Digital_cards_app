@@ -78,9 +78,7 @@ export default function CREATE_PROJECT() {
     <View
       style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
       {isLoading ? <Loader /> : null}
-      <ScrollView
-        style={{paddingHorizontal: 5}}
-        showsVerticalScrollIndicator={false}>
+      
         <View
           style={{
             flexDirection: 'row',
@@ -125,6 +123,10 @@ export default function CREATE_PROJECT() {
             </Text>
           </TouchableOpacity>
         </View>
+      
+        <ScrollView
+        style={{paddingHorizontal: 5}}
+        showsVerticalScrollIndicator={false}>
         <View
           style={{
             flexDirection: 'row',

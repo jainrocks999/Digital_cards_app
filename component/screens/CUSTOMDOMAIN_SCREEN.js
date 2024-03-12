@@ -95,7 +95,7 @@ export default function CUSTOMDOMAIN_SCREEN() {
     <View
       style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
       {isLoading ? <Loader /> : null}
-      <ScrollView>
+    
         <View
           style={{
             flexDirection: 'row',
@@ -140,7 +140,8 @@ export default function CUSTOMDOMAIN_SCREEN() {
             </Text>
           </TouchableOpacity>
         </View>
-        <View
+        <ScrollView>
+            <View
           style={{
             flexDirection: 'row',
             backgroundColor: bgColor,

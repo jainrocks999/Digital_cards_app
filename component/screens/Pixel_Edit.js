@@ -88,9 +88,7 @@ export default function Edit_Pixel({route}) {
       style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
       {isLoading ? <Loader /> : null}
 
-      <ScrollView
-        style={{paddingHorizontal: 5}}
-        showsVerticalScrollIndicator={false}>
+    
         <View
           style={{
             flexDirection: 'row',
@@ -135,6 +133,10 @@ export default function Edit_Pixel({route}) {
             </Text>
           </TouchableOpacity>
         </View>
+      
+        <ScrollView
+        style={{paddingHorizontal: 5}}
+        showsVerticalScrollIndicator={false}>
         <View
           style={{
             flexDirection: 'row',

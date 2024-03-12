@@ -546,9 +546,7 @@ export default function EDIT_VCARD({route}) {
     <View
       style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
       {isLoading ? <Loader /> : null}
-      <ScrollView
-        style={{paddingHorizontal: 5}}
-        showsVerticalScrollIndicator={false}>
+ 
         <View
           style={{
             flexDirection: 'row',
@@ -593,6 +591,10 @@ export default function EDIT_VCARD({route}) {
             </Text>
           </TouchableOpacity>
         </View>
+
+        <ScrollView
+        style={{paddingHorizontal: 5}}
+        showsVerticalScrollIndicator={false}>
         <View
           style={{
             flexDirection: 'row',

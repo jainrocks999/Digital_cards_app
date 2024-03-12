@@ -102,7 +102,7 @@ export default function Vcard_QR() {
     <View
       style={{flex: 1, backgroundColor: theme == 'light' ? '#f0f0f0' : '#333'}}>
       {isLoading ? <Loader /> : null}
-      <ScrollView showsVerticalScrollIndicator={false}>
+    
         <View
           style={{
             flexDirection: 'row',
@@ -147,6 +147,8 @@ export default function Vcard_QR() {
             </Text>
           </TouchableOpacity>
         </View>
+       
+        <ScrollView showsVerticalScrollIndicator={false}>
         <View
           style={{
             flexDirection: 'row',

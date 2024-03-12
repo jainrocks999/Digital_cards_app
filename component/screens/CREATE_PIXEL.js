@@ -80,9 +80,7 @@ export default function CREATE_PIXEL() {
     {isLoading ? <Loader /> : null}
     
     
-      <ScrollView
-        style={{paddingHorizontal: 5}}
-        showsVerticalScrollIndicator={false}>
+      
         <View
           style={{
             flexDirection: 'row',
@@ -127,6 +125,9 @@ export default function CREATE_PIXEL() {
             </Text>
           </TouchableOpacity>
         </View>
+        <ScrollView
+        style={{paddingHorizontal: 5}}
+        showsVerticalScrollIndicator={false}>
         <View
           style={{
             flexDirection: 'row',

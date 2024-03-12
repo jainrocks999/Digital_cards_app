@@ -104,7 +104,7 @@ export default function PROJECT_SCREEN() {
       style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
      
      {isLoading ? <Loader /> : null}
-      <ScrollView>
+   
         <View
           style={{
             flexDirection: 'row',
@@ -149,6 +149,7 @@ export default function PROJECT_SCREEN() {
             </Text>
           </TouchableOpacity>
         </View>
+        <ScrollView>
         <View
           style={{
             flexDirection: 'row',

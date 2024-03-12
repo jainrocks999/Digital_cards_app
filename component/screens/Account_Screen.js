@@ -66,7 +66,7 @@ export default function Account_Screen() {
   return (
     <View
       style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
-      <ScrollView>
+  
         <View
           style={{
             flexDirection: 'row',
@@ -111,6 +111,7 @@ export default function Account_Screen() {
             </Text>
           </TouchableOpacity>
         </View>
+        <ScrollView>
         <View
           style={[styles.heading, {backgroundColor: bgColor, height: hp(6)}]}>
           <Text

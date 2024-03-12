@@ -124,21 +124,15 @@ export default function Home_Screen() {
   }, [dashboardData]);
   const scrollToCenter = (index) => {
     showMenu(index)
-    console.log('called');
-    if (scrollViewRef.current) {
-      console.log('called if ');
-      const x = 0;
-      const y = scrollViewRef.current.scrollHeight / 2;
 
-      scrollViewRef.current.scrollTo({ x, y, animated: true });
-    }
+   
   };
   return (
     <View
       style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
       {isLoading ? <Loader /> : null}
 
-      <ScrollView showsVerticalScrollIndicator={false} ref={scrollViewRef}>
+    
         <View
           style={{
             flexDirection: 'row',
@@ -183,7 +177,11 @@ export default function Home_Screen() {
             </Text>
           </TouchableOpacity>
         </View>
-
+        <ScrollView
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+        showsVerticalScrollIndicator={false} ref={scrollViewRef}>
+   
+   
         <View style={{marginTop: 20}}>
           <View style={{marginTop: 10}}>
             <FlatList
@@ -345,10 +343,12 @@ export default function Home_Screen() {
             <Text style={{fontSize: 16, color: textColor}}>Action</Text>
           </View>
         </View>
-        <View style={{flex: 1}}>
+        <View style={{}}>
           {VcardList && (
             <FlatList
               data={VcardList}
+              showsVerticalScrollIndicator={false}
+             
               renderItem={({item, index}) => (
                 <View style={{flex: 1}}>
                   <View
