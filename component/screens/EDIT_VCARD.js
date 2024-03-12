@@ -92,11 +92,32 @@ export default function EDIT_VCARD({route}) {
   const [selected, setselected] = useState('');
 
   const [showSetting, setSetting] = useState(false);
-  const [ModalEmail, setModalEmail] = useState(false);
-  const [ModalYoutube, setModalYoutube] = useState(false);
-  const [ModalInsta, setModalInsta] = useState(false);
-  const [ModalFacebook, setModalFacebook] = useState(false);
-  const [ModalTwitter, setModalTwitter] = useState(false);
+  const [modals, setModals] = useState({
+    link:false,
+    email: false,
+    phone:false,
+    address:false,
+    youtube: false,
+    insta: false,
+    facebook: false,
+    twitter: false,
+    whatsapp:false,
+    tiktok:false,
+    telegram:false,
+    spotify:false,
+    pinterest:false,
+    linkedin:false,
+    snapchat:false,
+    twitch:false,
+    discord:false,
+    github:false,
+    github:false,
+    facebook_messenger:false,
+    reddit:false
+
+
+
+  });
   const [btnData, setBtnData] = useState('none');
   const [Btnurl, setBtnurl] = useState('none');
   const [ModalVisible, setModalVisible] = useState(false);
@@ -345,54 +366,36 @@ export default function EDIT_VCARD({route}) {
 
   const check_Modal_click = (type, url) => {
     setBtnData(type);
-    setBtnurl(url);
-    const modalStates = {
-      Email: {
-        Email: true,
-        Facebook: false,
-        Insta: false,
-        Twitter: false,
-        Youtube: false,
-      },
-      YouTube: {
-        Email: false,
-        Facebook: false,
-        Insta: false,
-        Twitter: false,
-        Youtube: true,
-      },
-      Instagram: {
-        Email: false,
-        Facebook: false,
-        Insta: true,
-        Twitter: false,
-        Youtube: false,
-      },
-      FaceBook: {
-        Email: false,
-        Facebook: true,
-        Insta: false,
-        Twitter: false,
-        Youtube: false,
-      },
-      Twitter: {
-        Email: false,
-        Facebook: false,
-        Insta: false,
-        Twitter: true,
-        Youtube: false,
-      },
-    };
+    setBtnurl(url); 
+    modals[type] = true;
+    setModals(modals); 
 
-    const modalUpdates = modalStates[type] || {};
-
-    setModalEmail(modalUpdates.Email || false);
-    setModalFacebook(modalUpdates.Facebook || false);
-    setModalInsta(modalUpdates.Insta || false);
-    setModalTwitter(modalUpdates.Twitter || false);
-    setModalYoutube(modalUpdates.Youtube || false);
+    if (type === 'none') {
+      setModals({
+        link:false,
+        email: false,
+        phone:false,
+        address:false,
+        youtube: false,
+        insta: false,
+        facebook: false,
+        twitter: false,
+        whatsapp:false,
+        tiktok:false,
+        telegram:false,
+        spotify:false,
+        pinterest:false,
+        linkedin:false,
+        snapchat:false,
+        twitch:false,
+        discord:false,
+        github:false,
+        github:false,
+        facebook_messenger:false,
+        reddit:false});
+    }
   };
-
+  
   const getDataApi = useCallback(async () => {
     const params = {
       user_id: user?.data.id,
@@ -3119,11 +3122,7 @@ export default function EDIT_VCARD({route}) {
                   </View>
 
                   <View style={{marginHorizontal: 10, height: hp(80)}}>
-                    {!ModalEmail &&
-                      !ModalFacebook &&
-                      !ModalInsta &&
-                      !ModalYoutube &&
-                      !ModalTwitter && (
+                  {!Object.values(modals).some((modal) => modal) && (
                         <>
                          <FlatList
       data={ModalData}
@@ -3149,11 +3148,7 @@ export default function EDIT_VCARD({route}) {
                         </>
                       )}
 
-                    {ModalEmail ||
-                    ModalFacebook ||
-                    ModalInsta ||
-                    ModalYoutube ||
-                    ModalTwitter ? (
+{Object.values(modals).some((modal) => modal) ? (
                       <>
                         <View style={{backgroundColor: bgColor}}>
                           <View
