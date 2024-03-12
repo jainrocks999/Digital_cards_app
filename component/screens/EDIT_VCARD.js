@@ -10,6 +10,7 @@ import {
   Switch,
   Modal,
   Alert,
+  Easing,
 } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import React, {useState, useEffect, useCallback} from 'react';
@@ -59,9 +60,6 @@ import Loader from '../Loader';
 import {heightPercent, widthPrecent} from '../config/responsiveScreen';
 export default function EDIT_VCARD({route}) {
   const {edit, E_Id, item} = route.params;
-
-
-
 
   const navigation = useNavigation();
   const theme = useSelector(state => state.theme.data);
@@ -155,6 +153,8 @@ export default function EDIT_VCARD({route}) {
   const [ProPassword, setProPassword] = useState('');
   const [customCSS, setcustomCSS] = useState('');
   const [customJS, setcustomJS] = useState('');
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   const changeTheame = async () => {
     await AsyncStorage.setItem('theme', theme == 'light' ? 'dark' : 'light');
@@ -206,42 +206,27 @@ export default function EDIT_VCARD({route}) {
     checkProject();
   }, [edit, item]);
 
-
   const isFocused = useIsFocused();
-  const showDetails = index => {
-    setShowIndex(index);
 
-    if (index == 0) {
-      SetshowVcard(SetshowVcard => !SetshowVcard);
-      setShowAdvanced(false);
-      setShowCustom(false);
-      setShowPixel(false);
-      setShowSeo(false);
-    } else if (index == 1) {
-      setShowCustom(showCustom => !showCustom);
-      setShowAdvanced(false);
-      SetshowVcard(false);
-      setShowPixel(false);
-      setShowSeo(false);
-    } else if (index == 2) {
-      setShowPixel(showPixel => !showPixel);
-      setShowAdvanced(false);
-      SetshowVcard(false);
-      setShowCustom(false);
-      setShowSeo(false);
-    } else if (index == 3) {
-      setShowSeo(showSeo => !showSeo);
-      setShowAdvanced(false);
-      SetshowVcard(false);
-      setShowCustom(false);
-      setShowPixel(false);
-    } else if (index == 4) {
-      setShowAdvanced(showAdvanced => !showAdvanced);
-      setShowPixel(false);
-      SetshowVcard(false);
-      setShowCustom(false);
-      setShowSeo(false);
-    }
+  const showDetails = index => {
+    const stateVariables = [
+      [SetshowVcard, 'showVcard'],
+      [setShowAdvanced, 'showAdvanced'],
+      [setShowCustom, 'showCustom'],
+      [setShowPixel, 'showPixel'],
+      [setShowSeo, 'showSeo'],
+    ];
+
+    stateVariables.forEach(([stateVar, stateName], i) => {
+      if (i === index) {
+        stateVar(prevState => !prevState);
+      } else {
+        // Assuming other state variables are boolean
+        stateVar(false);
+      }
+    });
+
+    setShowIndex(index);
   };
 
   const handleSelection = index => {
@@ -278,34 +263,41 @@ export default function EDIT_VCARD({route}) {
   const check_Dropdown = (label, value) => {
     setValue(value);
     setBackground(label);
-    if (label === 'Gradient Preset') {
-      setGradientPreset(true);
-      setColor(false);
-      setGradient(false);
-      setCustomeImage(false);
-    } else if (label === 'Color') {
-      setColor(true);
-      setGradient(false);
-      setGradientPreset(false);
-      setCustomeImage(false);
-    } else if (label === 'Gradient') {
-      setGradient(true);
-      setColor(false);
 
-      setGradientPreset(false);
-      setCustomeImage(false);
-    } else if (label === 'Custome image') {
-      setColor(false);
-      setGradient(false);
-      setGradientPreset(false);
+    const dropdownStates = {
+      'Gradient Preset': {
+        GradientPreset: true,
+        Color: false,
+        Gradient: false,
+        CustomeImage: false,
+      },
+      Color: {
+        GradientPreset: false,
+        Color: true,
+        Gradient: false,
+        CustomeImage: false,
+      },
+      Gradient: {
+        GradientPreset: false,
+        Color: false,
+        Gradient: true,
+        CustomeImage: false,
+      },
+      'Custome image': {
+        GradientPreset: false,
+        Color: false,
+        Gradient: false,
+        CustomeImage: true,
+      },
+    };
 
-      setCustomeImage(true);
-    } else {
-      setColor(false);
-      setGradient(false);
-      setGradientPreset(false);
-      setCustomeImage(false);
-    }
+    const dropdownUpdates = dropdownStates[label] || {};
+
+    // Update the dropdown states
+    setGradientPreset(dropdownUpdates.GradientPreset || false);
+    setColor(dropdownUpdates.Color || false);
+    setGradient(dropdownUpdates.Gradient || false);
+    setCustomeImage(dropdownUpdates.CustomeImage || false);
   };
 
   const openCustomImage = () => {
@@ -354,44 +346,51 @@ export default function EDIT_VCARD({route}) {
   const check_Modal_click = (type, url) => {
     setBtnData(type);
     setBtnurl(url);
+    const modalStates = {
+      Email: {
+        Email: true,
+        Facebook: false,
+        Insta: false,
+        Twitter: false,
+        Youtube: false,
+      },
+      YouTube: {
+        Email: false,
+        Facebook: false,
+        Insta: false,
+        Twitter: false,
+        Youtube: true,
+      },
+      Instagram: {
+        Email: false,
+        Facebook: false,
+        Insta: true,
+        Twitter: false,
+        Youtube: false,
+      },
+      FaceBook: {
+        Email: false,
+        Facebook: true,
+        Insta: false,
+        Twitter: false,
+        Youtube: false,
+      },
+      Twitter: {
+        Email: false,
+        Facebook: false,
+        Insta: false,
+        Twitter: true,
+        Youtube: false,
+      },
+    };
 
-    if (type === 'Email') {
-      setModalEmail(true);
-      setModalFacebook(false);
-      setModalInsta(false);
-      setModalTwitter(false);
-      setModalYoutube(false);
-    } else if (type === 'YouTube') {
-      setModalEmail(false);
-      setModalFacebook(false);
-      setModalInsta(false);
-      setModalTwitter(false);
-      setModalYoutube(true);
-    } else if (type === 'Instagram') {
-      setModalEmail(false);
-      setModalFacebook(false);
-      setModalInsta(true);
-      setModalTwitter(false);
-      setModalYoutube(false);
-    } else if (type === 'FaceBook') {
-      setModalEmail(false);
-      setModalFacebook(true);
-      setModalInsta(false);
-      setModalTwitter(false);
-      setModalYoutube(false);
-    } else if (type === 'Twitter') {
-      setModalEmail(false);
-      setModalFacebook(false);
-      setModalInsta(false);
-      setModalTwitter(true);
-      setModalYoutube(false);
-    } else {
-      setModalEmail(false);
-      setModalFacebook(false);
-      setModalInsta(false);
-      setModalTwitter(false);
-      setModalYoutube(false);
-    }
+    const modalUpdates = modalStates[type] || {};
+
+    setModalEmail(modalUpdates.Email || false);
+    setModalFacebook(modalUpdates.Facebook || false);
+    setModalInsta(modalUpdates.Insta || false);
+    setModalTwitter(modalUpdates.Twitter || false);
+    setModalYoutube(modalUpdates.Youtube || false);
   };
 
   const getDataApi = useCallback(async () => {
@@ -546,63 +545,63 @@ export default function EDIT_VCARD({route}) {
     <View
       style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
       {isLoading ? <Loader /> : null}
- 
+
       <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
           backgroundColor: bgColor,
-          shadowColor: "#000",
+          shadowColor: '#000',
           shadowOffset: {
-              width: 0,
-              height: 2,
+            width: 0,
+            height: 2,
           },
           shadowOpacity: 0.25,
           shadowRadius: 3.84,
-          
-          elevation: 5,
-          height:50
-        }}>
-          <TouchableOpacity
-            onPress={() => navigation.openDrawer()}
-            style={{width: '20%'}}>
-            <Entypo size={40} name="menu" color={textColor} />
-          </TouchableOpacity>
-          <View
-            style={{
-              width: '60%',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <Text style={{fontSize: 22, fontWeight: '600', color: textColor}}>
-              Edit Vcard{' '}
-            </Text>
-          </View>
-          <TouchableOpacity
-            onPress={() => {
-              changeTheame();
-            }}
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <Feather
-              name="sun"
-              size={25}
-              color={theme == 'light' ? 'orange' : '#000'}
-            />
-            <Text
-              style={{
-                marginLeft: 5,
-                color: theme == 'light' ? 'orange' : '#fff',
-              }}>
-              Light
-            </Text>
-          </TouchableOpacity>
-        </View>
 
-        <ScrollView
+          elevation: 5,
+          height: 50,
+        }}>
+        <TouchableOpacity
+          onPress={() => navigation.openDrawer()}
+          style={{width: '20%'}}>
+          <Entypo size={40} name="menu" color={textColor} />
+        </TouchableOpacity>
+        <View
+          style={{
+            width: '60%',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Text style={{fontSize: 22, fontWeight: '600', color: textColor}}>
+            Edit Vcard{' '}
+          </Text>
+        </View>
+        <TouchableOpacity
+          onPress={() => {
+            changeTheame();
+          }}
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Feather
+            name="sun"
+            size={25}
+            color={theme == 'light' ? 'orange' : '#000'}
+          />
+          <Text
+            style={{
+              marginLeft: 5,
+              color: theme == 'light' ? 'orange' : '#fff',
+            }}>
+            Light
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      <ScrollView
         style={{paddingHorizontal: 5}}
         showsVerticalScrollIndicator={false}>
         <View
@@ -916,7 +915,7 @@ export default function EDIT_VCARD({route}) {
                   </View>
                 </View>
               </View>
-<View style={{height:heightPercent(5)}} />
+              <View style={{height: heightPercent(5)}} />
               <View style={{marginHorizontal: 10}}>
                 <FlatList
                   data={data}
@@ -1459,9 +1458,9 @@ export default function EDIT_VCARD({route}) {
                                 marginTop: 10,
                                 backgroundColor:
                                   theme === 'light' ? '#f0f0f0' : '#333',
-                               paddingHorizontal:10,
+                                paddingHorizontal: 10,
                                 height: 40,
-                               
+
                                 borderRadius: 5,
                               }}>
                               <AntDesign
@@ -1833,12 +1832,11 @@ export default function EDIT_VCARD({route}) {
                             style={{
                               borderWidth: 1,
                               marginTop: 5,
-                             // alignItems: 'center',
+                              // alignItems: 'center',
                               justifyContent: 'center',
                               height: heightPercent(20),
                               borderColor: 'grey',
-                              paddingLeft:20,
-                              
+                              paddingLeft: 20,
                             }}>
                             {Logo === '' && (
                               <Text style={{fontSize: 16, color: textColor}}>
@@ -1849,14 +1847,11 @@ export default function EDIT_VCARD({route}) {
                               <Image
                                 source={{uri: Logo}}
                                 style={{
-                                  height:'80%',
-                                  width:'35%',
+                                  height: '80%',
+                                  width: '35%',
                                   borderRadius: 10,
-                                 
                                 }}
-                                
                               />
-                              
                             )}
                           </TouchableOpacity>
                           <View style={{marginHorizontal: 10}}>
@@ -3043,7 +3038,11 @@ export default function EDIT_VCARD({route}) {
 
                   backgroundColor: 'rgba(151, 153, 152, 0.8)',
                 }}>
-                <View style={[styles.modalContainer, {marginTop: hp(25)}]}>
+                <View
+                  style={[
+                    styles.modalContainer,
+                    {marginTop: hp(2), height: hp(90)},
+                  ]}>
                   <View
                     style={{
                       marginHorizontal: 10,
@@ -3064,7 +3063,7 @@ export default function EDIT_VCARD({route}) {
                     </TouchableOpacity>
                   </View>
 
-                  <View style={{marginHorizontal: 10}}>
+                  <View style={{marginHorizontal: 10, height: hp(80)}}>
                     {!ModalEmail &&
                       !ModalFacebook &&
                       !ModalInsta &&
@@ -3074,23 +3073,106 @@ export default function EDIT_VCARD({route}) {
                           <FlatList
                             data={ModalData}
                             keyExtractor={item => item.id}
-                            numColumns={3}
+                            showsVerticalScrollIndicator={false}
                             renderItem={({item}) => (
                               <TouchableOpacity
                                 onPress={() => {
                                   check_Modal_click(item.title, item.url);
                                 }}
                                 style={{
-                                  paddingHorizontal:15,
+                                  shadowColor: '#000',
+                                  shadowOffset: {
+                                    width: 0,
+                                    height: 2,
+                                  },
+                                  shadowOpacity: 0.25,
+                                  shadowRadius: 3.84,
+
+                                  elevation: 5,
+                                  paddingHorizontal: 15,
                                   marginHorizontal: 5,
                                   borderRadius: 5,
                                   marginVertical: 5,
-                                  backgroundColor: item.color,
-                                  height: 45,
+                                  backgroundColor: bgColor,
+                                  height: 50,
                                   alignItems: 'center',
+                                  flexDirection: 'row',
                                   justifyContent: 'center',
                                 }}>
-                                <Text style={{fontSize: 18, color: '#fff'}}>
+                                {item.title == 'Link' && (
+                                  <Entypo name="link" size={25} />
+                                )}
+                                {item.title == 'Email' && (
+                                  <MaterialCommunityIcons
+                                    name="email"
+                                    size={25}
+                                  />
+                                )}
+                                {item.title == 'Twitter' && (
+                                  <AntDesign name="twitter" size={20} />
+                                )}
+                                {item.title == 'Phone' && (
+                                  <AntDesign name="phone" size={20} />
+                                )}
+                                {item.title == 'YouTube' && (
+                                  <AntDesign name="youtube" size={20} />
+                                )}
+                                {item.title == 'Instagram' && (
+                                  <AntDesign name="instagram" size={20} />
+                                )}
+                                {item.title == 'Github' && (
+                                  <AntDesign name="github" size={25} />
+                                )}
+                                {item.title == 'Linkedin' && (
+                                  <AntDesign name="linkedin-square" size={25} />
+                                )}
+                                {item.title == 'Facebook-messenger' && (
+                                  <FontAwesome5
+                                    name="facebook-messenger"
+                                    size={20}
+                                  />
+                                )}
+                                {item.title == 'Address' && (
+                                  <Entypo name="location-pin" size={25} />
+                                )}
+                                {item.title == 'Spotify' && (
+                                  <Entypo name="spotify" size={25} />
+                                )}
+                                {item.title == 'FaceBook' && (
+                                  <Entypo name="facebook" size={25} />
+                                )}
+                                {item.title == 'Whatsapp' && (
+                                  <FontAwesome name="whatsapp" size={25} />
+                                )}
+                                {item.title == 'reddit' && (
+                                  <FontAwesome name="reddit" size={25} />
+                                )}
+                                {item.title == 'Twitch' && (
+                                  <FontAwesome name="twitch" size={25} />
+                                )}
+                                {item.title == 'Snapchat' && (
+                                  <FontAwesome name="snapchat" size={25} />
+                                )}
+                                {item.title == 'Telegram' && (
+                                  <FontAwesome name="telegram" size={25} />
+                                )}
+                                {item.title == 'TikTok' && (
+                                  <FontAwesome5 name="tiktok" size={20} />
+                                )}
+                                {item.title == 'Discord' && (
+                                  <FontAwesome5 name="discord" size={25} />
+                                )}
+                                {item.title == 'Pinterest' && (
+                                  <FontAwesome5 name="pinterest" size={25} />
+                                )}
+
+                                <Text
+                                  style={{
+                                    fontSize: 18,
+                                    marginLeft: 10,
+                                    color: textColor,
+                                    fontWeight: '500',
+                                  }}>
                                   {item.title}
                                 </Text>
                               </TouchableOpacity>
@@ -3210,7 +3292,6 @@ export default function EDIT_VCARD({route}) {
                                 borderColor: '#f0f0f0',
                                 alignItems: 'center',
                                 flexDirection: 'row',
-                                
                               },
                             ]}>
                             <View
@@ -3311,21 +3392,26 @@ export default function EDIT_VCARD({route}) {
   );
 }
 
+const commonShadow = {
+  shadowColor: '#000',
+  shadowOffset: {
+    width: 0,
+    height: 2,
+  },
+  shadowOpacity: 0.25,
+  shadowRadius: 3.84,
+  elevation: 5,
+};
+
 const styles = StyleSheet.create({
   previewStyle: {
     height: 55,
     borderRadius: 5,
     marginBottom: 30,
+    ...commonShadow,
   },
   shadow: {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    ...commonShadow,
   },
   dropdown: {
     height: 50,
@@ -3351,61 +3437,25 @@ const styles = StyleSheet.create({
   input: {
     flexDirection: 'row',
     alignItems: 'center',
-
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-
-    elevation: 8,
-
+    ...commonShadow,
     marginTop: 15,
-
     borderRadius: 10,
   },
   div: {
     marginHorizontal: 5,
-
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-
-    elevation: 5,
+    ...commonShadow,
     marginTop: 15,
-
     borderRadius: 5,
   },
   nameDiv: {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-
-    elevation: 5,
+    ...commonShadow,
     borderRadius: 5,
     paddingHorizontal: 10,
   },
   modalContainer: {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-
-    elevation: 5,
+    ...commonShadow,
     marginHorizontal: 20,
     marginTop: 30,
-
     backgroundColor: '#fff',
     borderRadius: 5,
   },
@@ -3444,11 +3494,26 @@ const CustomizationBtn = [
 ];
 
 const ModalData = [
+  {title: 'Link', color: '#4b5563', url: '@'},
   {title: 'Email', color: '#4b5563', url: '@'},
+  {title: 'Phone', color: '#4b5563', url: '@'},
+  {title: 'Address', color: '#4b5563', url: '@'},
   {title: 'YouTube', color: '#dc3545', url: 'https://youtube.com/'},
   {title: 'Instagram', color: '#ffc107', url: 'https://instagram.com/'},
   {title: 'FaceBook', color: '#4b5563', url: 'https://Facebook.com/'},
   {title: 'Twitter', color: '#4b5563', url: 'https://twitter.com/'},
+  {title: 'Whatsapp', color: '#4b5563', url: 'https://twitter.com/'},
+  {title: 'TikTok', color: '#4b5563', url: 'https://twitter.com/'},
+  {title: 'Telegram', color: '#4b5563', url: 'https://twitter.com/'},
+  {title: 'Spotify', color: '#4b5563', url: 'https://twitter.com/'},
+  {title: 'Pinterest', color: '#4b5563', url: 'https://twitter.com/'},
+  {title: 'Linkedin', color: '#4b5563', url: 'https://twitter.com/'},
+  {title: 'Snapchat', color: '#4b5563', url: 'https://twitter.com/'},
+  {title: 'Twitch', color: '#4b5563', url: 'https://twitter.com/'},
+  {title: 'Discord', color: '#4b5563', url: 'https://twitter.com/'},
+  {title: 'Github', color: '#4b5563', url: 'https://twitter.com/'},
+  {title: 'Facebook-messenger', color: '#4b5563', url: 'https://twitter.com/'},
+  {title: 'reddit', color: '#4b5563', url: 'https://twitter.com/'},
 ];
 const GradientPresetData = [
   {
