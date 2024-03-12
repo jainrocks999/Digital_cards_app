@@ -93,30 +93,27 @@ export default function EDIT_VCARD({route}) {
 
   const [showSetting, setSetting] = useState(false);
   const [modals, setModals] = useState({
-    link:false,
+    link: false,
     email: false,
-    phone:false,
-    address:false,
+    phone: false,
+    address: false,
     youtube: false,
     insta: false,
     facebook: false,
     twitter: false,
-    whatsapp:false,
-    tiktok:false,
-    telegram:false,
-    spotify:false,
-    pinterest:false,
-    linkedin:false,
-    snapchat:false,
-    twitch:false,
-    discord:false,
-    github:false,
-    github:false,
-    facebook_messenger:false,
-    reddit:false
-
-
-
+    whatsapp: false,
+    tiktok: false,
+    telegram: false,
+    spotify: false,
+    pinterest: false,
+    linkedin: false,
+    snapchat: false,
+    twitch: false,
+    discord: false,
+    github: false,
+    github: false,
+    facebook_messenger: false,
+    reddit: false,
   });
   const [btnData, setBtnData] = useState('none');
   const [Btnurl, setBtnurl] = useState('none');
@@ -366,36 +363,37 @@ export default function EDIT_VCARD({route}) {
 
   const check_Modal_click = (type, url) => {
     setBtnData(type);
-    setBtnurl(url); 
+    setBtnurl(url);
     modals[type] = true;
-    setModals(modals); 
+    setModals(modals);
 
     if (type === 'none') {
       setModals({
-        link:false,
+        link: false,
         email: false,
-        phone:false,
-        address:false,
+        phone: false,
+        address: false,
         youtube: false,
         insta: false,
         facebook: false,
         twitter: false,
-        whatsapp:false,
-        tiktok:false,
-        telegram:false,
-        spotify:false,
-        pinterest:false,
-        linkedin:false,
-        snapchat:false,
-        twitch:false,
-        discord:false,
-        github:false,
-        github:false,
-        facebook_messenger:false,
-        reddit:false});
+        whatsapp: false,
+        tiktok: false,
+        telegram: false,
+        spotify: false,
+        pinterest: false,
+        linkedin: false,
+        snapchat: false,
+        twitch: false,
+        discord: false,
+        github: false,
+        github: false,
+        facebook_messenger: false,
+        reddit: false,
+      });
     }
   };
-  
+
   const getDataApi = useCallback(async () => {
     const params = {
       user_id: user?.data.id,
@@ -545,28 +543,30 @@ export default function EDIT_VCARD({route}) {
     dispatch(Vcard_Edit(params));
   };
 
-  const modalRenderItem = ({ item }) => {
+  const modalRenderItem = ({item}) => {
     const icons = {
-      Link: <Entypo name="link" size={25} />,
-      Email: <MaterialCommunityIcons name="email" size={25} />,
-      Twitter: <AntDesign name="twitter" size={20} />,
-      Phone: <AntDesign name="phone" size={20} />,
-      YouTube: <AntDesign name="youtube" size={20} />,
-      Instagram: <AntDesign name="instagram" size={20} />,
-      Github: <AntDesign name="github" size={25} />,
-      Linkedin: <AntDesign name="linkedin-square" size={25} />,
-      'Facebook-messenger': <FontAwesome5 name="facebook-messenger" size={20} />,
-      Address: <Entypo name="location-pin" size={25} />,
-      Spotify: <Entypo name="spotify" size={25} />,
-      FaceBook: <Entypo name="facebook" size={25} />,
-      Whatsapp: <FontAwesome name="whatsapp" size={25} />,
-      reddit: <FontAwesome name="reddit" size={25} />,
-      Twitch: <FontAwesome name="twitch" size={25} />,
-      Snapchat: <FontAwesome name="snapchat" size={25} />,
-      Telegram: <FontAwesome name="telegram" size={25} />,
-      TikTok: <FontAwesome5 name="tiktok" size={20} />,
-      Discord: <FontAwesome5 name="discord" size={25} />,
-      Pinterest: <FontAwesome5 name="pinterest" size={25} />,
+      Link: <Entypo name="link" size={25}  color={textColor}/>,
+      Email: <MaterialCommunityIcons name="email" size={25}  color={textColor}/>,
+      Twitter: <AntDesign name="twitter" size={20}          color={textColor}/>,
+      Phone: <AntDesign name="phone" size={20}         color={textColor} />,
+      YouTube: <AntDesign name="youtube" size={20}          color={textColor}/>,
+      Instagram: <AntDesign name="instagram" size={20}          color={textColor}/>,
+      Github: <AntDesign name="github" size={25}         color={textColor} />,
+      Linkedin: <AntDesign name="linkedin-square" size={25}          color={textColor}/>,
+      'Facebook-messenger': (
+        <FontAwesome5 name="facebook-messenger" size={20}         color={textColor} />
+      ),
+      Address: <Entypo name="location-pin" size={25}         color={textColor} />,
+      Spotify: <Entypo name="spotify" size={25}          color={textColor}/>,
+      FaceBook: <Entypo name="facebook" size={25}         color={textColor} />,
+      Whatsapp: <FontAwesome name="whatsapp" size={25}         color={textColor} />,
+      reddit: <FontAwesome name="reddit" size={25}          color={textColor}/>,
+      Twitch: <FontAwesome name="twitch" size={25}         color={textColor} />,
+      Snapchat: <FontAwesome name="snapchat" size={25}         color={textColor} />,
+      Telegram: <FontAwesome name="telegram" size={25}         color={textColor} />,
+      TikTok: <FontAwesome5 name="tiktok" size={20}         color={textColor} />,
+      Discord: <FontAwesome5 name="discord" size={25}         color={textColor} />,
+      Pinterest: <FontAwesome5 name="pinterest" size={25}         color={textColor} />,
     };
 
     return (
@@ -585,14 +585,20 @@ export default function EDIT_VCARD({route}) {
           marginHorizontal: 5,
           borderRadius: 5,
           marginVertical: 5,
-          backgroundColor: bgColor,
+          backgroundColor:theme=='light'?'#fff':'#333',
           height: 50,
           alignItems: 'center',
           flexDirection: 'row',
           justifyContent: 'center',
         }}>
         {icons[item.title]}
-        <Text style={{ fontSize: 18, marginLeft: 10, color: textColor, fontWeight: '500' }}>
+        <Text
+          style={{
+            fontSize: 18,
+            marginLeft: 10,
+            color: textColor,
+            fontWeight: '500',
+          }}>
           {item.title}
         </Text>
       </TouchableOpacity>
@@ -3099,7 +3105,8 @@ export default function EDIT_VCARD({route}) {
                 <View
                   style={[
                     styles.modalContainer,
-                    {marginTop: hp(2), height: hp(90)},
+                    {marginTop: hp(2), height: hp(90),backgroundColor:bgColor
+                    },
                   ]}>
                   <View
                     style={{
@@ -3110,45 +3117,50 @@ export default function EDIT_VCARD({route}) {
                       flexDirection: 'row',
                     }}>
                     <Text
-                      style={{fontSize: 22, fontWeight: '500', color: '#333'}}>
+                      style={{fontSize: 22, fontWeight: '500', color:textColor}}>
                       Modal Heading
                     </Text>
                     <TouchableOpacity
                       onPress={() => {
                         setModalVisible(false);
                       }}>
-                      <Entypo name="cross" size={30} color={'#333'} />
+                      <Entypo name="cross" size={30} color={textColor} />
                     </TouchableOpacity>
                   </View>
 
                   <View style={{marginHorizontal: 10, height: hp(80)}}>
-                  {!Object.values(modals).some((modal) => modal) && (
-                        <>
-                         <FlatList
-      data={ModalData}
-      keyExtractor={(item) => item.id}
-      showsVerticalScrollIndicator={false}
-      renderItem={modalRenderItem}
-      ListHeaderComponent={() => (
-        <View
-          style={{
-            height: hp(6),
-            justifyContent: 'center',
-            borderTopWidth: 1,
-            marginHorizontal: 5,
-            borderColor: '#f0f0f0',
-            marginTop: 10,
-          }}>
-          <Text style={{ fontSize: 20, fontWeight: '500', color: '#333' }}>
-            Choose an option:
-          </Text>
-        </View>
-      )}
-    />
-                        </>
-                      )}
+                    {!Object.values(modals).some(modal => modal) && (
+                      <>
+                        <FlatList
+                          data={ModalData}
+                          keyExtractor={item => item.id}
+                          showsVerticalScrollIndicator={false}
+                          renderItem={modalRenderItem}
+                          ListHeaderComponent={() => (
+                            <View
+                              style={{
+                                height: hp(6),
+                                justifyContent: 'center',
+                                borderTopWidth: 1,
+                                marginHorizontal: 5,
+                                borderColor: '#f0f0f0',
+                                marginTop: 10,
+                              }}>
+                              <Text
+                                style={{
+                                  fontSize: 20,
+                                  fontWeight: '500',
+                                  color: textColor,
+                                }}>
+                                Choose an option:
+                              </Text>
+                            </View>
+                          )}
+                        />
+                      </>
+                    )}
 
-{Object.values(modals).some((modal) => modal) ? (
+                    {Object.values(modals).some(modal => modal) ? (
                       <>
                         <View style={{backgroundColor: bgColor}}>
                           <View
@@ -3193,7 +3205,7 @@ export default function EDIT_VCARD({route}) {
                                 value={name}
                                 onChangeText={txt => setName(txt)}
                                 placeholderTextColor={textColor}
-                                placeholder=""
+                                placeholder="enter name"
                                 style={{
                                   width: '100%',
                                   fontSize: 14,
@@ -3239,7 +3251,7 @@ export default function EDIT_VCARD({route}) {
                             <View
                               style={{
                                 justifyContent: 'center',
-                                backgroundColor: '#f0f0f0',
+                                backgroundColor: theme=='light:'?'#f0f0f0':'#333',
                                 alignItems: 'center',
                                 height: '100%',
                                 width: Btnurl === '@' ? '15%' : '51%',
@@ -3436,26 +3448,26 @@ const CustomizationBtn = [
 ];
 
 const ModalData = [
-  {title: 'Link', color: '#4b5563', url: '@'},
-  {title: 'Email', color: '#4b5563', url: '@'},
-  {title: 'Phone', color: '#4b5563', url: '@'},
-  {title: 'Address', color: '#4b5563', url: '@'},
-  {title: 'YouTube', color: '#dc3545', url: 'https://youtube.com/'},
-  {title: 'Instagram', color: '#ffc107', url: 'https://instagram.com/'},
-  {title: 'FaceBook', color: '#4b5563', url: 'https://Facebook.com/'},
-  {title: 'Twitter', color: '#4b5563', url: 'https://twitter.com/'},
-  {title: 'Whatsapp', color: '#4b5563', url: 'https://twitter.com/'},
-  {title: 'TikTok', color: '#4b5563', url: 'https://twitter.com/'},
-  {title: 'Telegram', color: '#4b5563', url: 'https://twitter.com/'},
-  {title: 'Spotify', color: '#4b5563', url: 'https://twitter.com/'},
-  {title: 'Pinterest', color: '#4b5563', url: 'https://twitter.com/'},
-  {title: 'Linkedin', color: '#4b5563', url: 'https://twitter.com/'},
-  {title: 'Snapchat', color: '#4b5563', url: 'https://twitter.com/'},
-  {title: 'Twitch', color: '#4b5563', url: 'https://twitter.com/'},
-  {title: 'Discord', color: '#4b5563', url: 'https://twitter.com/'},
-  {title: 'Github', color: '#4b5563', url: 'https://twitter.com/'},
-  {title: 'Facebook-messenger', color: '#4b5563', url: 'https://twitter.com/'},
-  {title: 'reddit', color: '#4b5563', url: 'https://twitter.com/'},
+  {title: 'Link', url: '@'},
+  {title: 'Email', url: '@'},
+  {title: 'Phone', url: '@'},
+  {title: 'Address', url: '@'},
+  {title: 'YouTube', url: 'https://youtube.com/'},
+  {title: 'Instagram', url: 'https://instagram.com/'},
+  {title: 'FaceBook', url: 'https://Facebook.com/'},
+  {title: 'Twitter', url: 'https://twitter.com/'},
+  {title: 'Whatsapp', url: 'https://Whatsapp.com/'},
+  {title: 'TikTok', url: 'https://TikTok.com/'},
+  {title: 'Telegram', url: 'https://Telegram.com/'},
+  {title: 'Spotify', url: 'https://Spotify.com/'},
+  {title: 'Pinterest', url: 'https://Pinterest.com/'},
+  {title: 'Linkedin', url: 'https://Linkedin.com/'},
+  {title: 'Snapchat', url: 'https://Snapchat.com/'},
+  {title: 'Twitch', url: 'https://Twitch.com/'},
+  {title: 'Discord', url: 'https://Discord.com/'},
+  {title: 'Github', url: 'https://Github.com/'},
+  {title: 'Facebook-messenger', url: 'https://Facebook-messenger.com/'},
+  {title: 'reddit', url: 'https://reddit.com/'},
 ];
 const GradientPresetData = [
   {
