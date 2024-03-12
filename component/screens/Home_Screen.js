@@ -10,7 +10,7 @@ import {
   Platform,
   PermissionsAndroid,
 } from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -38,6 +38,7 @@ import {heightPercent, widthPrecent} from '../config/responsiveScreen';
 import {flingGestureHandlerProps} from 'react-native-gesture-handler/lib/typescript/handlers/FlingGestureHandler';
 export default function Home_Screen() {
   const dispatch = useDispatch();
+  const scrollViewRef = useRef();
   const isFocused = useIsFocused();
   const theme = useSelector(state => state.theme.data);
   const navigation = useNavigation();
@@ -54,7 +55,6 @@ export default function Home_Screen() {
     await AsyncStorage.setItem('theme', theme === 'light' ? 'dark' : 'light');
     dispatch(changeTheme(theme === 'light' ? 'dark' : 'light'));
   };
-
   const showMenu = index => {
     setVisible(true);
     setVisibleMenuIndex(index);
@@ -122,13 +122,23 @@ export default function Home_Screen() {
       setUpdatedData(updatedDataCopy);
     }
   }, [dashboardData]);
+  const scrollToCenter = (index) => {
+    showMenu(index)
+    console.log('called');
+    if (scrollViewRef.current) {
+      console.log('called if ');
+      const x = 0;
+      const y = scrollViewRef.current.scrollHeight / 2;
 
+      scrollViewRef.current.scrollTo({ x, y, animated: true });
+    }
+  };
   return (
     <View
       style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
       {isLoading ? <Loader /> : null}
 
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false} ref={scrollViewRef}>
         <View
           style={{
             flexDirection: 'row',
@@ -443,7 +453,8 @@ export default function Home_Screen() {
 
                       <TouchableOpacity
                         onPress={() => {
-                          showMenu(index);
+                          scrollToCenter(index)
+                         
                         }}
                         style={{
                           flexDirection: 'row',

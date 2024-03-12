@@ -32,14 +32,15 @@ import {CreatePixel, Pixel_Edit} from '../redux/feature/featuresSlice';
 import Loader from '../Loader';
 
 export default function Edit_Pixel({route}) {
-  const {Pixel_name, Pixel_id, Pixel_type, id} = route.params;
-  console.log(Pixel_name, Pixel_id, Pixel_type, id);
+  const {item} = route.params;
+  console.log('screens' ,item);
   useEffect(() => {
-    setValue(Pixel_type);
-    setType(Pixel_type);
-    setName(Pixel_name);
-    setPixelId(Pixel_id);
-  }, [Pixel_name, Pixel_id, Pixel_type]);
+    setValue(item.type);
+    setType(item.type);
+    setName(item.name);
+    setPixelId(item.pixelid);
+  }, [item]);
+
   const [value, setValue] = useState(null);
   const [Type, setType] = useState('');
   const navigation = useNavigation();
@@ -61,14 +62,14 @@ export default function Edit_Pixel({route}) {
   };
 
   const EditPixel = () => {
-    console.log(Name, Type, PixcelId);
+    console.log('editPiel ',Name, Type, PixcelId);
     const params = {
       data: {
         user_id: user?.data.id,
         name: Name,
         type: Type,
         pixelid: PixcelId,
-        id:id,
+        id:item.id,
       },
       authToken: user?.data.token,
       navigation: navigation,
@@ -405,7 +406,7 @@ const data = [
   {label: 'Pinterest', value: '5'},
   {label: 'Twitter', value: '6'},
   {label: 'Quora', value: '7'},
-  {label: 'Tik-Tok', value: '8'},
+  {label: 'TikTok', value: '8'},
   {label: 'Snapchat', value: '8'},
 ];
 const styles = StyleSheet.create({

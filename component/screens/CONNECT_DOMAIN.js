@@ -183,8 +183,9 @@ const [custom404Url,set404Url] =useState('');
               <View
                 style={{
                   backgroundColor: theme == 'light' ? '#fff' : '#333',
-
+width:'100%',
                   paddingHorizontal: 10,
+               
                 }}>
                 <TextInput
 
@@ -192,7 +193,7 @@ const [custom404Url,set404Url] =useState('');
                 onChangeText={(txt)=>setSubDomain(txt)}
                   placeholder="domain.com"
                   placeholderTextColor={textColor}
-                  style={{fontSize: 14, paddingHorizontal: 10}}
+                  style={{fontSize: 14, paddingHorizontal: 10,width:'100%',}}
                 />
               </View>
             </View>
@@ -234,6 +235,8 @@ const [custom404Url,set404Url] =useState('');
                 style={{
                   backgroundColor: theme == 'light' ? '#fff' : '#333',
                   paddingHorizontal: 10,
+                  width:'100%',
+                
                 }}>
                 <TextInput
                      value={customIndexUrl}
@@ -244,6 +247,7 @@ const [custom404Url,set404Url] =useState('');
                     fontSize: 14,
                     paddingHorizontal: 10,
                     color: textColor,
+                    width:'100%'
                   }}
                 />
               </View>

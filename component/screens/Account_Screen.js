@@ -128,7 +128,7 @@ export default function Account_Screen() {
         <View
           style={[
             styles.contentContainer,
-            {shadowcolor: textColor, backgroundColor: bgColor, height: hp(85)},
+            {shadowcolor: textColor, backgroundColor: bgColor,},
           ]}>
           <View style={{marginTop: 25, paddingHorizontal: 10}}>
             <View style={{flexDirection: 'row', marginHorizontal: 10}}>
@@ -307,9 +307,10 @@ export default function Account_Screen() {
             style={{
               flexDirection: 'row',
               marginTop: 10,
-              height: hp(8),
+              height: hp(5),
               alignItems: 'center',
               justifyContent: 'space-between',
+             
             }}>
             <View style={{width: '15%'}}>
               <Switch
@@ -337,11 +338,13 @@ export default function Account_Screen() {
                 Newsletter subscribed
               </Text>
             </View>
+           
           </View>
+          <View style={{height:hp(3)}} />
         </View>
 
         <View
-          style={[styles.heading, {backgroundColor: bgColor, height: hp(6)}]}>
+          style={[styles.heading, {backgroundColor: bgColor,marginBottom:5}]}>
           <Text
             style={{
               fontSize: 22,
@@ -356,7 +359,7 @@ export default function Account_Screen() {
         <View
           style={[
             styles.contentContainer,
-            {shadowcolor: textColor, backgroundColor: bgColor, height: hp(85)},
+            {shadowcolor: textColor, backgroundColor: bgColor,},
           ]}>
           <View style={{marginTop: 25, paddingHorizontal: 10}}>
             <View
@@ -439,7 +442,8 @@ export default function Account_Screen() {
                   resizeMode="contain"
                 />
               </View>
-              <View style={{marginLeft: 10, width: '70%', marginHorizontal: 5}}>
+              <View style={{marginLeft:15, width: '65%',
+               }}>
                 <Text
                   style={{fontSize: 18, color: textColor, fontWeight: '500'}}>
                   Can't scan the QR Code?
@@ -512,10 +516,12 @@ export default function Account_Screen() {
               </View>
             </View>
           </View>
+     <View style={{height:hp(3)}} />
+     
         </View>
 
         <View
-          style={[styles.heading, {backgroundColor: bgColor, height: hp(6)}]}>
+          style={[styles.heading, {backgroundColor: bgColor,}]}>
           <Text
             style={{
               fontSize: 22,
@@ -531,7 +537,7 @@ export default function Account_Screen() {
         <View
           style={[
             styles.contentContainer,
-            {shadowcolor: textColor, backgroundColor: bgColor, height: hp(55)},
+            {shadowcolor: textColor, backgroundColor: bgColor,},
           ]}>
           <View style={{marginTop: 25, paddingHorizontal: 10}}>
             <View style={{flexDirection: 'row', marginHorizontal: 10}}>
@@ -632,7 +638,8 @@ export default function Account_Screen() {
               </View>
             </View>
           </View>
-        </View>
+          <View style={{height:hp(3)}} />
+       </View>
 
         <TouchableOpacity
           onPress={() => {
