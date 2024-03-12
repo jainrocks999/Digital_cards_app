@@ -60,51 +60,8 @@ import {heightPercent, widthPrecent} from '../config/responsiveScreen';
 export default function EDIT_VCARD({route}) {
   const {edit, E_Id, item} = route.params;
 
-  useEffect(() => {
-    setSetting(edit);
-    setEditName(item.name);
-    setEditDescription(item.description);
-    setUrlAlias(item.url_alias.substring(item.url_alias.lastIndexOf('/') + 1));
-    setDSButton(item.display_share_button == 1 ? true : false);
-    setDVDButton(item.display_vcard_download_button == 1 ? true : false);
-    setVAButton(item.vcard_is_active == 1 ? true : false);
-    setFirstName(item.first_name == null ? '' : item.first_name);
-    setLastName(item.last_name == null ? '' : item.last_name);
-    setCompany(item.company == null ? '' : item.company);
-    setJobTitle(item.job_title == null ? '' : item.job_title);
-    setBirthday(
-      item.birthday == null
-        ? new Date().toISOString().split('T')[0]
-        : item.birthday,
-    );
-    setCustomIndex(
-      Number(item.theme) == 0 ? Number(item.theme) : Number(item.theme) - 1,
-    );
-    setBackground(item.background);
-    check_Dropdown(item.background, null);
-    setFavicon(item.favicon == null ? '' : item.favicon?.url);
-    setLogo(item.logo == null ? '' : item.logo?.url);
-    setcustImage(item.custom_image == null ? null : item.custom_image);
-    setSelectedColor(item.color == null ? 'skyblue' : item.color);
-    setFirstColor(item.first_color == null ? item.first_color : 'blue');
-    setSecondColor(item.second_color == null ? item.second_color : 'red');
-    setFontFamily(item.font_family);
-    setFontSize('' + item.font_size);
-    setSEVisiable(item.search_engine_visibility == 1 ? true : false);
-    setPTitle(item.page_title);
-    setMKeyword(item.meta_keywords);
-    setMDescription(item.meta_description);
-    setOpenGImage(
-      item.opengraph_image == null ? '' : item.opengraph_image?.url,
-    );
-    setLeapLink(item.leap_link_url);
-    setProject(item.project);
-    setRBranding(item.remove_branding == 1 ? true : false);
-    setcustomCSS(item.custom_css);
-    setcustomJS(item.custom_js);
-    setProject(item.project);
-    checkProject();
-  }, [edit, item]);
+
+
 
   const navigation = useNavigation();
   const theme = useSelector(state => state.theme.data);
@@ -203,6 +160,52 @@ export default function EDIT_VCARD({route}) {
     await AsyncStorage.setItem('theme', theme == 'light' ? 'dark' : 'light');
     dispatch(changeTheme(theme == 'light' ? 'dark' : 'light'));
   };
+  useEffect(() => {
+    setSetting(edit);
+    setEditName(item.name);
+    setEditDescription(item.description);
+    setUrlAlias(item.url_alias.substring(item.url_alias.lastIndexOf('/') + 1));
+    setDSButton(item.display_share_button == 1 ? true : false);
+    setDVDButton(item.display_vcard_download_button == 1 ? true : false);
+    setVAButton(item.vcard_is_active == 1 ? true : false);
+    setFirstName(item.first_name == null ? '' : item.first_name);
+    setLastName(item.last_name == null ? '' : item.last_name);
+    setCompany(item.company == null ? '' : item.company);
+    setJobTitle(item.job_title == null ? '' : item.job_title);
+    setBirthday(
+      item.birthday == null
+        ? new Date().toISOString().split('T')[0]
+        : item.birthday,
+    );
+    setCustomIndex(
+      Number(item.theme) == 0 ? Number(item.theme) : Number(item.theme) - 1,
+    );
+    setBackground(item.background);
+    check_Dropdown(item.background, null);
+    setFavicon(item.favicon == null ? '' : item.favicon?.url);
+    setLogo(item.logo == null ? '' : item.logo?.url);
+    setcustImage(item.custom_image == null ? null : item.custom_image);
+    setSelectedColor(item.color == null ? 'skyblue' : item.color);
+    setFirstColor(item.first_color == null ? item.first_color : 'blue');
+    setSecondColor(item.second_color == null ? item.second_color : 'red');
+    setFontFamily(item.font_family);
+    setFontSize('' + item.font_size);
+    setSEVisiable(item.search_engine_visibility == 1 ? true : false);
+    setPTitle(item.page_title);
+    setMKeyword(item.meta_keywords);
+    setMDescription(item.meta_description);
+    setOpenGImage(
+      item.opengraph_image == null ? '' : item.opengraph_image?.url,
+    );
+    setLeapLink(item.leap_link_url);
+    setProject(item.project);
+    setRBranding(item.remove_branding == 1 ? true : false);
+    setcustomCSS(item.custom_css);
+    setcustomJS(item.custom_js);
+    setProject(item.project);
+    checkProject();
+  }, [edit, item]);
+
 
   const isFocused = useIsFocused();
   const showDetails = index => {
