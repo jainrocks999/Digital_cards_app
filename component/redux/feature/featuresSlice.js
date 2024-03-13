@@ -570,7 +570,7 @@ export const Block_List = createAsyncThunk(
   async (params, thunkApi) => {
 console.log('show block list ', params);
     try {
-      const response = await API.get(`/block-list?user_id=${params.user_id}`, {
+      const response = await API.get(`/block-list?user_id=${params.user_id}&vcard_id=${params.vcard_id}`, {
         headers: {
           Authorization: `Bearer ${params.authToken}`,
         },

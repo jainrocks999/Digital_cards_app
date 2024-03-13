@@ -61,6 +61,8 @@ import {heightPercent, widthPrecent} from '../config/responsiveScreen';
 export default function EDIT_VCARD({route}) {
   const {edit, E_Id, item} = route.params;
 
+
+  console.log('E_Id=<<<<<<<<<<<<<<<<<',E_Id);
   const navigation = useNavigation();
   const theme = useSelector(state => state.theme.data);
   const [selectedColor, setSelectedColor] = useState('red');
@@ -90,7 +92,7 @@ export default function EDIT_VCARD({route}) {
   const [CustomeImage, setCustomeImage] = useState(false);
   const [choiceColor, setchoiceColor] = useState(true);
   const [selected, setselected] = useState('');
-
+const [BlockIsActive,setBlockIsActive] =useState(false)
   const [showSetting, setSetting] = useState(false);
   const [modals, setModals] = useState({
     link: false,
@@ -173,6 +175,7 @@ export default function EDIT_VCARD({route}) {
   const [customCSS, setcustomCSS] = useState('');
   const [customJS, setcustomJS] = useState('');
   const [isEnabled, setIsEnabled] = useState(false);
+  const [OpenLinkNewTab,setOpenLinkNewTab] =useState(false)
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   const changeTheame = async () => {
@@ -247,6 +250,270 @@ export default function EDIT_VCARD({route}) {
 
     setShowIndex(index);
   };
+
+  const block_listRenderItem = (value,)=>{
+   const index = value.index
+   const item = value.item
+  
+    const icons = {
+      Link: <Entypo name="link" size={25}  color={textColor}/>,
+      email: <MaterialCommunityIcons name="email" size={25}  color={textColor}/>,
+      Twitter: <AntDesign name="twitter" size={20}          color={textColor}/>,
+      Phone: <AntDesign name="phone" size={20}         color={textColor} />,
+      YouTube: <AntDesign name="youtube" size={20}          color={textColor}/>,
+      Instagram: <AntDesign name="instagram" size={20}          color={textColor}/>,
+      Github: <AntDesign name="github" size={25}         color={textColor} />,
+      Linkedin: <AntDesign name="linkedin-square" size={25}          color={textColor}/>,
+      'Facebook-messenger': (
+        <FontAwesome5 name="facebook-messenger" size={20}         color={textColor} />
+      ),
+      Address: <Entypo name="location-pin" size={25}         color={textColor} />,
+      Spotify: <Entypo name="spotify" size={25}          color={textColor}/>,
+      FaceBook: <Entypo name="facebook" size={25}         color={textColor} />,
+      Whatsapp: <FontAwesome name="whatsapp" size={25}         color={textColor} />,
+      reddit: <FontAwesome name="reddit" size={25}          color={textColor}/>,
+      Twitch: <FontAwesome name="twitch" size={25}         color={textColor} />,
+      Snapchat: <FontAwesome name="snapchat" size={25}         color={textColor} />,
+      Telegram: <FontAwesome name="telegram" size={25}         color={textColor} />,
+      TikTok: <FontAwesome5 name="tiktok" size={20}         color={textColor} />,
+      Discord: <FontAwesome5 name="discord" size={25}         color={textColor} />,
+      Pinterest: <FontAwesome5 name="pinterest" size={25}         color={textColor} />,
+    };
+
+    return(
+      <View style={{flex:1}}>
+      <TouchableOpacity
+        onPress={() => {
+          openBlockDetails(item, index);
+        }}
+        style={[
+          styles.nameDiv,
+          {
+            margin: 5,
+            height: hp(8),
+            alignItems: 'center',
+            flexDirection: 'row',
+            backgroundColor: theme === 'light' ? '#fff' : '#333',
+          },
+        ]}>
+          {icons[item.key]}
+        <Text
+          style={{
+            fontSize: 18,
+            fontWeight: '500',
+            color: 'blue',
+            marginHorizontal:20,
+          }}>
+          {item.value}
+        </Text>
+        <Entypo name="plus" size={30} color={'blue'} />
+      </TouchableOpacity>
+      {BlockListIndex === index && showBlockListDetails && (
+        <View style={{marginVertical: 10}}>
+          <View style={{backgroundColor: bgColor}}>
+            <View
+              style={{
+                marginHorizontal: 5,
+                marginTop: 10,
+              }}>
+              <Text
+                style={{
+                  fontSize: 18,
+                  marginHorizontal: 10,
+                  color: textColor,
+                  fontWeight: '600',
+                }}>
+                Name
+              </Text>
+            </View>
+            <View
+              style={[
+                {
+                  height: hp(7),
+                  borderWidth: 2,
+                  borderRadius: 5,
+                  marginTop: 5,
+                  borderColor: '#f0f0f0',
+                },
+              ]}>
+              <View
+                style={{
+                  backgroundColor:
+                    theme == 'light' ? '#fff' : '#333',
+                  paddingHorizontal: 10,
+                  width: '100%',
+                }}>
+                <TextInput
+                  placeholderTextColor={textColor}
+                  placeholder={item.key}
+                  value={BlockName}
+                  onChangeText={txt => setBlockName(txt)}
+                  style={{
+                    fontSize: 14,
+                    paddingHorizontal: 10,
+                    color: textColor,
+                  }}
+                />
+              </View>
+            </View>
+            <View
+              style={{
+                marginHorizontal: 5,
+                marginTop: 10,
+              }}>
+              <Text
+                style={{
+                  fontSize: 18,
+                  marginHorizontal: 10,
+                  color: textColor,
+                  fontWeight: '600',
+                }}>
+                {'TikTok username'}
+              </Text>
+            </View>
+            <View
+              style={[
+                {
+                  height: hp(7),
+                  borderWidth: 2,
+                  borderRadius: 5,
+                  marginTop: 5,
+                  borderColor: '#f0f0f0',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                },
+              ]}>
+              <View
+                style={{
+                  justifyContent: 'center',
+                  backgroundColor:
+                    theme === 'light' ? '#f0f0f0' : '#333',
+                  alignItems: 'center',
+                  height: '100%',
+                  width: Btnurl === '@' ? '15%' : '60%',
+                }}>
+                <Text
+                  style={{
+                    fontSize: Btnurl === '@' ? 22 : 16,
+                    fontWeight: '600',
+                    color: textColor,
+                  }}>
+                  {'https://www.forebearpro.in'}
+                </Text>
+              </View>
+              <TextInput
+                value={blockValueupdated}
+                onChangeText={txt => setblockValueupdated(txt)}
+                placeholderTextColor={textColor}
+                placeholder={item.value}
+                style={{
+                  fontSize: 14,
+                  height: '100%',
+                  width: Btnurl === '@' ? '85%' : '40%',
+                  color: textColor,
+                }}
+              />
+            </View>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: 20,
+              }}>
+                 <Switch
+                trackColor={{OpenLinkNewTab: '#767577', OpenLinkNewTab: '#81b0ff'}}
+                thumbColor={OpenLinkNewTab ? '#f5dd4b' : '#f4f3f4'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={()=>setOpenLinkNewTab(OpenLinkNewTab=>!OpenLinkNewTab)}
+                value={OpenLinkNewTab}
+              />
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontWeight: '600',
+                  color: textColor,
+                }}>
+                Open link in new tab
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: 20,
+              }}>
+              <Switch
+                trackColor={{BlockIsActive: '#767577', BlockIsActive: '#81b0ff'}}
+                thumbColor={BlockIsActive ? '#f5dd4b' : '#f4f3f4'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={()=>setBlockIsActive(BlockIsActive=>!BlockIsActive)}
+                value={BlockIsActive}
+              />
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontWeight: '600',
+                  color: textColor,
+                }}>
+                Block is active
+              </Text>
+            </View>
+
+            <TouchableOpacity
+              onPress={() => {
+                Block_edit(item);
+              }}
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginTop: 20,
+                marginHorizontal: 20,
+                borderRadius: 5,
+
+                backgroundColor:
+                  theme === 'light' ? '#4b5563' : '#333',
+                height: hp(5),
+              }}>
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: '#fff',
+                  fontWeight: '600',
+                }}>
+                Update
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                Delete_Block(item.id);
+              }}
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginTop: 20,
+                marginHorizontal: 20,
+                borderRadius: 5,
+
+                backgroundColor:
+                  theme === 'light' ? '#4b5563' : '#333',
+                height: hp(5),
+              }}>
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: '#fff',
+                  fontWeight: '600',
+                }}>
+                Delete
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+    </View>
+    )
+  }
 
   const handleSelection = index => {
     const selectedItem = PixelList[index];
@@ -398,6 +665,7 @@ export default function EDIT_VCARD({route}) {
   const getDataApi = useCallback(async () => {
     const params = {
       user_id: user?.data.id,
+      vcard_id:E_Id,
       authToken: user?.data.token,
     };
     dispatch(Block_List(params));
@@ -430,22 +698,25 @@ export default function EDIT_VCARD({route}) {
 
       const params = {
         data: {
-          user_id: user?.data.id,
-          key: name,
-          value: BlockValue,
-          type: btnData,
+          type:btnData,
+          key:name,
+          value:BlockValue,
+          open_in_new_tab:1,
+          is_enabled:1,
+          vcard_id:E_Id,
+          user_id :user?.data.id,
           created_by: user?.data.id,
-        },
+         },
         authToken: user?.data.token,
         user_id: user?.data.id,
       };
 
-      console.log(params);
+
 
        dispatch(CreateBlock(params));
-      // setModalVisible(false);
-      // getDataApi();
-      // check_Modal_click('none');
+      setModalVisible(false);
+      getDataApi();
+      check_Modal_click('none');
     } else {
       alert('Please fill all field');
     }
@@ -482,6 +753,9 @@ export default function EDIT_VCARD({route}) {
     setBtnData(item.type);
     setBlockListIndex(index);
     setShowBlockListDetails(showBlockListDetails => !showBlockListDetails);
+  setOpenLinkNewTab(item.open_in_new_tab == 1?true:false)
+  setBlockIsActive(item.is_enabled == 1?true:false)
+  
   };
 
   const Block_edit = item => {
@@ -493,6 +767,11 @@ export default function EDIT_VCARD({route}) {
         value: blockValueupdated,
         type: item.type,
         created_by: user?.data.id,
+        open_in_new_tab:OpenLinkNewTab==true?1:0,
+        is_enabled:BlockIsActive==true?1:0,
+        vcard_id:E_Id
+
+
       },
       authToken: user?.data.token,
       navigation: navigation,
@@ -551,7 +830,7 @@ export default function EDIT_VCARD({route}) {
   const modalRenderItem = ({item}) => {
     const icons = {
       Link: <Entypo name="link" size={25}  color={textColor}/>,
-      Email: <MaterialCommunityIcons name="email" size={25}  color={textColor}/>,
+      email: <MaterialCommunityIcons name="email" size={25}  color={textColor}/>,
       Twitter: <AntDesign name="twitter" size={20}          color={textColor}/>,
       Phone: <AntDesign name="phone" size={20}         color={textColor} />,
       YouTube: <AntDesign name="youtube" size={20}          color={textColor}/>,
@@ -2861,238 +3140,7 @@ export default function EDIT_VCARD({route}) {
               }}>
               <FlatList
                 data={BlockList}
-                renderItem={({item, index}) => (
-                  <>
-                    <TouchableOpacity
-                      onPress={() => {
-                        openBlockDetails(item, index);
-                      }}
-                      style={[
-                        styles.nameDiv,
-                        {
-                          margin: 5,
-                          height: hp(8),
-                          alignItems: 'center',
-                          flexDirection: 'row',
-                          backgroundColor: theme === 'light' ? '#fff' : '#333',
-                        },
-                      ]}>
-                      <Text
-                        style={{
-                          fontSize: 18,
-                          fontWeight: '500',
-                          color: 'blue',
-                          marginLeft: 5,
-                        }}>
-                        {item.key}
-                      </Text>
-                      <Entypo name="plus" size={30} color={'blue'} />
-                    </TouchableOpacity>
-                    {BlockListIndex === index && showBlockListDetails && (
-                      <View style={{marginVertical: 10}}>
-                        <View style={{backgroundColor: bgColor}}>
-                          <View
-                            style={{
-                              marginHorizontal: 5,
-                              marginTop: 10,
-                            }}>
-                            <Text
-                              style={{
-                                fontSize: 18,
-                                marginHorizontal: 10,
-                                color: textColor,
-                                fontWeight: '600',
-                              }}>
-                              Name
-                            </Text>
-                          </View>
-                          <View
-                            style={[
-                              {
-                                height: hp(7),
-                                borderWidth: 2,
-                                borderRadius: 5,
-                                marginTop: 5,
-                                borderColor: '#f0f0f0',
-                              },
-                            ]}>
-                            <View
-                              style={{
-                                backgroundColor:
-                                  theme == 'light' ? '#fff' : '#333',
-                                paddingHorizontal: 10,
-                                width: '100%',
-                              }}>
-                              <TextInput
-                                placeholderTextColor={textColor}
-                                placeholder={item.key}
-                                value={BlockName}
-                                onChangeText={txt => setBlockName(txt)}
-                                style={{
-                                  fontSize: 14,
-                                  paddingHorizontal: 10,
-                                  color: textColor,
-                                }}
-                              />
-                            </View>
-                          </View>
-                          <View
-                            style={{
-                              marginHorizontal: 5,
-                              marginTop: 10,
-                            }}>
-                            <Text
-                              style={{
-                                fontSize: 18,
-                                marginHorizontal: 10,
-                                color: textColor,
-                                fontWeight: '600',
-                              }}>
-                              {'TikTok username'}
-                            </Text>
-                          </View>
-                          <View
-                            style={[
-                              {
-                                height: hp(7),
-                                borderWidth: 2,
-                                borderRadius: 5,
-                                marginTop: 5,
-                                borderColor: '#f0f0f0',
-                                alignItems: 'center',
-                                flexDirection: 'row',
-                              },
-                            ]}>
-                            <View
-                              style={{
-                                justifyContent: 'center',
-                                backgroundColor:
-                                  theme === 'light' ? '#f0f0f0' : '#333',
-                                alignItems: 'center',
-                                height: '100%',
-                                width: Btnurl === '@' ? '15%' : '60%',
-                              }}>
-                              <Text
-                                style={{
-                                  fontSize: Btnurl === '@' ? 22 : 16,
-                                  fontWeight: '600',
-                                  color: textColor,
-                                }}>
-                                {'https://www.forebearpro.in'}
-                              </Text>
-                            </View>
-                            <TextInput
-                              value={blockValueupdated}
-                              onChangeText={txt => setblockValueupdated(txt)}
-                              placeholderTextColor={textColor}
-                              placeholder={item.value}
-                              style={{
-                                fontSize: 14,
-                                height: '100%',
-                                width: Btnurl === '@' ? '85%' : '40%',
-                                color: textColor,
-                              }}
-                            />
-                          </View>
-
-                          <View
-                            style={{
-                              flexDirection: 'row',
-                              alignItems: 'center',
-                              marginTop: 20,
-                            }}>
-                            <Switch
-                              trackColor={{false: '#767577', true: '#81b0ff'}}
-                              thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-                              ios_backgroundColor="#3e3e3e"
-                              onValueChange={toggleSwitch}
-                              value={isEnabled}
-                            />
-                            <Text
-                              style={{
-                                fontSize: 18,
-                                fontWeight: '600',
-                                color: textColor,
-                              }}>
-                              Open link in new tab
-                            </Text>
-                          </View>
-                          <View
-                            style={{
-                              flexDirection: 'row',
-                              alignItems: 'center',
-                              marginTop: 20,
-                            }}>
-                            <Switch
-                              trackColor={{false: '#767577', true: '#81b0ff'}}
-                              thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-                              ios_backgroundColor="#3e3e3e"
-                              onValueChange={toggleSwitch}
-                              value={isEnabled}
-                            />
-                            <Text
-                              style={{
-                                fontSize: 18,
-                                fontWeight: '600',
-                                color: textColor,
-                              }}>
-                              Block is active
-                            </Text>
-                          </View>
-
-                          <TouchableOpacity
-                            onPress={() => {
-                              Block_edit(item);
-                            }}
-                            style={{
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              marginTop: 20,
-                              marginHorizontal: 20,
-                              borderRadius: 5,
-
-                              backgroundColor:
-                                theme === 'light' ? '#4b5563' : '#333',
-                              height: hp(5),
-                            }}>
-                            <Text
-                              style={{
-                                fontSize: 18,
-                                color: '#fff',
-                                fontWeight: '600',
-                              }}>
-                              Update
-                            </Text>
-                          </TouchableOpacity>
-                          <TouchableOpacity
-                            onPress={() => {
-                              Delete_Block(item.id);
-                            }}
-                            style={{
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              marginTop: 20,
-                              marginHorizontal: 20,
-                              borderRadius: 5,
-
-                              backgroundColor:
-                                theme === 'light' ? '#4b5563' : '#333',
-                              height: hp(5),
-                            }}>
-                            <Text
-                              style={{
-                                fontSize: 18,
-                                color: '#fff',
-                                fontWeight: '600',
-                              }}>
-                              Delete
-                            </Text>
-                          </TouchableOpacity>
-                        </View>
-                      </View>
-                    )}
-                  </>
-                )}
+                renderItem={block_listRenderItem}
               />
             </View>
 
@@ -3454,7 +3502,7 @@ const CustomizationBtn = [
 
 const ModalData = [
   {title: 'Link', url: '@'},
-  {title: 'Email', url: '@'},
+  {title: 'email', url: '@'},
   {title: 'Phone', url: '@'},
   {title: 'Address', url: '@'},
   {title: 'YouTube', url: 'https://youtube.com/'},
