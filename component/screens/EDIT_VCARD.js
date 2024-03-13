@@ -92,7 +92,8 @@ export default function EDIT_VCARD({route}) {
   const [selected, setselected] = useState('');
   const [BlockIsActive, setBlockIsActive] = useState(false);
   const [showSetting, setSetting] = useState(false);
-  const [ModalIcon,setModalIcon]=useState(null)
+  const [ModalIcon, setModalIcon] = useState(null);
+  const [editBlockurl, seteditBlockurl] = useState('');
   const [modals, setModals] = useState({
     link: false,
     email: false,
@@ -227,7 +228,7 @@ export default function EDIT_VCARD({route}) {
   }, [edit, item]);
 
   const isFocused = useIsFocused();
-console.log('ModalIcon=>>>>>>>',ModalIcon);
+  console.log('ModalIcon=>>>>>>>', ModalIcon);
   const showDetails = index => {
     const stateVariables = [
       [SetshowVcard, 'showVcard'],
@@ -273,7 +274,7 @@ console.log('ModalIcon=>>>>>>>',ModalIcon);
       spotify: <Entypo name="spotify" size={25} color={'blue'} />,
       facebook: <Entypo name="facebook" size={25} color={'blue'} />,
       whatsapp: <FontAwesome name="whatsapp" size={25} color={'blue'} />,
-      reddit: <FontAwesome name="reddit" size={25}color={'blue'} />,
+      reddit: <FontAwesome name="reddit" size={25} color={'blue'} />,
       twitch: <FontAwesome name="twitch" size={25} color={'blue'} />,
       snapchat: <FontAwesome name="snapchat" size={25} color={'blue'} />,
       telegram: <FontAwesome name="telegram" size={25} color={'blue'} />,
@@ -286,7 +287,7 @@ console.log('ModalIcon=>>>>>>>',ModalIcon);
       <View style={{flex: 1}}>
         <TouchableOpacity
           onPress={() => {
-            openBlockDetails(item, index,);
+            openBlockDetails(item, index);
           }}
           style={[
             styles.nameDiv,
@@ -392,7 +393,7 @@ console.log('ModalIcon=>>>>>>>',ModalIcon);
                     backgroundColor: theme === 'light' ? '#f0f0f0' : '#333',
                     alignItems: 'center',
                     height: '100%',
-                    width: Btnurl === '@' ? '15%' : '60%',
+                    paddingHorizontal: 10,
                   }}>
                   <Text
                     style={{
@@ -400,7 +401,7 @@ console.log('ModalIcon=>>>>>>>',ModalIcon);
                       fontWeight: '600',
                       color: textColor,
                     }}>
-                    {'https://www.forebearpro.in'}
+                    {editBlockurl}
                   </Text>
                 </View>
                 <TextInput
@@ -639,15 +640,11 @@ console.log('ModalIcon=>>>>>>>',ModalIcon);
     });
   };
 
-  const check_Modal_click = (type, url,icons) => {
+  const check_Modal_click = (type, url, icons) => {
+    if (type !== 'none') {
+      setModalIcon(icons[type]);
+    }
 
-
-if(type!== 'none'){
-
-  setModalIcon(icons[type])
-}
-
-   
     setBtnData(type);
     setBtnurl(url);
     modals[type] = true;
@@ -762,7 +759,11 @@ if(type!== 'none'){
   };
 
   const openBlockDetails = (item, index) => {
-  
+    ModalData.forEach(res => {
+      if (res.title == item.type) {
+        seteditBlockurl(res.url);
+      }
+    });
     setBlockName(item.key);
     setblockValueupdated(item.value);
     setBtnData(item.type);
@@ -770,7 +771,6 @@ if(type!== 'none'){
     setShowBlockListDetails(showBlockListDetails => !showBlockListDetails);
     setOpenLinkNewTab(item.open_in_new_tab == 1 ? true : false);
     setBlockIsActive(item.is_enabled == 1 ? true : false);
-
   };
 
   const Block_edit = item => {
@@ -841,7 +841,6 @@ if(type!== 'none'){
   };
 
   const modalRenderItem = ({item}) => {
-
     const icons = {
       link: <Entypo name="link" size={25} color={textColor} />,
       email: (
@@ -871,11 +870,9 @@ if(type!== 'none'){
       pinterest: <FontAwesome5 name="pinterest" size={25} color={textColor} />,
     };
 
-    
-
     return (
       <TouchableOpacity
-        onPress={() => check_Modal_click(item.title, item.url,icons)}
+        onPress={() => check_Modal_click(item.title, item.url, icons)}
         style={{
           shadowColor: '#000',
           shadowOffset: {
@@ -3523,8 +3520,8 @@ const CustomizationBtn = [
 
 const ModalData = [
   {title: 'link', url: '@'},
-  {title: 'email', url: '@'},
-  {title: 'phone', url: '@'},
+  {title: 'email', url: 'mailto:'},
+  {title: 'phone', url: ''},
   {title: 'address', url: '@'},
   {title: 'youtube', url: 'https://youtube.com/'},
   {title: 'instagram', url: 'https://instagram.com/'},
