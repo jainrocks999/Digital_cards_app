@@ -19,6 +19,7 @@ import Foundation from 'react-native-vector-icons/Foundation';
 import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { Card } from 'react-native-paper';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -270,142 +271,84 @@ export default function PROJECT_SCREEN() {
 
         {ProjectData !== null && (
           <>
-            <View
-              style={{
-                borderWidth: 1,
-                height: 45,
-                flexDirection: 'row',
-                marginHorizontal: 10,
-                marginTop: 5,
-                borderColor: 'grey',
-              }}>
-              <View style={[styles.table, {width: '40%'}]}>
-                <Text style={[styles.tableText, {color: textColor}]}>Name</Text>
+       
+            <View style={{flex: 1,marginTop:hp(2)}}>
+            <FlatList
+        data={ProjectData}
+        renderItem={({ item, index }) => (
+          <Card style={{ margin: 10, marginTop: 5 }}>
+            <Card.Content>
+              <View style={{ flexDirection: 'row' }}>
+                <View style={{width:'60%'}}>
+              <View style={{ flexDirection: 'row' }}>
+                <View style={{ width: '40%' }}>
+                  <Text style={{ color:textColor,fontWeight:'600' }}>Name :-</Text>
+                </View>
+                <View style={{ width: '40%' }}>
+                  <Text style={{ color: textColor }}>{item.name}</Text>
+                </View>
+                </View>
+              <View style={{ flexDirection: 'row',marginTop:5 }}>
+                <View style={{ width: '40%' }}>
+                <Text style={{ color:textColor,fontWeight:'600' }}>Color :-</Text>
+                </View>
+                <View style={{ width: '40%' }}>
+                  <Text style={{ color:textColor }}>{item.color}</Text>
+                </View>
+                </View>
+                </View>
+<View style={{flexDirection:'row',width:'40%'}}>
+
+                <TouchableOpacity
+                 onPress={() => {
+                  setModalVisible(true);
+                  setViewProjectData(item);
+                  hideMenu();
+                }}
+                  style={{
+                    width: '30%',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    
+                  }}>
+                  <Entypo name="eye" size={20} color={textColor} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                 onPress={() => {
+                  navigation.navigate(ScreenNameEnum.Edit_Project, {
+                    Project_name: item.name,
+                    Project_color: item.color,
+                    Project_id: item.id,
+                  });
+                  hideMenu();
+                }}
+                  style={{
+                    width: '30%',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                
+                  }}>
+                  <AntDesign name="edit" size={20} color={textColor} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    ProjectDelete(item.id);
+                  }}
+                  style={{
+                    width: '30%',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    
+                  }}>
+                  <AntDesign name="delete" size={20} color={textColor} />
+                </TouchableOpacity>
+                </View>
+                
               </View>
-              <View style={[styles.table, {width: '40%'}]}>
-                <Text style={[styles.tableText, {color: textColor}]}>
-                  Color
-                </Text>
-              </View>
-            </View>
-            <View style={{flex: 1}}>
-              <FlatList
-                data={ProjectData}
-                renderItem={({item, index}) => (
-                  <>
-                    <View
-                      style={{
-                        borderWidth: 1,
-                        height: 45,
-                        flexDirection: 'row',
-                        marginHorizontal: 10,
-                        marginTop: 5,
-                        borderColor: 'grey',
-                      }}>
-                      <View style={[styles.table, {width: '40%'}]}>
-                        <Text style={[styles.tableText, {color: textColor}]}>
-                          {item.name}
-                        </Text>
-                      </View>
-                      <View style={[styles.table, {width: '40%'}]}>
-                        <Text style={[styles.tableText, {color: textColor}]}>
-                          {item.color}
-                        </Text>
-                      </View>
-
-                      <TouchableOpacity
-                        onPress={() => {
-                          showMenu(index);
-                        }}
-                        style={{
-                          width: '20%',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}>
-                        <AntDesign name="caretdown" size={15} color={textColor} />
-                      </TouchableOpacity>
-
-                      {visibleMenuIndex == index && (
-                        <View style={{height: '20%'}}>
-                          <Menu
-                            visible={visible}
-                            onRequestClose={() => hideMenu(index)}
-                            style={{
-                              marginLeft: '58%',
-                              width: '17%',
-                              justifyContent: 'center',
-                              backgroundColor: bgColor,
-                              marginTop: hp(6),
-                            }}>
-                            <MenuItem
-                              onPress={()=>{
-                                setModalVisible(true)
-                                setViewProjectData(item)
-                                hideMenu()
-                              }}
-                              style={[
-                                styles.option,
-                                {backgroundColor: '#3b3d3d', marginVertical: 5},
-                              ]}>
-                              <Text
-                                style={{
-                                  fontSize: 18,
-                                  fontWeight: '400',
-
-                                  color: '#fff',
-                                }}>
-                                {' '}
-                                View
-                              </Text>
-                            </MenuItem>
-                            <MenuItem
-                              onPress={()=>{
-                                navigation.navigate(ScreenNameEnum.Edit_Project,{
-
-                                  Project_name:item.name,
-                                  Project_color:item.color,
-                                  Project_id:item.id
-                                })
-                                hideMenu()
-                              }}
-                              style={[
-                                styles.option,
-                                {backgroundColor: '#69b9c9'},
-                              ]}>
-                              <Text
-                                style={{
-                                  fontSize: 18,
-                                  fontWeight: '400',
-                                  color: '#fff',
-                                }}>
-                                Edit
-                              </Text>
-                            </MenuItem>
-                            <MenuItem
-                              onPress={()=>{
-                                ProjectDelete(item.id)
-                               
-                              }}
-                              style={[
-                                styles.option,
-                                {backgroundColor: 'red', marginVertical: 5},
-                              ]}>
-                              <Text
-                                style={{
-                                  fontSize: 18,
-                                  fontWeight: '400',
-                                  color: '#fff',
-                                }}>
-                                Delete
-                              </Text>
-                            </MenuItem>
-                          </Menu>
-                        </View>
-                      )}
-                    </View>
-                  </>
-                )}
-              />
+            </Card.Content>
+          </Card>
+        )}
+      />
             </View>
           </>
         )}

@@ -170,7 +170,7 @@ export default function CREATE_PIXEL() {
             backgroundColor: bgColor,
             elevation: 5,
             marginTop: 15,
-            height: hp(80),
+
             borderRadius: 5,
           }}>
           <View style={{marginTop: 25, paddingHorizontal: 10}}>
@@ -217,6 +217,7 @@ export default function CREATE_PIXEL() {
                   value={Name}
                   onChangeText={(txt)=>setName(txt)}
                   placeholderTextColor={textColor}
+                  maxLength={50}
                   style={{
                     fontSize: 14,
                     paddingHorizontal: 10,
@@ -225,6 +226,7 @@ export default function CREATE_PIXEL() {
                 />
               </View>
             </View>
+            {Name.length == 50 &&<Text style={{color:'red',marginHorizontal:10,marginTop:10}}>max length 50</Text>}
           </View>
           <View style={{marginTop: 25, paddingHorizontal: 10}}>
             <View style={{flexDirection: 'row', marginHorizontal: 10}}>
@@ -346,16 +348,19 @@ export default function CREATE_PIXEL() {
                    onChangeText={(txt)=>setPixelId(txt)}
                   placeholder="Pixel"
                   placeholderTextColor={textColor}
+                  maxLength={10}
                   style={{
                     fontSize: 14,
                     color: textColor,
                     paddingHorizontal: 10,
                   }}
                 />
+               
               </View>
             </View>
+              {PixcelId.length ==10 &&<Text style={{color:'red',marginHorizontal:10,marginTop:10}}>max length 10</Text>}
           </View>
-          <View style={{marginHorizontal: 10, marginVertical: 25}}>
+          <View style={{marginHorizontal: 10, marginVertical:15}}>
             <Text style={{color: textColor}}>
               Enter the pixel id from this specific pixel type you chose.
             </Text>
@@ -379,6 +384,8 @@ export default function CREATE_PIXEL() {
               Create
             </Text>
           </TouchableOpacity>
+      
+      <View style={{height:hp(3)}} />
         </View>
 
         <View style={{height: hp(20), marginTop: 20, marginHorizontal: 10}}>
@@ -403,15 +410,15 @@ export default function CREATE_PIXEL() {
 }
 
 const data = [
-  {label: 'Facebook', value: '1'},
-  {label: 'Google Analytics', value: '2'},
-  {label: 'Google Tag Manager', value: '3'},
-  {label: 'Linkedln', value: '4'},
-  {label: 'Pinterest', value: '5'},
-  {label: 'Twitter', value: '6'},
-  {label: 'Quora', value: '7'},
-  {label: 'Tik-Tok', value: '8'},
-  {label: 'Snapchat', value: '8'},
+  {label: 'facebook', value: '1'},
+  {label: 'google_analytics', value: '2'},
+  {label: 'google_tag_manager', value: '3'},
+  {label: 'linkedin', value: '4'},
+  {label: 'pinterest', value: '5'},
+  {label: 'twitter', value: '6'},
+  {label: 'quora', value: '7'},
+  {label: 'tiktok', value: '8'},
+  {label: 'snapchat', value: '8'},
 ];
 const styles = StyleSheet.create({
   dropdown: {

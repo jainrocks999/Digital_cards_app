@@ -126,6 +126,7 @@ export default function EDIT_VCARD({route}) {
   const [BlockName, setBlockName] = useState('');
   const [blockValueupdated, setblockValueupdated] = useState('');
 
+
   // edit card state
   const [UrlAlias, setUrlAlias] = useState('');
   const [EditName, setEditName] = useState('');
@@ -424,7 +425,9 @@ export default function EDIT_VCARD({route}) {
   }, [isFocused, getDataApi]);
 
   const Create_Block = () => {
+
     if (name !== '' && BlockValue !== '' && btnData !== '') {
+
       const params = {
         data: {
           user_id: user?.data.id,
@@ -437,10 +440,12 @@ export default function EDIT_VCARD({route}) {
         user_id: user?.data.id,
       };
 
-      dispatch(CreateBlock(params));
-      setModalVisible(false);
-      getDataApi();
-      check_Modal_click('none');
+      console.log(params);
+
+       dispatch(CreateBlock(params));
+      // setModalVisible(false);
+      // getDataApi();
+      // check_Modal_click('none');
     } else {
       alert('Please fill all field');
     }
@@ -3251,7 +3256,7 @@ export default function EDIT_VCARD({route}) {
                             <View
                               style={{
                                 justifyContent: 'center',
-                                backgroundColor: theme=='light:'?'#f0f0f0':'#333',
+                                backgroundColor: theme=='light'?'#f0f0f0':'#333',
                                 alignItems: 'center',
                                 height: '100%',
                                 width: Btnurl === '@' ? '15%' : '51%',

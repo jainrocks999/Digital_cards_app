@@ -124,7 +124,9 @@ export default function VCARD_SCREEN() {
        
  const vCardData = actionResult.payload.vcarddata
       
-       await handleDownload(vCardData);
+
+ console.log('=<<<<<<<<<',vCardData);
+      //  await handleDownload(vCardData);
 
 
       } else if (Download_VCard.rejected.match(actionResult)) {

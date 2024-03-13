@@ -595,15 +595,17 @@ console.log('show block list ', params);
 );
 
 // create Block
-export const CreateBlock= createAsyncThunk(
-  'CreateBlock',
+
+
+export const CreateBlock = createAsyncThunk(
+  'createBlock',
   async (params, thunkApi) => {
+    console.log('=>>>>>>>>>>>>>>>>>inside>> Called CreateBlock create', params.data);
     try {
-      console.log('=>>>>>>>>>>>>>>>>>>> Called CreateBlock create',params.data);
-      
+
       // Make the API call
       const response = await API.post('/block-add',
-        params.data, 
+        params.data,
         {
           headers: {
             Authorization: `Bearer ${params.authToken}`,
@@ -611,28 +613,40 @@ export const CreateBlock= createAsyncThunk(
         }
       );
 
-      console.log(
-        '🚀 ~ file: CreateBlock.js:12 ~ CreateBlock ~ response:',
-        response.data,
-      );
+      console.log('🚀 ~ file: CreateBlock.js:12 ~ createBlock ~ response:', response.data);
 
       // Check the response status and log a success message
       if (response.data.status) {
-        alert('CreateBlock Successfully');
-    
+        // You can handle successful response data here if needed
       }
 
       // Return the data from the response
       return response.data.data;
     } catch (error) {
-      console.log('🚀 ~ file: CreateBlock.js:16 ~ CreateBlock ~ error:', error);
+      console.error('🚀 ~ file: CreateBlock.js:16 ~ createBlock ~ error:', error);
+
+      // Customize error handling based on the status code or other criteria
+      if (error.response) {
+        if (error.response.status === 401) {
+          // Handle unauthorized access
+          alert('Unauthorized access');
+        } else if (error.response.status === 500) {
+          // Handle server error
+          alert('Server error');
+        } else {
+          // Handle other status codes
+          console.error(`Unexpected error with status code ${error.response.status}`);
+        }
+      } else {
+        // Handle other types of errors
+        console.error('Unexpected error:', error.message);
+      }
 
       // If an error occurs, reject the promise with the error value
       return thunkApi.rejectWithValue(error);
     }
   }
 );
-
 //delete Block
 export const Blockdelete = createAsyncThunk(
   'Blockdelete',

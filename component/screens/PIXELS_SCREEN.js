@@ -273,10 +273,9 @@ export default function PIXELS_SCREEN() {
                     <View
                       style={{
                         backgroundColor: bgColor,
-                        height: heightPercent(28),
-                        padding: 5,
+                                         padding: 5,
                         margin: 10,
-
+paddingBottom:10,
                         borderRadius: 5,
                         shadowColor: '#000',
                         shadowOffset: {
@@ -337,9 +336,10 @@ export default function PIXELS_SCREEN() {
                           marginHorizontal: 10,
                           alignItems: 'center',
 
-                          height: 30,
+                          
                         }}>
-                        <View style={{width: '30%', justifyContent: 'center'}}>
+                        <View style={{width: '30%',
+                         justifyContent: 'center'}}>
                           <Text
                             style={{
                               fontSize: 16,
@@ -360,7 +360,7 @@ export default function PIXELS_SCREEN() {
                         </Text>
                         <View
                           style={{
-                            width: '30%',
+                            width: '60%',
                             marginLeft: 20,
                             justifyContent: 'center',
                           }}>
@@ -370,7 +370,7 @@ export default function PIXELS_SCREEN() {
                               fontWeight: '500',
                               color: textColor,
                             }}>
-                            {item.name}
+                            {item.name.substring(0,50)}
                           </Text>
                         </View>
                       </View>
