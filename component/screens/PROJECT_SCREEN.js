@@ -7,7 +7,7 @@ import {
   ScrollView,
   StyleSheet,
   Alert,
-  Modal
+  Modal,
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useNavigation, useIsFocused} from '@react-navigation/native';
@@ -19,7 +19,7 @@ import Foundation from 'react-native-vector-icons/Foundation';
 import {Menu, MenuItem, MenuDivider} from 'react-native-material-menu';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { Card } from 'react-native-paper';
+import {Card} from 'react-native-paper';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -29,8 +29,8 @@ import {changeTheme} from '../redux/feature/ThemeSlice';
 import {useDispatch, useSelector} from 'react-redux';
 import {ProjectList, Project_delete} from '../redux/feature/featuresSlice';
 import Loader from '../Loader';
-import ScreenNameEnum from '../navigation/routes/screenName.enum'
-import { heightPercent } from '../config/responsiveScreen';
+import ScreenNameEnum from '../navigation/routes/screenName.enum';
+import {heightPercent} from '../config/responsiveScreen';
 export default function PROJECT_SCREEN() {
   const navigation = useNavigation();
   const isLoading = useSelector(state => state.feature.isLoading);
@@ -41,11 +41,10 @@ export default function PROJECT_SCREEN() {
   const [visible, setVisible] = useState(false);
   const [visibleMenuIndex, setVisibleMenuIndex] = useState(null);
   const [viewProjectData, setViewProjectData] = useState([]);
-  const [ModalVisible,setModalVisible]=useState(false)
+  const [ModalVisible, setModalVisible] = useState(false);
   let textColor = theme == 'light' ? '#000' : '#fff';
   let bgColor = theme == 'light' ? '#fff' : '#575757';
   const isFocused = useIsFocused();
-
 
   const changeTheame = async () => {
     await AsyncStorage.setItem('theme', theme == 'light' ? 'dark' : 'light');
@@ -56,7 +55,6 @@ export default function PROJECT_SCREEN() {
     setVisible(true);
     setVisibleMenuIndex(index);
   };
-  
 
   const hideMenu = () => {
     setVisible(false);
@@ -68,17 +66,17 @@ export default function PROJECT_SCREEN() {
       authToken: user?.data.token,
     };
     dispatch(ProjectList(params));
-  }, [dispatch, user?.data.id, user?.data.token,]);
+  }, [dispatch, user?.data.id, user?.data.token]);
 
   useEffect(() => {
     getDataApi();
   }, [isFocused, getDataApi]);
 
-  const ProjectDelete =(id)=>{
+  const ProjectDelete = id => {
     const params = {
       user_id: user?.data.id,
       authToken: user?.data.token,
-      id:id
+      id: id,
     };
     Alert.alert(
       'Delete Confirmation',
@@ -95,72 +93,71 @@ export default function PROJECT_SCREEN() {
           },
         },
       ],
-      { cancelable: false }
+      {cancelable: false},
     );
 
     hideMenu();
-  }
+  };
   return (
     <View
       style={{flex: 1, backgroundColor: theme == 'light' ? '#fff' : '#333'}}>
-     
-     {isLoading ? <Loader /> : null}
-   
-     <View
+      {isLoading ? <Loader /> : null}
+
+      <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
           backgroundColor: bgColor,
-          shadowColor: "#000",
+          shadowColor: '#000',
           shadowOffset: {
-              width: 0,
-              height: 2,
+            width: 0,
+            height: 2,
           },
           shadowOpacity: 0.25,
           shadowRadius: 3.84,
-          
+
           elevation: 5,
-          height:50
+          height: 50,
         }}>
-          <TouchableOpacity
-            onPress={() => navigation.openDrawer()}
-            style={{width: '20%'}}>
-            <Entypo size={40} name="menu" color={textColor} />
-          </TouchableOpacity>
-          <View
-            style={{
-              width: '60%',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <Text style={{fontSize: 22, fontWeight: '600', color: textColor}}>
-              Projects
-            </Text>
-          </View>
-          <TouchableOpacity
-            onPress={() => {
-              changeTheame();
-            }}
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <Feather
-              name="sun"
-              size={25}
-              color={theme == 'light' ? 'orange' : 'black'}
-            />
-            <Text
-              style={{
-                marginLeft: 5,
-                color: theme == 'light' ? 'orange' : '#fff',
-              }}>
-              Light
-            </Text>
-          </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.openDrawer()}
+          style={{width: '20%'}}>
+          <Entypo size={40} name="menu" color={textColor} />
+        </TouchableOpacity>
+        <View
+          style={{
+            width: '60%',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Text style={{fontSize: 22, fontWeight: '600', color: textColor}}>
+            Projects
+          </Text>
         </View>
-        <ScrollView>
+        <TouchableOpacity
+          onPress={() => {
+            changeTheame();
+          }}
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Feather
+            name="sun"
+            size={25}
+            color={theme == 'light' ? 'orange' : 'black'}
+          />
+          <Text
+            style={{
+              marginLeft: 5,
+              color: theme == 'light' ? 'orange' : '#fff',
+            }}>
+            Light
+          </Text>
+        </TouchableOpacity>
+      </View>
+      <ScrollView>
         <View
           style={{
             flexDirection: 'row',
@@ -168,11 +165,10 @@ export default function PROJECT_SCREEN() {
             height: hp(5),
             alignItems: 'center',
             marginTop: 20,
-          
           }}>
           <Text
             style={{
-              fontSize:20,
+              fontSize: 20,
               fontWeight: '600',
               marginHorizontal: 20,
             }}>
@@ -186,10 +182,9 @@ export default function PROJECT_SCREEN() {
             flexDirection: 'row',
             marginTop: 15,
             marginHorizontal: 10,
-            height:hp(7),
+            height: hp(7),
             paddingHorizontal: 10,
             paddingVertical: 5,
-           
           }}>
           <TouchableOpacity
             onPress={() => {
@@ -198,12 +193,11 @@ export default function PROJECT_SCREEN() {
             style={{
               flexDirection: 'row',
               borderWidth: 1,
-            height:40, 
-            width:'42%',
+              height: 40,
+              width: '42%',
               alignItems: 'center',
               justifyContent: 'center',
               borderColor: '#ed2f95',
-             
             }}>
             <AntDesign name="pluscircle" size={20} color={'#ed2f95'} />
             <Text
@@ -232,8 +226,8 @@ export default function PROJECT_SCREEN() {
           </TouchableOpacity>
           <TouchableOpacity
             style={{
-              height:40,
-              width:40,
+              height: 40,
+              width: 40,
               borderColor: textColor,
               alignItems: 'center',
               justifyContent: 'center',
@@ -271,84 +265,100 @@ export default function PROJECT_SCREEN() {
 
         {ProjectData !== null && (
           <>
-       
-            <View style={{flex: 1,marginTop:hp(2)}}>
-            <FlatList
-        data={ProjectData}
-        renderItem={({ item, index }) => (
-          <Card style={{ margin: 10, marginTop: 5 }}>
-            <Card.Content>
-              <View style={{ flexDirection: 'row' }}>
-                <View style={{width:'60%'}}>
-              <View style={{ flexDirection: 'row' }}>
-                <View style={{ width: '40%' }}>
-                  <Text style={{ color:textColor,fontWeight:'600' }}>Name :-</Text>
-                </View>
-                <View style={{ width: '40%' }}>
-                  <Text style={{ color: textColor }}>{item.name}</Text>
-                </View>
-                </View>
-              <View style={{ flexDirection: 'row',marginTop:5 }}>
-                <View style={{ width: '40%' }}>
-                <Text style={{ color:textColor,fontWeight:'600' }}>Color :-</Text>
-                </View>
-                <View style={{ width: '40%' }}>
-                  <Text style={{ color:textColor }}>{item.color}</Text>
-                </View>
-                </View>
-                </View>
-<View style={{flexDirection:'row',width:'40%'}}>
-
-                <TouchableOpacity
-                //  onPress={() => {
-                //   setModalVisible(true);
-                //   setViewProjectData(item);
-                //   hideMenu();
-                // }}
-                  style={{
-                    width: '30%',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    
-                  }}>
-                  <FontAwesome name="id-card" size={20} color={textColor} />
-                </TouchableOpacity>
-                <TouchableOpacity
-                 onPress={() => {
-                  navigation.navigate(ScreenNameEnum.Edit_Project, {
-                    Project_name: item.name,
-                    Project_color: item.color,
-                    Project_id: item.id,
-                  });
-                  hideMenu();
-                }}
-                  style={{
-                    width: '30%',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                
-                  }}>
-                  <AntDesign name="edit" size={20} color={textColor} />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => {
-                    ProjectDelete(item.id);
-                  }}
-                  style={{
-                    width: '30%',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    
-                  }}>
-                  <AntDesign name="delete" size={20} color={textColor} />
-                </TouchableOpacity>
-                </View>
-                
-              </View>
-            </Card.Content>
-          </Card>
-        )}
-      />
+            <View style={{flex: 1, marginTop: hp(2)}}>
+              <FlatList
+                data={ProjectData}
+                renderItem={({item, index}) => (
+                  <Card style={{margin: 10, marginTop: 5}}>
+                    <Card.Content>
+                      <View style={{flexDirection: 'row'}}>
+                        <View style={{width: '60%'}}>
+                          <View style={{flexDirection: 'row'}}>
+                            <View style={{width: '40%'}}>
+                              <Text
+                                style={{color: textColor, fontWeight: '600'}}>
+                                Name :-
+                              </Text>
+                            </View>
+                            <View style={{width: '40%'}}>
+                              <Text style={{color: textColor}}>
+                                {item.name}
+                              </Text>
+                            </View>
+                          </View>
+                          <View style={{flexDirection: 'row', marginTop: 5}}>
+                            <View style={{width: '40%'}}>
+                              <Text
+                                style={{color: textColor, fontWeight: '600'}}>
+                                Color :-
+                              </Text>
+                            </View>
+                            <View style={{width: '40%'}}>
+                              <Text style={{color: textColor}}>
+                                {item.color}
+                              </Text>
+                            </View>
+                          </View>
+                        </View>
+                        <View style={{flexDirection: 'row', width: '40%'}}>
+                          <TouchableOpacity
+                            //  onPress={() => {
+                            //   setModalVisible(true);
+                            //   setViewProjectData(item);
+                            //   hideMenu();
+                            // }}
+                            style={{
+                              width: '30%',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                            }}>
+                            <FontAwesome
+                              name="id-card"
+                              size={20}
+                              color={textColor}
+                            />
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            onPress={() => {
+                              navigation.navigate(ScreenNameEnum.Edit_Project, {
+                                Project_name: item.name,
+                                Project_color: item.color,
+                                Project_id: item.id,
+                              });
+                              hideMenu();
+                            }}
+                            style={{
+                              width: '30%',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                            }}>
+                            <AntDesign
+                              name="edit"
+                              size={20}
+                              color={textColor}
+                            />
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            onPress={() => {
+                              ProjectDelete(item.id);
+                            }}
+                            style={{
+                              width: '30%',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                            }}>
+                            <AntDesign
+                              name="delete"
+                              size={20}
+                              color={textColor}
+                            />
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    </Card.Content>
+                  </Card>
+                )}
+              />
             </View>
           </>
         )}
@@ -371,11 +381,11 @@ export default function PROJECT_SCREEN() {
           </TouchableOpacity>
         </View>
         <Modal
-animationType="slide"
-transparent={false}
-visible={ModalVisible}
-onRequestClose={() => setModalVisible(false)}>
-      <View style={{flex: 1}}>
+          animationType="slide"
+          transparent={false}
+          visible={ModalVisible}
+          onRequestClose={() => setModalVisible(false)}>
+          <View style={{flex: 1}}>
             <TouchableOpacity
               onPress={() => {
                 setModalVisible(false);
@@ -465,10 +475,9 @@ onRequestClose={() => setModalVisible(false)}>
                   </Text>
                 </View>
               </View>
-             
             </View>
           </View>
-</Modal>
+        </Modal>
         <View style={{height: hp(10)}} />
       </ScrollView>
     </View>
@@ -480,19 +489,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
 
-
-height:50,
+    height: 50,
     paddingHorizontal: 10,
     borderBottomWidth: 1,
   },
   viewTxt: {
-   
-    fontSize:18,
+    fontSize: 18,
     fontWeight: '600',
-  paddingTop:10,
+    paddingTop: 10,
     width: '50%',
     borderRightWidth: 1,
-    height:55,
+    height: 55,
   },
   option: {
     backgroundColor: 'red',
