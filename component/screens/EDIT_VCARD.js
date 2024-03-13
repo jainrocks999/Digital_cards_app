@@ -61,8 +61,6 @@ import {heightPercent, widthPrecent} from '../config/responsiveScreen';
 export default function EDIT_VCARD({route}) {
   const {edit, E_Id, item} = route.params;
 
-
-  console.log('E_Id=<<<<<<<<<<<<<<<<<',E_Id);
   const navigation = useNavigation();
   const theme = useSelector(state => state.theme.data);
   const [selectedColor, setSelectedColor] = useState('red');
@@ -92,8 +90,9 @@ export default function EDIT_VCARD({route}) {
   const [CustomeImage, setCustomeImage] = useState(false);
   const [choiceColor, setchoiceColor] = useState(true);
   const [selected, setselected] = useState('');
-const [BlockIsActive,setBlockIsActive] =useState(false)
+  const [BlockIsActive, setBlockIsActive] = useState(false);
   const [showSetting, setSetting] = useState(false);
+  const [ModalIcon,setModalIcon]=useState(null)
   const [modals, setModals] = useState({
     link: false,
     email: false,
@@ -127,7 +126,6 @@ const [BlockIsActive,setBlockIsActive] =useState(false)
   const [BlockValue, setBlockValue] = useState('');
   const [BlockName, setBlockName] = useState('');
   const [blockValueupdated, setblockValueupdated] = useState('');
-
 
   // edit card state
   const [UrlAlias, setUrlAlias] = useState('');
@@ -175,7 +173,7 @@ const [BlockIsActive,setBlockIsActive] =useState(false)
   const [customCSS, setcustomCSS] = useState('');
   const [customJS, setcustomJS] = useState('');
   const [isEnabled, setIsEnabled] = useState(false);
-  const [OpenLinkNewTab,setOpenLinkNewTab] =useState(false)
+  const [OpenLinkNewTab, setOpenLinkNewTab] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   const changeTheame = async () => {
@@ -229,7 +227,7 @@ const [BlockIsActive,setBlockIsActive] =useState(false)
   }, [edit, item]);
 
   const isFocused = useIsFocused();
-
+console.log('ModalIcon=>>>>>>>',ModalIcon);
   const showDetails = index => {
     const stateVariables = [
       [SetshowVcard, 'showVcard'],
@@ -251,269 +249,281 @@ const [BlockIsActive,setBlockIsActive] =useState(false)
     setShowIndex(index);
   };
 
-  const block_listRenderItem = (value,)=>{
-   const index = value.index
-   const item = value.item
-  
+  const block_listRenderItem = value => {
+    const index = value.index;
+    const item = value.item;
+
     const icons = {
-      Link: <Entypo name="link" size={25}  color={textColor}/>,
-      email: <MaterialCommunityIcons name="email" size={25}  color={textColor}/>,
-      Twitter: <AntDesign name="twitter" size={20}          color={textColor}/>,
-      Phone: <AntDesign name="phone" size={20}         color={textColor} />,
-      YouTube: <AntDesign name="youtube" size={20}          color={textColor}/>,
-      Instagram: <AntDesign name="instagram" size={20}          color={textColor}/>,
-      Github: <AntDesign name="github" size={25}         color={textColor} />,
-      Linkedin: <AntDesign name="linkedin-square" size={25}          color={textColor}/>,
-      'Facebook-messenger': (
-        <FontAwesome5 name="facebook-messenger" size={20}         color={textColor} />
+      link: <Entypo name="link" size={25} color={textColor} />,
+      email: (
+        <MaterialCommunityIcons name="email" size={25} color={textColor} />
       ),
-      Address: <Entypo name="location-pin" size={25}         color={textColor} />,
-      Spotify: <Entypo name="spotify" size={25}          color={textColor}/>,
-      FaceBook: <Entypo name="facebook" size={25}         color={textColor} />,
-      Whatsapp: <FontAwesome name="whatsapp" size={25}         color={textColor} />,
-      reddit: <FontAwesome name="reddit" size={25}          color={textColor}/>,
-      Twitch: <FontAwesome name="twitch" size={25}         color={textColor} />,
-      Snapchat: <FontAwesome name="snapchat" size={25}         color={textColor} />,
-      Telegram: <FontAwesome name="telegram" size={25}         color={textColor} />,
-      TikTok: <FontAwesome5 name="tiktok" size={20}         color={textColor} />,
-      Discord: <FontAwesome5 name="discord" size={25}         color={textColor} />,
-      Pinterest: <FontAwesome5 name="pinterest" size={25}         color={textColor} />,
+      twitter: <AntDesign name="twitter" size={20} color={textColor} />,
+      phone: <AntDesign name="phone" size={20} color={textColor} />,
+      youtube: <AntDesign name="youtube" size={20} color={textColor} />,
+      instagram: <AntDesign name="instagram" size={20} color={textColor} />,
+      github: <AntDesign name="github" size={25} color={textColor} />,
+      linkedin: (
+        <AntDesign name="linkedin-square" size={25} color={textColor} />
+      ),
+      'facebook-messenger': (
+        <FontAwesome5 name="facebook-messenger" size={20} color={textColor} />
+      ),
+      address: <Entypo name="location-pin" size={25} color={textColor} />,
+      spotify: <Entypo name="spotify" size={25} color={textColor} />,
+      facebook: <Entypo name="facebook" size={25} color={textColor} />,
+      whatsapp: <FontAwesome name="whatsapp" size={25} color={textColor} />,
+      reddit: <FontAwesome name="reddit" size={25} color={textColor} />,
+      twitch: <FontAwesome name="twitch" size={25} color={textColor} />,
+      snapchat: <FontAwesome name="snapchat" size={25} color={textColor} />,
+      telegram: <FontAwesome name="telegram" size={25} color={textColor} />,
+      tikTok: <FontAwesome5 name="tiktok" size={20} color={textColor} />,
+      discord: <FontAwesome5 name="discord" size={25} color={textColor} />,
+      pinterest: <FontAwesome5 name="pinterest" size={25} color={textColor} />,
     };
 
-    return(
-      <View style={{flex:1}}>
-      <TouchableOpacity
-        onPress={() => {
-          openBlockDetails(item, index);
-        }}
-        style={[
-          styles.nameDiv,
-          {
-            margin: 5,
-            height: hp(8),
-            alignItems: 'center',
-            flexDirection: 'row',
-            backgroundColor: theme === 'light' ? '#fff' : '#333',
-          },
-        ]}>
+    return (
+      <View style={{flex: 1}}>
+        <TouchableOpacity
+          onPress={() => {
+            openBlockDetails(item, index,);
+          }}
+          style={[
+            styles.nameDiv,
+            {
+              margin: 5,
+              height: hp(8),
+              alignItems: 'center',
+              flexDirection: 'row',
+              backgroundColor: theme === 'light' ? '#fff' : '#333',
+            },
+          ]}>
           {icons[item.key]}
-        <Text
-          style={{
-            fontSize: 18,
-            fontWeight: '500',
-            color: 'blue',
-            marginHorizontal:20,
-          }}>
-          {item.value}
-        </Text>
-        <Entypo name="plus" size={30} color={'blue'} />
-      </TouchableOpacity>
-      {BlockListIndex === index && showBlockListDetails && (
-        <View style={{marginVertical: 10}}>
-          <View style={{backgroundColor: bgColor}}>
-            <View
-              style={{
-                marginHorizontal: 5,
-                marginTop: 10,
-              }}>
-              <Text
-                style={{
-                  fontSize: 18,
-                  marginHorizontal: 10,
-                  color: textColor,
-                  fontWeight: '600',
-                }}>
-                Name
-              </Text>
-            </View>
-            <View
-              style={[
-                {
-                  height: hp(7),
-                  borderWidth: 2,
-                  borderRadius: 5,
-                  marginTop: 5,
-                  borderColor: '#f0f0f0',
-                },
-              ]}>
+          <Text
+            style={{
+              fontSize: 18,
+              fontWeight: '500',
+              color: 'blue',
+              marginHorizontal: 20,
+            }}>
+            {item.value}
+          </Text>
+          <Entypo name="plus" size={30} color={'blue'} />
+        </TouchableOpacity>
+        {BlockListIndex === index && showBlockListDetails && (
+          <View style={{marginVertical: 10}}>
+            <View style={{backgroundColor: bgColor}}>
               <View
                 style={{
-                  backgroundColor:
-                    theme == 'light' ? '#fff' : '#333',
-                  paddingHorizontal: 10,
-                  width: '100%',
+                  marginHorizontal: 5,
+                  marginTop: 10,
                 }}>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    marginHorizontal: 10,
+                    color: textColor,
+                    fontWeight: '600',
+                  }}>
+                  Name
+                </Text>
+              </View>
+              <View
+                style={[
+                  {
+                    height: hp(7),
+                    borderWidth: 2,
+                    borderRadius: 5,
+                    marginTop: 5,
+                    borderColor: '#f0f0f0',
+                  },
+                ]}>
+                <View
+                  style={{
+                    backgroundColor: theme == 'light' ? '#fff' : '#333',
+                    paddingHorizontal: 10,
+                    width: '100%',
+                  }}>
+                  <TextInput
+                    placeholderTextColor={textColor}
+                    placeholder={item.key}
+                    value={BlockName}
+                    onChangeText={txt => setBlockName(txt)}
+                    style={{
+                      fontSize: 14,
+                      paddingHorizontal: 10,
+                      color: textColor,
+                    }}
+                  />
+                </View>
+              </View>
+              <View
+                style={{
+                  marginHorizontal: 5,
+                  marginTop: 10,
+                  flexDirection: 'row',
+                }}>
+                {icons[btnData]}
+                <Text
+                  style={{
+                    fontSize: 18,
+                    marginHorizontal: 10,
+                    color: textColor,
+                    fontWeight: '600',
+                  }}>
+                  {btnData + ' username'}
+                </Text>
+              </View>
+              <View
+                style={[
+                  {
+                    height: hp(7),
+                    borderWidth: 2,
+                    borderRadius: 5,
+                    marginTop: 5,
+                    borderColor: '#f0f0f0',
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                  },
+                ]}>
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    backgroundColor: theme === 'light' ? '#f0f0f0' : '#333',
+                    alignItems: 'center',
+                    height: '100%',
+                    width: Btnurl === '@' ? '15%' : '60%',
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: Btnurl === '@' ? 22 : 16,
+                      fontWeight: '600',
+                      color: textColor,
+                    }}>
+                    {'https://www.forebearpro.in'}
+                  </Text>
+                </View>
                 <TextInput
+                  value={blockValueupdated}
+                  onChangeText={txt => setblockValueupdated(txt)}
                   placeholderTextColor={textColor}
-                  placeholder={item.key}
-                  value={BlockName}
-                  onChangeText={txt => setBlockName(txt)}
+                  placeholder={item.value}
                   style={{
                     fontSize: 14,
-                    paddingHorizontal: 10,
+                    height: '100%',
+                    width: Btnurl === '@' ? '85%' : '40%',
                     color: textColor,
                   }}
                 />
               </View>
-            </View>
-            <View
-              style={{
-                marginHorizontal: 5,
-                marginTop: 10,
-              }}>
-              <Text
-                style={{
-                  fontSize: 18,
-                  marginHorizontal: 10,
-                  color: textColor,
-                  fontWeight: '600',
-                }}>
-                {'TikTok username'}
-              </Text>
-            </View>
-            <View
-              style={[
-                {
-                  height: hp(7),
-                  borderWidth: 2,
-                  borderRadius: 5,
-                  marginTop: 5,
-                  borderColor: '#f0f0f0',
-                  alignItems: 'center',
-                  flexDirection: 'row',
-                },
-              ]}>
+
               <View
                 style={{
-                  justifyContent: 'center',
-                  backgroundColor:
-                    theme === 'light' ? '#f0f0f0' : '#333',
+                  flexDirection: 'row',
                   alignItems: 'center',
-                  height: '100%',
-                  width: Btnurl === '@' ? '15%' : '60%',
+                  marginTop: 20,
                 }}>
+                <Switch
+                  trackColor={{
+                    OpenLinkNewTab: '#767577',
+                    OpenLinkNewTab: '#81b0ff',
+                  }}
+                  thumbColor={OpenLinkNewTab ? '#f5dd4b' : '#f4f3f4'}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={() =>
+                    setOpenLinkNewTab(OpenLinkNewTab => !OpenLinkNewTab)
+                  }
+                  value={OpenLinkNewTab}
+                />
                 <Text
                   style={{
-                    fontSize: Btnurl === '@' ? 22 : 16,
+                    fontSize: 18,
                     fontWeight: '600',
                     color: textColor,
                   }}>
-                  {'https://www.forebearpro.in'}
+                  Open link in new tab
                 </Text>
               </View>
-              <TextInput
-                value={blockValueupdated}
-                onChangeText={txt => setblockValueupdated(txt)}
-                placeholderTextColor={textColor}
-                placeholder={item.value}
+              <View
                 style={{
-                  fontSize: 14,
-                  height: '100%',
-                  width: Btnurl === '@' ? '85%' : '40%',
-                  color: textColor,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginTop: 20,
+                }}>
+                <Switch
+                  trackColor={{
+                    BlockIsActive: '#767577',
+                    BlockIsActive: '#81b0ff',
+                  }}
+                  thumbColor={BlockIsActive ? '#f5dd4b' : '#f4f3f4'}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={() =>
+                    setBlockIsActive(BlockIsActive => !BlockIsActive)
+                  }
+                  value={BlockIsActive}
+                />
+                <Text
+                  style={{
+                    fontSize: 18,
+                    fontWeight: '600',
+                    color: textColor,
+                  }}>
+                  Block is active
+                </Text>
+              </View>
+
+              <TouchableOpacity
+                onPress={() => {
+                  Block_edit(item);
                 }}
-              />
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginTop: 20,
+                  marginHorizontal: 20,
+                  borderRadius: 5,
+
+                  backgroundColor: theme === 'light' ? '#4b5563' : '#333',
+                  height: hp(5),
+                }}>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    color: '#fff',
+                    fontWeight: '600',
+                  }}>
+                  Update
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  Delete_Block(item.id);
+                }}
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginTop: 20,
+                  marginHorizontal: 20,
+                  borderRadius: 5,
+
+                  backgroundColor: theme === 'light' ? '#4b5563' : '#333',
+                  height: hp(5),
+                }}>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    color: '#fff',
+                    fontWeight: '600',
+                  }}>
+                  Delete
+                </Text>
+              </TouchableOpacity>
             </View>
-
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginTop: 20,
-              }}>
-                 <Switch
-                trackColor={{OpenLinkNewTab: '#767577', OpenLinkNewTab: '#81b0ff'}}
-                thumbColor={OpenLinkNewTab ? '#f5dd4b' : '#f4f3f4'}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={()=>setOpenLinkNewTab(OpenLinkNewTab=>!OpenLinkNewTab)}
-                value={OpenLinkNewTab}
-              />
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontWeight: '600',
-                  color: textColor,
-                }}>
-                Open link in new tab
-              </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginTop: 20,
-              }}>
-              <Switch
-                trackColor={{BlockIsActive: '#767577', BlockIsActive: '#81b0ff'}}
-                thumbColor={BlockIsActive ? '#f5dd4b' : '#f4f3f4'}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={()=>setBlockIsActive(BlockIsActive=>!BlockIsActive)}
-                value={BlockIsActive}
-              />
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontWeight: '600',
-                  color: textColor,
-                }}>
-                Block is active
-              </Text>
-            </View>
-
-            <TouchableOpacity
-              onPress={() => {
-                Block_edit(item);
-              }}
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginTop: 20,
-                marginHorizontal: 20,
-                borderRadius: 5,
-
-                backgroundColor:
-                  theme === 'light' ? '#4b5563' : '#333',
-                height: hp(5),
-              }}>
-              <Text
-                style={{
-                  fontSize: 18,
-                  color: '#fff',
-                  fontWeight: '600',
-                }}>
-                Update
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                Delete_Block(item.id);
-              }}
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginTop: 20,
-                marginHorizontal: 20,
-                borderRadius: 5,
-
-                backgroundColor:
-                  theme === 'light' ? '#4b5563' : '#333',
-                height: hp(5),
-              }}>
-              <Text
-                style={{
-                  fontSize: 18,
-                  color: '#fff',
-                  fontWeight: '600',
-                }}>
-                Delete
-              </Text>
-            </TouchableOpacity>
           </View>
-        </View>
-      )}
-    </View>
-    )
-  }
+        )}
+      </View>
+    );
+  };
 
   const handleSelection = index => {
     const selectedItem = PixelList[index];
@@ -629,7 +639,15 @@ const [BlockIsActive,setBlockIsActive] =useState(false)
     });
   };
 
-  const check_Modal_click = (type, url) => {
+  const check_Modal_click = (type, url,icons) => {
+
+
+if(type!== 'none'){
+
+  setModalIcon(icons[type])
+}
+
+   
     setBtnData(type);
     setBtnurl(url);
     modals[type] = true;
@@ -665,7 +683,7 @@ const [BlockIsActive,setBlockIsActive] =useState(false)
   const getDataApi = useCallback(async () => {
     const params = {
       user_id: user?.data.id,
-      vcard_id:E_Id,
+      vcard_id: E_Id,
       authToken: user?.data.token,
     };
     dispatch(Block_List(params));
@@ -693,27 +711,23 @@ const [BlockIsActive,setBlockIsActive] =useState(false)
   }, [isFocused, getDataApi]);
 
   const Create_Block = () => {
-
     if (name !== '' && BlockValue !== '' && btnData !== '') {
-
       const params = {
         data: {
-          type:btnData,
-          key:name,
-          value:BlockValue,
-          open_in_new_tab:1,
-          is_enabled:1,
-          vcard_id:E_Id,
-          user_id :user?.data.id,
+          type: btnData,
+          key: name,
+          value: BlockValue,
+          open_in_new_tab: 1,
+          is_enabled: 1,
+          vcard_id: E_Id,
+          user_id: user?.data.id,
           created_by: user?.data.id,
-         },
+        },
         authToken: user?.data.token,
         user_id: user?.data.id,
       };
 
-
-
-       dispatch(CreateBlock(params));
+      dispatch(CreateBlock(params));
       setModalVisible(false);
       getDataApi();
       check_Modal_click('none');
@@ -748,14 +762,15 @@ const [BlockIsActive,setBlockIsActive] =useState(false)
   };
 
   const openBlockDetails = (item, index) => {
+  
     setBlockName(item.key);
     setblockValueupdated(item.value);
     setBtnData(item.type);
     setBlockListIndex(index);
     setShowBlockListDetails(showBlockListDetails => !showBlockListDetails);
-  setOpenLinkNewTab(item.open_in_new_tab == 1?true:false)
-  setBlockIsActive(item.is_enabled == 1?true:false)
-  
+    setOpenLinkNewTab(item.open_in_new_tab == 1 ? true : false);
+    setBlockIsActive(item.is_enabled == 1 ? true : false);
+
   };
 
   const Block_edit = item => {
@@ -767,11 +782,9 @@ const [BlockIsActive,setBlockIsActive] =useState(false)
         value: blockValueupdated,
         type: item.type,
         created_by: user?.data.id,
-        open_in_new_tab:OpenLinkNewTab==true?1:0,
-        is_enabled:BlockIsActive==true?1:0,
-        vcard_id:E_Id
-
-
+        open_in_new_tab: OpenLinkNewTab == true ? 1 : 0,
+        is_enabled: BlockIsActive == true ? 1 : 0,
+        vcard_id: E_Id,
       },
       authToken: user?.data.token,
       navigation: navigation,
@@ -828,34 +841,41 @@ const [BlockIsActive,setBlockIsActive] =useState(false)
   };
 
   const modalRenderItem = ({item}) => {
+
     const icons = {
-      Link: <Entypo name="link" size={25}  color={textColor}/>,
-      email: <MaterialCommunityIcons name="email" size={25}  color={textColor}/>,
-      Twitter: <AntDesign name="twitter" size={20}          color={textColor}/>,
-      Phone: <AntDesign name="phone" size={20}         color={textColor} />,
-      YouTube: <AntDesign name="youtube" size={20}          color={textColor}/>,
-      Instagram: <AntDesign name="instagram" size={20}          color={textColor}/>,
-      Github: <AntDesign name="github" size={25}         color={textColor} />,
-      Linkedin: <AntDesign name="linkedin-square" size={25}          color={textColor}/>,
-      'Facebook-messenger': (
-        <FontAwesome5 name="facebook-messenger" size={20}         color={textColor} />
+      link: <Entypo name="link" size={25} color={textColor} />,
+      email: (
+        <MaterialCommunityIcons name="email" size={25} color={textColor} />
       ),
-      Address: <Entypo name="location-pin" size={25}         color={textColor} />,
-      Spotify: <Entypo name="spotify" size={25}          color={textColor}/>,
-      FaceBook: <Entypo name="facebook" size={25}         color={textColor} />,
-      Whatsapp: <FontAwesome name="whatsapp" size={25}         color={textColor} />,
-      reddit: <FontAwesome name="reddit" size={25}          color={textColor}/>,
-      Twitch: <FontAwesome name="twitch" size={25}         color={textColor} />,
-      Snapchat: <FontAwesome name="snapchat" size={25}         color={textColor} />,
-      Telegram: <FontAwesome name="telegram" size={25}         color={textColor} />,
-      TikTok: <FontAwesome5 name="tiktok" size={20}         color={textColor} />,
-      Discord: <FontAwesome5 name="discord" size={25}         color={textColor} />,
-      Pinterest: <FontAwesome5 name="pinterest" size={25}         color={textColor} />,
+      twitter: <AntDesign name="twitter" size={20} color={textColor} />,
+      phone: <AntDesign name="phone" size={20} color={textColor} />,
+      youtube: <AntDesign name="youtube" size={20} color={textColor} />,
+      instagram: <AntDesign name="instagram" size={20} color={textColor} />,
+      github: <AntDesign name="github" size={25} color={textColor} />,
+      linkedin: (
+        <AntDesign name="linkedin-square" size={25} color={textColor} />
+      ),
+      'facebook-messenger': (
+        <FontAwesome5 name="facebook-messenger" size={20} color={textColor} />
+      ),
+      address: <Entypo name="location-pin" size={25} color={textColor} />,
+      spotify: <Entypo name="spotify" size={25} color={textColor} />,
+      facebook: <Entypo name="facebook" size={25} color={textColor} />,
+      whatsapp: <FontAwesome name="whatsapp" size={25} color={textColor} />,
+      reddit: <FontAwesome name="reddit" size={25} color={textColor} />,
+      twitch: <FontAwesome name="twitch" size={25} color={textColor} />,
+      snapchat: <FontAwesome name="snapchat" size={25} color={textColor} />,
+      telegram: <FontAwesome name="telegram" size={25} color={textColor} />,
+      tikTok: <FontAwesome5 name="tiktok" size={20} color={textColor} />,
+      discord: <FontAwesome5 name="discord" size={25} color={textColor} />,
+      pinterest: <FontAwesome5 name="pinterest" size={25} color={textColor} />,
     };
+
+    
 
     return (
       <TouchableOpacity
-        onPress={() => check_Modal_click(item.title, item.url)}
+        onPress={() => check_Modal_click(item.title, item.url,icons)}
         style={{
           shadowColor: '#000',
           shadowOffset: {
@@ -869,7 +889,7 @@ const [BlockIsActive,setBlockIsActive] =useState(false)
           marginHorizontal: 5,
           borderRadius: 5,
           marginVertical: 5,
-          backgroundColor:theme=='light'?'#fff':'#333',
+          backgroundColor: theme == 'light' ? '#fff' : '#333',
           height: 50,
           alignItems: 'center',
           flexDirection: 'row',
@@ -3138,10 +3158,7 @@ const [BlockIsActive,setBlockIsActive] =useState(false)
                 paddingHorizontal: 10,
                 borderRadius: 5,
               }}>
-              <FlatList
-                data={BlockList}
-                renderItem={block_listRenderItem}
-              />
+              <FlatList data={BlockList} renderItem={block_listRenderItem} />
             </View>
 
             <Modal
@@ -3158,7 +3175,10 @@ const [BlockIsActive,setBlockIsActive] =useState(false)
                 <View
                   style={[
                     styles.modalContainer,
-                    {marginTop: hp(2), height: hp(90),backgroundColor:bgColor
+                    {
+                      marginTop: hp(2),
+                      height: hp(90),
+                      backgroundColor: bgColor,
                     },
                   ]}>
                   <View
@@ -3170,7 +3190,11 @@ const [BlockIsActive,setBlockIsActive] =useState(false)
                       flexDirection: 'row',
                     }}>
                     <Text
-                      style={{fontSize: 22, fontWeight: '500', color:textColor}}>
+                      style={{
+                        fontSize: 22,
+                        fontWeight: '500',
+                        color: textColor,
+                      }}>
                       Modal Heading
                     </Text>
                     <TouchableOpacity
@@ -3274,11 +3298,7 @@ const [BlockIsActive,setBlockIsActive] =useState(false)
                               marginHorizontal: 10,
                               marginTop: 10,
                             }}>
-                            <FontAwesome5
-                              name="link"
-                              size={19}
-                              color={textColor}
-                            />
+                            {ModalIcon}
                             <Text
                               style={{
                                 fontSize: 18,
@@ -3304,7 +3324,8 @@ const [BlockIsActive,setBlockIsActive] =useState(false)
                             <View
                               style={{
                                 justifyContent: 'center',
-                                backgroundColor: theme=='light'?'#f0f0f0':'#333',
+                                backgroundColor:
+                                  theme == 'light' ? '#f0f0f0' : '#333',
                                 alignItems: 'center',
                                 height: '100%',
                                 width: Btnurl === '@' ? '15%' : '51%',
@@ -3501,25 +3522,25 @@ const CustomizationBtn = [
 ];
 
 const ModalData = [
-  {title: 'Link', url: '@'},
+  {title: 'link', url: '@'},
   {title: 'email', url: '@'},
-  {title: 'Phone', url: '@'},
-  {title: 'Address', url: '@'},
-  {title: 'YouTube', url: 'https://youtube.com/'},
-  {title: 'Instagram', url: 'https://instagram.com/'},
-  {title: 'FaceBook', url: 'https://Facebook.com/'},
-  {title: 'Twitter', url: 'https://twitter.com/'},
-  {title: 'Whatsapp', url: 'https://Whatsapp.com/'},
-  {title: 'TikTok', url: 'https://TikTok.com/'},
-  {title: 'Telegram', url: 'https://Telegram.com/'},
-  {title: 'Spotify', url: 'https://Spotify.com/'},
-  {title: 'Pinterest', url: 'https://Pinterest.com/'},
-  {title: 'Linkedin', url: 'https://Linkedin.com/'},
-  {title: 'Snapchat', url: 'https://Snapchat.com/'},
-  {title: 'Twitch', url: 'https://Twitch.com/'},
-  {title: 'Discord', url: 'https://Discord.com/'},
-  {title: 'Github', url: 'https://Github.com/'},
-  {title: 'Facebook-messenger', url: 'https://Facebook-messenger.com/'},
+  {title: 'phone', url: '@'},
+  {title: 'address', url: '@'},
+  {title: 'youtube', url: 'https://youtube.com/'},
+  {title: 'instagram', url: 'https://instagram.com/'},
+  {title: 'facebook', url: 'https://Facebook.com/'},
+  {title: 'twitter', url: 'https://twitter.com/'},
+  {title: 'whatsapp', url: 'https://Whatsapp.com/'},
+  {title: 'tikTok', url: 'https://TikTok.com/'},
+  {title: 'telegram', url: 'https://Telegram.com/'},
+  {title: 'spotify', url: 'https://Spotify.com/'},
+  {title: 'pinterest', url: 'https://Pinterest.com/'},
+  {title: 'linkedin', url: 'https://Linkedin.com/'},
+  {title: 'snapchat', url: 'https://Snapchat.com/'},
+  {title: 'twitch', url: 'https://Twitch.com/'},
+  {title: 'discord', url: 'https://Discord.com/'},
+  {title: 'github', url: 'https://Github.com/'},
+  {title: 'facebook-messenger', url: 'https://Facebook-messenger.com/'},
   {title: 'reddit', url: 'https://reddit.com/'},
 ];
 const GradientPresetData = [
