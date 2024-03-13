@@ -269,17 +269,17 @@ console.log('ModalIcon=>>>>>>>',ModalIcon);
       'facebook-messenger': (
         <FontAwesome5 name="facebook-messenger" size={20} color={textColor} />
       ),
-      address: <Entypo name="location-pin" size={25} color={textColor} />,
-      spotify: <Entypo name="spotify" size={25} color={textColor} />,
-      facebook: <Entypo name="facebook" size={25} color={textColor} />,
-      whatsapp: <FontAwesome name="whatsapp" size={25} color={textColor} />,
-      reddit: <FontAwesome name="reddit" size={25} color={textColor} />,
-      twitch: <FontAwesome name="twitch" size={25} color={textColor} />,
-      snapchat: <FontAwesome name="snapchat" size={25} color={textColor} />,
-      telegram: <FontAwesome name="telegram" size={25} color={textColor} />,
-      tikTok: <FontAwesome5 name="tiktok" size={20} color={textColor} />,
-      discord: <FontAwesome5 name="discord" size={25} color={textColor} />,
-      pinterest: <FontAwesome5 name="pinterest" size={25} color={textColor} />,
+      address: <Entypo name="location-pin" size={25} color={'blue'} />,
+      spotify: <Entypo name="spotify" size={25} color={'blue'} />,
+      facebook: <Entypo name="facebook" size={25} color={'blue'} />,
+      whatsapp: <FontAwesome name="whatsapp" size={25} color={'blue'} />,
+      reddit: <FontAwesome name="reddit" size={25}color={'blue'} />,
+      twitch: <FontAwesome name="twitch" size={25} color={'blue'} />,
+      snapchat: <FontAwesome name="snapchat" size={25} color={'blue'} />,
+      telegram: <FontAwesome name="telegram" size={25} color={'blue'} />,
+      tikTok: <FontAwesome5 name="tiktok" size={20} color={'blue'} />,
+      discord: <FontAwesome5 name="discord" size={25} color={'blue'} />,
+      pinterest: <FontAwesome5 name="pinterest" size={25} color={'blue'} />,
     };
 
     return (
@@ -298,7 +298,7 @@ console.log('ModalIcon=>>>>>>>',ModalIcon);
               backgroundColor: theme === 'light' ? '#fff' : '#333',
             },
           ]}>
-          {icons[item.key]}
+          {icons[item.type]}
           <Text
             style={{
               fontSize: 18,
