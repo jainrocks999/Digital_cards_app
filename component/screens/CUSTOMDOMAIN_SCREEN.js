@@ -9,6 +9,7 @@ import {
   Alert,
   Modal,
 } from 'react-native';
+import { Card } from 'react-native-paper';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useNavigation, useIsFocused} from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -299,217 +300,73 @@ export default function CUSTOMDOMAIN_SCREEN() {
           {DomainData !== null && (
             <>
               <View style={{flex: 1, marginTop: 20}}>
-                <FlatList
-                  data={DomainData}
-                  renderItem={({item, index}) => (
-                    <>
-                      <View
-                        style={{
-                          backgroundColor: bgColor,
-                          height: heightPercent(28),
-                          padding: 5,
-                          margin: 10,
+              <FlatList
+        data={DomainData}
+        renderItem={({ item, index }) => (
+          <Card style={{ margin: 10, marginTop: 5 }}>
+            <Card.Content>
+              <View style={{ flexDirection: 'row' }}>
+                <View style={{width:'60%'}}>
+              <View style={{ flexDirection: 'row' }}>
+                <View style={{ width: '50%' }}>
+                  <Text style={{ color:textColor,fontWeight:'600',fontSize:16  }}>Domain or subdomain</Text>
+                </View>
+                <View style={{ width: '50%' ,justifyContent:'center'}}>
+                  <Text style={{ color: textColor }}>{item.domain_or_subdomain}</Text>
+                </View>
+                </View>
+              <View style={{ flexDirection: 'row',marginTop:5 }}>
+                <View style={{ width: '50%' }}>
+                <Text style={{ color:textColor,fontWeight:'600',fontSize:16 }}>Status</Text>
+                </View>
+                <View style={{ paddingHorizontal:10,backgroundColor:'#6e6f70',justifyContent:'center',
+                height:30,borderRadius:5,flexDirection:'row',
+                alignItems:'center'}}>
+                  <Entypo name='eye-with-line' size={20}  color={'#fff'}/>
+                  <Text style={{ color:'#fff',fontSize:16 ,marginLeft:10}}>{'pending'}</Text>
+                </View>
+                </View>
+                </View>
+<View style={{flexDirection:'row',width:'40%',justifyContent:'center',marginLeft:10}}>
 
-                          borderRadius: 5,
-                          shadowColor: '#000',
-                          shadowOffset: {
-                            width: 0,
-                            height: 2,
-                          },
-                          shadowOpacity: 0.25,
-                          shadowRadius: 3.84,
-
-                          elevation: 5,
-                        }}>
-                        <View
-                          style={{
-                            flexDirection: 'row',
-                            marginHorizontal: 10,
-                            alignItems: 'center',
-                          }}>
-                          <View style={{width: '10%'}}>
-                            <Text
-                              style={{
-                                fontSize: 16,
-                                fontWeight: '700',
-                                color: textColor,
-                              }}>
-                              ID :
-                            </Text>
-                          </View>
-                          <View style={{width: '85%'}}>
-                            <Text
-                              style={{
-                                fontSize: 16,
-                                fontWeight: '500',
-                                color: textColor,
-                              }}>
-                              {item.id}
-                            </Text>
-                          </View>
-                        </View>
-                        <View
-                          style={{
-                            flexDirection: 'row',
-                            marginHorizontal: 10,
-                            marginTop: 5,
-                            alignItems: 'center',
-                          }}>
-                          <View style={{width: '30%'}}>
-                            <Text
-                              style={{
-                                fontSize: 16,
-                                fontWeight: '700',
-                                color: textColor,
-                              }}>
-                              Domain or subdomain :
-                            </Text>
-                          </View>
-                          <View style={{width: '45%'}}>
-                            <Text
-                              style={{
-                                fontSize: 16,
-                                fontWeight: '500',
-                                color: textColor,
-                              }}>
-                              {item.domain_or_subdomain}
-                            </Text>
-                          </View>
-                        </View>
-                        <View
-                          style={{
-                            flexDirection: 'row',
-                            marginHorizontal: 10,
-                            alignItems: 'center',
-                            marginTop: 5,
-                          }}>
-                          <View style={{width: '45%'}}>
-                            <Text
-                              style={{
-                                fontSize: 16,
-                                fontWeight: '700',
-                                color: textColor,
-                              }}>
-                              Custom Index Url :
-                            </Text>
-                          </View>
-                          <View style={{width: '85%'}}>
-                            <Text
-                              style={{
-                                fontSize: 16,
-                                fontWeight: '500',
-                                color: textColor,
-                              }}>
-                              {item.custom_index_url}
-                            </Text>
-                          </View>
-                        </View>
-                        <View
-                          style={{
-                            flexDirection: 'row',
-                            marginHorizontal: 10,
-                            height: 45,
-                            alignItems: 'center',
-                            marginTop: 5,
-                          }}>
-                          <View style={{width: '45%', marginTop: 5}}>
-                            <Text
-                              style={{
-                                fontSize: 16,
-                                fontWeight: '700',
-                                color: textColor,
-                              }}>
-                              Custom 404 Not Found Url :
-                            </Text>
-                          </View>
-                          <View style={{width: '50%'}}>
-                            <Text
-                              style={{
-                                fontSize: 16,
-                                fontWeight: '500',
-                                color: textColor,
-                              }}>
-                              {item.custom_404_not_found_url}
-                            </Text>
-                          </View>
-                        </View>
-                        <View
-                          style={{
-                            flexDirection: 'row',
-                            justifyContent: 'space-around',
-                            marginTop: 15,
-                          }}>
-                          <TouchableOpacity
-                            onPress={() => {
-                              setModalVisible(true);
-                              setViewDomainData(item);
-                            }}
-                            style={{
-                              backgroundColor: '#4b5563',
-                              height: 45,
-                              width: 80,
-                              borderRadius: 5,
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                            }}>
-                            <Text
-                              style={{
-                                fontSize: 16,
-                                color: '#fff',
-                                fontWeight: '600',
-                              }}>
-                              View
-                            </Text>
-                          </TouchableOpacity>
-                          <TouchableOpacity
-                            onPress={() => {
-                              navigation.navigate(ScreenNameEnum.Edit_Domain, {
-                                item: item,
-                              });
-                            }}
-                            style={{
-                              backgroundColor: '#17a2b8',
-                              height: 45,
-                              width: 80,
-                              borderRadius: 5,
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                            }}>
-                            <Text
-                              style={{
-                                fontSize: 16,
-                                color: '#fff',
-                                fontWeight: '600',
-                              }}>
-                              Edit
-                            </Text>
-                          </TouchableOpacity>
-                          <TouchableOpacity
-                            onPress={() => {
-                              DomainDelete(item.id);
-                            }}
-                            style={{
-                              backgroundColor: '#dc3545',
-                              height: 45,
-                              width: 80,
-                              borderRadius: 5,
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                            }}>
-                            <Text
-                              style={{
-                                fontSize: 16,
-                                color: '#fff',
-                                fontWeight: '600',
-                              }}>
-                              Delete
-                            </Text>
-                          </TouchableOpacity>
-                        </View>
-                      </View>
-                    </>
-                  )}
-                />
+           
+                <TouchableOpacity
+                 onPress={() => {
+                  navigation.navigate(ScreenNameEnum.Edit_Project, {
+                    Project_name: item.name,
+                    Project_color: item.color,
+                    Project_id: item.id,
+                  });
+                  hideMenu();
+                }}
+                  style={{
+                    width: '30%',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                
+                  }}>
+                  <AntDesign name="edit" size={20} color={textColor} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    ProjectDelete(item.id);
+                  }}
+                  style={{
+                    width: '30%',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginLeft:5
+                    
+                  }}>
+                  <AntDesign name="delete" size={20} color={textColor} />
+                </TouchableOpacity>
+                </View>
+                
+              </View>
+            </Card.Content>
+          </Card>
+        )}
+      />
               </View>
             </>
           )}

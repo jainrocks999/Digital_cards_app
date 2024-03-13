@@ -9,6 +9,7 @@ import {
   Alert,
   Modal,
 } from 'react-native';
+import { Card } from 'react-native-paper';
 import React, {useCallback, useEffect, useState} from 'react';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -96,6 +97,108 @@ export default function PIXELS_SCREEN() {
     );
 
     hideMenu();
+  };
+
+  const RenderItem = ({item}) => {
+    const icons = {
+
+    
+      twitter: <AntDesign name="twitter" size={20}          color={'#fff'}/>,
+      linkedin: <AntDesign name="linkedin-square" size={20}          color={'#fff'} />,
+      facebook: <Entypo name="facebook" size={20}         color={'#fff'} />,
+     
+      snapchat: <FontAwesome name="snapchat" size={20}         color={'#fff'} />,
+      
+      tiktok: <FontAwesome5 name="tiktok" size={20}         color={'#fff'} />,
+      pinterest: <FontAwesome5 name="pinterest" size={20}         color={'#fff'} />,
+      google_analytics: <AntDesign name="google" size={20}         color={'#fff'} />,
+      google_tag_manager: <AntDesign name="google" size={20}         color={'#fff'} />,
+      quora: <FontAwesome name="quora" size={15}         color={'#fff'} />
+       
+
+      
+    };
+
+    return (
+      <View
+      style={{
+        backgroundColor: bgColor,
+       
+      }}>
+   
+
+          <Card style={{ margin: 10, marginTop: 5 }}>
+            <Card.Content>
+              <View style={{ flexDirection: 'row' }}>
+                <View style={{width:'70%'}}>
+              <View style={{ flexDirection: 'row' }}>
+                <View style={{ width: '30%' }}>
+                  <Text style={{ color:textColor,fontWeight:'600',fontSize:16  }}>Name</Text>
+                </View>
+                <View style={{ width: '50%' ,justifyContent:'center'}}>
+                  <Text style={{ color: textColor ,fontSize:16,fontWeight:'500'}}>{item.name.substring(0,50)}</Text>
+                </View>
+                </View>
+              <View style={{ flexDirection: 'row',marginTop:5 }}>
+                <View style={{ width: '30%' }}>
+                <Text style={{ color:textColor,fontWeight:'600',fontSize:16 }}>Type</Text>
+                </View>
+                <View style={{ paddingHorizontal:10,backgroundColor:'#6e6f70',justifyContent:'center',
+                height:30,borderRadius:5,flexDirection:'row',
+                alignItems:'center'}}>
+   {icons[item.type]} 
+                  <Text style={{ color:'#fff',fontSize:16 ,marginLeft:10,fontWeight:'500'}}>{item.type}</Text>
+                </View>
+                </View>
+                </View>
+<View style={{flexDirection:'row',width:'30%',justifyContent:'center',marginLeft:10}}>
+
+           
+                <TouchableOpacity
+                 onPress={() => {
+                  navigation.navigate(ScreenNameEnum.Edit_Pixel, {
+                    item: item,
+                  });
+                }}
+                  style={{
+                    width: '30%',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                
+                  }}>
+                  <AntDesign name="edit" size={20} color={textColor} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    PixelDelete(item.id);
+                  }}
+                  style={{
+                    width: '30%',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginLeft:5
+                    
+                  }}>
+                  <AntDesign name="delete" size={20} color={textColor} />
+                </TouchableOpacity>
+                </View>
+                
+              </View>
+            </Card.Content>
+          </Card>
+     
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-around',
+          marginTop: 15,
+        }}>
+      
+       
+       
+      </View>
+    </View>
+    );
   };
   return (
     <View
@@ -268,275 +371,7 @@ export default function PIXELS_SCREEN() {
             <View style={{flex: 1, marginTop: 20}}>
               <FlatList
                 data={PixelList}
-                renderItem={({item, index}) => (
-                  <>
-                    <View
-                      style={{
-                        backgroundColor: bgColor,
-                                         padding: 5,
-                        margin: 10,
-paddingBottom:10,
-                        borderRadius: 5,
-                        shadowColor: '#000',
-                        shadowOffset: {
-                          width: 0,
-                          height: 2,
-                        },
-                        shadowOpacity: 0.25,
-                        shadowRadius: 3.84,
-
-                        elevation: 5,
-                      }}>
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          marginHorizontal: 10,
-                          alignItems: 'center',
-
-                          height: 30,
-                        }}>
-                        <View style={{width: '30%', justifyContent: 'center'}}>
-                          <Text
-                            style={{
-                              fontSize: 16,
-                              fontWeight: '700',
-                              color: textColor,
-                            }}>
-                            ID
-                          </Text>
-                        </View>
-                        <Text
-                          style={{
-                            marginHorizontal: 10,
-                            fontWeight: '800',
-                            color: textColor,
-                            fontSize: 16,
-                          }}>
-                          :
-                        </Text>
-                        <View
-                          style={{
-                            width: '30%',
-                            marginLeft: 20,
-                            justifyContent: 'center',
-                          }}>
-                          <Text
-                            style={{
-                              fontSize: 16,
-                              fontWeight: '500',
-                              color: textColor,
-                            }}>
-                            {item.id}
-                          </Text>
-                        </View>
-                      </View>
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          marginHorizontal: 10,
-                          alignItems: 'center',
-
-                          
-                        }}>
-                        <View style={{width: '30%',
-                         justifyContent: 'center'}}>
-                          <Text
-                            style={{
-                              fontSize: 16,
-                              fontWeight: '700',
-                              color: textColor,
-                            }}>
-                            Name
-                          </Text>
-                        </View>
-                        <Text
-                          style={{
-                            marginHorizontal: 10,
-                            fontWeight: '800',
-                            color: textColor,
-                            fontSize: 16,
-                          }}>
-                          :
-                        </Text>
-                        <View
-                          style={{
-                            width: '60%',
-                            marginLeft: 20,
-                            justifyContent: 'center',
-                          }}>
-                          <Text
-                            style={{
-                              fontSize: 16,
-                              fontWeight: '500',
-                              color: textColor,
-                            }}>
-                            {item.name.substring(0,50)}
-                          </Text>
-                        </View>
-                      </View>
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          marginHorizontal: 10,
-                          alignItems: 'center',
-
-                          height: 30,
-                        }}>
-                        <View style={{width: '30%', justifyContent: 'center'}}>
-                          <Text
-                            style={{
-                              fontSize: 16,
-                              fontWeight: '700',
-                              color: textColor,
-                            }}>
-                            Type
-                          </Text>
-                        </View>
-                        <Text
-                          style={{
-                            marginHorizontal: 10,
-                            fontWeight: '800',
-                            color: textColor,
-                            fontSize: 16,
-                          }}>
-                          :
-                        </Text>
-                        <View
-                          style={{
-                            width: '45%',
-                            marginLeft: 20,
-                            justifyContent: 'center',
-                          }}>
-                          <Text
-                            style={{
-                              fontSize: 16,
-                              fontWeight: '500',
-                              color: textColor,
-                            }}>
-                            {item.type}
-                          </Text>
-                        </View>
-                      </View>
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          marginHorizontal: 10,
-                          alignItems: 'center',
-
-                          height: 30,
-                        }}>
-                        <View style={{width: '30%', justifyContent: 'center'}}>
-                          <Text
-                            style={{
-                              fontSize: 16,
-                              fontWeight: '700',
-                              color: textColor,
-                            }}>
-                            Pixel ID
-                          </Text>
-                        </View>
-                        <Text
-                          style={{
-                            marginHorizontal: 10,
-                            fontWeight: '800',
-                            color: textColor,
-                            fontSize: 16,
-                          }}>
-                          :
-                        </Text>
-                        <View
-                          style={{
-                            width: '45%',
-                            marginLeft: 20,
-                            justifyContent: 'center',
-                          }}>
-                          <Text
-                            style={{
-                              fontSize: 16,
-                              fontWeight: '500',
-                              color: textColor,
-                            }}>
-                            {item.pixelid}
-                          </Text>
-                        </View>
-                      </View>
-
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          justifyContent: 'space-around',
-                          marginTop: 15,
-                        }}>
-                        <TouchableOpacity
-                          onPress={() => {
-                            setModalVisible(true);
-                            setViewPixelData(item);
-                          }}
-                          style={{
-                            backgroundColor: '#4b5563',
-                            height: 45,
-                            width: 80,
-                            borderRadius: 5,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                          }}>
-                          <Text
-                            style={{
-                              fontSize: 16,
-                              color: '#fff',
-                              fontWeight: '600',
-                            }}>
-                            View
-                          </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          onPress={() => {
-                            navigation.navigate(ScreenNameEnum.Edit_Pixel, {
-                              item: item,
-                            });
-                          }}
-                          style={{
-                            backgroundColor: '#17a2b8',
-                            height: 45,
-                            width: 80,
-                            borderRadius: 5,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                          }}>
-                          <Text
-                            style={{
-                              fontSize: 16,
-                              color: '#fff',
-                              fontWeight: '600',
-                            }}>
-                            Edit
-                          </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          onPress={() => {
-                            PixelDelete(item.id);
-                          }}
-                          style={{
-                            backgroundColor: '#dc3545',
-                            height: 45,
-                            width: 80,
-                            borderRadius: 5,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                          }}>
-                          <Text
-                            style={{
-                              fontSize: 16,
-                              color: '#fff',
-                              fontWeight: '600',
-                            }}>
-                            Delete
-                          </Text>
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                  </>
-                )}
+                renderItem={RenderItem}
               />
             </View>
           </>

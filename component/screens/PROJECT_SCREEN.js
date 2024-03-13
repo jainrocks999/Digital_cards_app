@@ -300,18 +300,18 @@ export default function PROJECT_SCREEN() {
 <View style={{flexDirection:'row',width:'40%'}}>
 
                 <TouchableOpacity
-                 onPress={() => {
-                  setModalVisible(true);
-                  setViewProjectData(item);
-                  hideMenu();
-                }}
+                //  onPress={() => {
+                //   setModalVisible(true);
+                //   setViewProjectData(item);
+                //   hideMenu();
+                // }}
                   style={{
                     width: '30%',
                     alignItems: 'center',
                     justifyContent: 'center',
                     
                   }}>
-                  <Entypo name="eye" size={20} color={textColor} />
+                  <FontAwesome name="id-card" size={20} color={textColor} />
                 </TouchableOpacity>
                 <TouchableOpacity
                  onPress={() => {
