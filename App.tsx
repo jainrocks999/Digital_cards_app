@@ -11,8 +11,8 @@ import firestore from '@react-native-firebase/firestore';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
 
 function App() {
-  const [updatedVersion, setUpdatedVersion] = React.useState('');
-  const [RemindME, setRemindMe] = React.useState(true);
+  const [updatedVersion, setUpdatedVersion] = React.useState(false);
+  const [RemindME, setRemindMe] = React.useState(false);
 
   React.useEffect(() => {
     getVersion();
@@ -20,16 +20,17 @@ function App() {
 
   const getVersion = async () => {
     const user = await firestore().collection('versions').get();
-    console.log('app js', user?.docs[0]._data);
-    setUpdatedVersion(user?.docs[0]._data.version);
-   setRemindMe(DeviceInfo.getVersion() == updatedVersion)
+    setUpdatedVersion(DeviceInfo.getVersion() == user?.docs[0]._data.version);
+  console.log('updatedVersion',updatedVersion);
+  
+     
 
   };
-  console.log('version ! ', DeviceInfo.getVersion());
+
  
   return (
     <>
-      {!RemindME && (
+      {!updatedVersion && (
         <View
           style={{
             flex: 1,
@@ -70,7 +71,7 @@ function App() {
             <TouchableOpacity
               onPress={() => {
 
-                setRemindMe(true)
+                setUpdatedVersion(true)
                 alert('Update Success enjoy New Features')
               }}
               style={{
@@ -87,7 +88,7 @@ function App() {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => { setRemindMe(true)}}
+              onPress={() => { setUpdatedVersion(true)}}
               style={{
                 backgroundColor: '#e06951',
                 marginTop:20,
@@ -108,7 +109,7 @@ function App() {
           </ImageBackground>
         </View>
       )}
-      {RemindME  && (
+      {updatedVersion && (
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <AppNavigator />
