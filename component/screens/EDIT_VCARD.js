@@ -1001,7 +1001,7 @@ export default function EDIT_VCARD({route}) {
               marginHorizontal: 20,
               color: textColor,
             }}>
-            rohan Vcard
+             Vcard
           </Text>
           <AntDesign name="infocirlce" size={20} color={textColor} />
         </View>
