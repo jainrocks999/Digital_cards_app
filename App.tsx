@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Provider} from 'react-redux';
-import {LogBox, Text, TouchableOpacity, View} from 'react-native';
+import {ImageBackground, LogBox, Text, TouchableOpacity, View} from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();
 import {PersistGate} from 'redux-persist/integration/react';
@@ -12,7 +12,7 @@ import {heightPercentageToDP} from 'react-native-responsive-screen';
 
 function App() {
   const [updatedVersion, setUpdatedVersion] = React.useState('');
-  const [updatedApp, setUpdatedApp] = React.useState(false);
+  const [RemindME, setRemindMe] = React.useState(true);
 
   React.useEffect(() => {
     getVersion();
@@ -22,21 +22,28 @@ function App() {
     const user = await firestore().collection('versions').get();
     console.log('app js', user?.docs[0]._data);
     setUpdatedVersion(user?.docs[0]._data.version);
+   setRemindMe(DeviceInfo.getVersion() === updatedVersion)
+
   };
-  console.log('deviceInfo ', DeviceInfo.getVersion());
+  console.log('version ! ', DeviceInfo.getVersion() !== updatedVersion && !RemindME);
+  console.log('version match ', DeviceInfo.getVersion() === updatedVersion && RemindME);
 
   return (
     <>
-      {DeviceInfo.getVersion() !== updatedVersion && (
+      {!RemindME && (
         <View
           style={{
             flex: 1,
-            justifyContent: 'center',
+        
             backgroundColor: '#f0f0f0',
           }}>
+            <ImageBackground style={{flex:1}}   source={require('./component/image/bg.jpg')} >
           <View
             style={{
-              height: '30%',
+              position:'absolute',
+              bottom:20,
+             
+              width:'90%',
               borderRadius: 5,
               backgroundColor: 'white',
               shadowColor: '#000',
@@ -56,16 +63,20 @@ function App() {
                 color: 'green',
                 fontSize: 22,
                 fontWeight: '600',
-                marginTop: '10%',
+               marginTop:10
               }}>
               Please Update Your App  {updatedVersion}
             </Text>
 
             <TouchableOpacity
-              onPress={() => {}}
+              onPress={() => {
+
+                setRemindMe(true)
+                alert('Update Success enjoy New Features')
+              }}
               style={{
                 backgroundColor: 'green',
-                marginTop: '20%',
+                marginTop:30,
                 height: 45,
                 borderRadius: 5,
                 width: '80%',
@@ -76,10 +87,29 @@ function App() {
                 Update App
               </Text>
             </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => { setRemindMe(true)}}
+              style={{
+                backgroundColor: '#e06951',
+                marginTop:20,
+                height: 45,
+                borderRadius: 5,
+                width: '80%',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Text style={{fontSize: 18, fontWeight: '600', color: '#fff'}}>
+              Remind Me Later
+              </Text>
+            </TouchableOpacity>
+
+            <View  style={{height:50}} />
           </View>
+
+          </ImageBackground>
         </View>
       )}
-      {DeviceInfo.getVersion() === updatedVersion && (
+      {RemindME  && (
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <AppNavigator />
