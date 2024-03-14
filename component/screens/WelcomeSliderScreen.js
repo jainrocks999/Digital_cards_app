@@ -18,7 +18,7 @@ export default function WelcomeSliderScreen() {
   const isAuthenticated = useSelector(state => state.auth.isLogOut);
   const isLogin = useSelector(state => state.auth.isLogin);
 
-console.log(!isAuthenticated && isLogin);
+console.log('welcome screen',!isAuthenticated && isLogin);
   const navigation = useNavigation();
 const isFoucs = useIsFocused();
 

@@ -60,6 +60,26 @@ export default function Home_Screen() {
     setVisibleMenuIndex(index);
   };
 
+  
+useEffect(()=>{
+  getCrashlyticsDetail()
+},[user])
+
+    const getCrashlyticsDetail = async() => {
+console.log('=>>>>>>>>>>>getCrashlyticsDetail  Called');
+  
+      try {
+        crashlytics().setUserId(user?.data.id)
+        crashlytics().setAttribute('username:'+user?.data.email)
+      } catch (err) {
+        crashlytics().recordError(err)
+      }
+    }
+
+
+
+
+
   const hideMenu = () => {
     setVisible(false);
     setVisibleMenuIndex(null);

@@ -1,7 +1,8 @@
 apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
-
+apply plugin:'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 /**
  * This is the configuration block to customize your React Native Android app.
  * By default you don't need to apply any configuration, just uncomment the lines you need.
@@ -96,6 +97,7 @@ android {
                 keyAlias MYAPP_UPLOAD_KEY_ALIAS
                 keyPassword MYAPP_UPLOAD_KEY_PASSWORD
             }
+       
         }
     }
     buildTypes {
@@ -108,7 +110,13 @@ android {
             signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        firebaseCrashlytics {
+                nativeSymbolUploadEnabled true
+                unstrippedNativeLibsDir 'build/intermediates/merged_native_libs/release/out/lib'
+            }
+       
         }
+
     }
 }
 
@@ -117,6 +125,12 @@ dependencies {
     implementation("com.facebook.react:react-android")
     implementation("com.facebook.react:flipper-integration")
 implementation project(':react-native-vector-icons')
+implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.firebase:firebase-bom:32.3.1")
+        implementation("com.google.firebase:firebase-crashlytics")
+         implementation ('com.google.firebase:firebase-analytics:17.3.0')
+    implementation("com.google.firebase:firebase-auth")
+
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
     } else {

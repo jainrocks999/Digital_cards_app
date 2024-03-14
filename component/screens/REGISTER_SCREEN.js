@@ -110,12 +110,12 @@ export default function REGISTER_SCREEN() {
             shadowRadius: 3.84,
 
             elevation: 5,
-            height: hp(95),
+      
             padding: 20,
           }}>
-          <Text style={{fontSize: 18, fontWeight: '600'}}>Sign Up</Text>
+         <Text style={{fontSize: 18, fontWeight: '600' , color:'#333'}}>Sign Up</Text>
           <View style={{marginTop: 25}}>
-            <Text style={{fontSize: 18, fontWeight: '600'}}>Name</Text>
+           <Text style={{fontSize: 18, fontWeight: '600' , color:'#333'}}>Name</Text>
             <View
               style={{
                 backgroundColor: '#f0f0f0',
@@ -125,13 +125,15 @@ export default function REGISTER_SCREEN() {
               }}>
               <TextInput
                 placeholder="Enter Name "
+                placeholderTextColor={'#333'}
+                style={{color:'#333'}}
                 value={name}
                 onChangeText={txt => setName(txt)}
               />
             </View>
           </View>
           <View style={{marginTop: 25}}>
-            <Text style={{fontSize: 18, fontWeight: '600'}}>Email</Text>
+           <Text style={{fontSize: 18, fontWeight: '600' , color:'#333'}}>Email</Text>
             <View
               style={{
                 backgroundColor: '#f0f0f0',
@@ -141,13 +143,15 @@ export default function REGISTER_SCREEN() {
               }}>
               <TextInput
                 placeholder="Enter Email "
+                placeholderTextColor={'#333'}
+                style={{color:'#333'}}
                 value={email}
                 onChangeText={txt => setEmail(txt)}
               />
             </View>
           </View>
           <View style={{marginTop: 15}}>
-            <Text style={{fontSize: 18, fontWeight: '600'}}>Password</Text>
+           <Text style={{fontSize: 18, fontWeight: '600' , color:'#333'}}>Password</Text>
             <View
               style={{
                 backgroundColor: '#f0f0f0',
@@ -157,6 +161,8 @@ export default function REGISTER_SCREEN() {
               }}>
               <TextInput
                 placeholder="Enter Password "
+                placeholderTextColor={'#333'}
+                style={{color:'#333'}}
                 value={password}
                 onChangeText={txt => setPassword(txt)}
                 secureTextEntry={true}
@@ -164,7 +170,7 @@ export default function REGISTER_SCREEN() {
             </View>
           </View>
           <View style={{marginTop: 15}}>
-            <Text style={{fontSize: 18, fontWeight: '600'}}>
+           <Text style={{fontSize: 18, fontWeight: '600' , color:'#333'}}>
               Confirm Password
             </Text>
             <View
@@ -178,6 +184,8 @@ export default function REGISTER_SCREEN() {
                 placeholder="Enter Confirm Password "
                 value={confirmPassword}
                 onChangeText={txt => setConfirmPassword(txt)}
+                placeholderTextColor={'#333'}
+                style={{color:'#333'}}
               />
             </View>
             {error ? (
@@ -195,10 +203,10 @@ export default function REGISTER_SCREEN() {
               marginTop: 15,
             }}>
             <TouchableOpacity>
-              <Text> Remember me</Text>
+              <Text style={{color:'grey'}}> Remember me</Text>
             </TouchableOpacity>
             <TouchableOpacity>
-              <Text>Lost Password</Text>
+            <Text style={{color:'grey'}}> Lost Password</Text>
             </TouchableOpacity>
           </View>
           <TouchableOpacity
@@ -228,7 +236,7 @@ export default function REGISTER_SCREEN() {
               marginHorizontal: 20,
               marginTop: 10,
             }}>
-            <Text style={{fontSize: 16, fontWeight: '500'}}>
+            <Text style={{fontSize: 16, fontWeight: '500',color:'grey'}}>
               Already have an account?
             </Text>
             <TouchableOpacity
@@ -241,8 +249,8 @@ export default function REGISTER_SCREEN() {
               </Text>
             </TouchableOpacity>
           </View>
+        <View style={{height: hp(5)}} />
         </View>
-        <View style={{height: hp(10)}} />
       </ScrollView>
     </View>
   );
