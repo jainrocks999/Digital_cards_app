@@ -228,26 +228,43 @@ export default function EDIT_VCARD({route}) {
   }, [edit, item]);
 
   const isFocused = useIsFocused();
-  console.log('ModalIcon=>>>>>>>', ModalIcon);
+  
   const showDetails = index => {
-    const stateVariables = [
-      [SetshowVcard, 'showVcard'],
-      [setShowAdvanced, 'showAdvanced'],
-      [setShowCustom, 'showCustom'],
-      [setShowPixel, 'showPixel'],
-      [setShowSeo, 'showSeo'],
-    ];
-
-    stateVariables.forEach(([stateVar, stateName], i) => {
-      if (i === index) {
-        stateVar(prevState => !prevState);
-      } else {
-        // Assuming other state variables are boolean
-        stateVar(false);
-      }
-    });
-
     setShowIndex(index);
+
+    if (index == 0) {	   
+      SetshowVcard(SetshowVcard => !SetshowVcard);	
+      setShowAdvanced(false);	
+      setShowCustom(false);	
+      setShowPixel(false);	
+      setShowSeo(false);	
+    } else if (index == 1) {	
+      setShowCustom(showCustom => !showCustom);	
+      setShowAdvanced(false);	
+      SetshowVcard(false);	
+      setShowPixel(false);	
+      setShowSeo(false);	
+    } else if (index == 2) {	
+      setShowPixel(showPixel => !showPixel);	
+      setShowAdvanced(false);	
+      SetshowVcard(false);	
+      setShowCustom(false);	
+      setShowSeo(false);	
+    } else if (index == 3) {	
+      setShowSeo(showSeo => !showSeo);	
+      setShowAdvanced(false);	
+      SetshowVcard(false);	
+      setShowCustom(false);	
+      setShowPixel(false);	
+    } else if (index == 4) {	
+      setShowAdvanced(showAdvanced => !showAdvanced);	
+      setShowPixel(false);	
+      SetshowVcard(false);	
+      setShowCustom(false);	
+      setShowSeo(false);	
+    }	
+
+    
   };
 
   const block_listRenderItem = value => {
