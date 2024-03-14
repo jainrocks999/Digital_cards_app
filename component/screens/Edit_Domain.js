@@ -361,7 +361,7 @@ width:'100%',
         </View>
 
         <View style={{height: hp(20), marginTop: 20, marginHorizontal: 10}}>
-          <View style={{height: hp(10), width: '40%'}}>
+         <View style={{height: hp(10), width: '40%',backgroundColor:'#fff'}}>
             <Image
               source={require('../image/logo.png')}
               style={{height: '100%', width: '100%'}}

@@ -350,6 +350,8 @@ console.log('=>>>>>>>>>>>getCrashlyticsDetail  Called');
             borderBottomWidth: 2,
             borderTopWidth: 2,
             borderColor: '#f0f0f0',
+            marginTop:10,
+            marginHorizontal:10
           }}>
           <View
             style={{

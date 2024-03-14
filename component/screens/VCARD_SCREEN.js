@@ -350,7 +350,7 @@ export default function VCARD_SCREEN() {
             <View
               style={{
                 backgroundColor: bgColor,
-
+                marginTop:hp(2),
                 height: 45,
                 marginHorizontal: 10,
                 flexDirection: 'row',
@@ -423,7 +423,7 @@ export default function VCARD_SCREEN() {
                         <View
                           style={{
                             width: '40%',
-                            height:65,
+                            height:55,
                            marginLeft:5
                           }}>
                           <Text
@@ -443,8 +443,8 @@ export default function VCARD_SCREEN() {
                                 justifyContent: 'center',
                                 borderColor: theme == 'light' ? 'blue' : '#fff',
                                 borderRadius: 5,
-                                marginTop:10,
-                         width: '50%',
+                           marginTop:3,
+                                  width: '50%',
                                
                               }}
                               onPress={()=>{
@@ -696,7 +696,7 @@ export default function VCARD_SCREEN() {
           </>
         )}
         <View style={{height: hp(20), marginTop: 20, marginHorizontal: 10}}>
-          <View style={{height: hp(10), width: '40%'}}>
+         <View style={{height: hp(10), width: '40%',backgroundColor:'#fff'}}>
             <Image
               source={require('../image/logo.png')}
               style={{height: '100%', width: '100%'}}

@@ -272,20 +272,20 @@ export default function EDIT_VCARD({route}) {
     const item = value.item;
 
     const icons = {
-      link: <Entypo name="link" size={25} color={textColor} />,
+      link: <Entypo name="link" size={25} color={'blue'} />,
       email: (
-        <MaterialCommunityIcons name="email" size={25} color={textColor} />
+        <MaterialCommunityIcons name="email" size={25} color={'blue'}  />
       ),
-      twitter: <AntDesign name="twitter" size={20} color={textColor} />,
-      phone: <AntDesign name="phone" size={20} color={textColor} />,
-      youtube: <AntDesign name="youtube" size={20} color={textColor} />,
-      instagram: <AntDesign name="instagram" size={20} color={textColor} />,
-      github: <AntDesign name="github" size={25} color={textColor} />,
+      twitter: <AntDesign name="twitter" size={20} color={'blue'}  />,
+      phone: <AntDesign name="phone" size={20} color={'blue'}  />,
+      youtube: <AntDesign name="youtube" size={20} color={'blue'}  />,
+      instagram: <AntDesign name="instagram" size={20} color={'blue'}  />,
+      github: <AntDesign name="github" size={25} color={'blue'} />,
       linkedin: (
-        <AntDesign name="linkedin-square" size={25} color={textColor} />
+        <AntDesign name="linkedin-square" size={25}color={'blue'} />
       ),
       'facebook-messenger': (
-        <FontAwesome5 name="facebook-messenger" size={20} color={textColor} />
+        <FontAwesome5 name="facebook-messenger" size={20} color={'blue'} />
       ),
       address: <Entypo name="location-pin" size={25} color={'blue'} />,
       spotify: <Entypo name="spotify" size={25} color={'blue'} />,
@@ -1028,12 +1028,14 @@ export default function EDIT_VCARD({route}) {
           <TouchableOpacity
             onPress={() => {
               setSetting(true);
+
             }}
+            disabled={showSetting}
             style={{
               borderWidth: 1,
               alignItems: 'center',
               justifyContent: 'center',
-              backgroundColor: showSetting ? '#4b5563' : '#fff',
+              backgroundColor: showSetting ?  '#fff':'#4b5563',
               width: '50%',
               height: 40,
             }}>
@@ -1041,7 +1043,7 @@ export default function EDIT_VCARD({route}) {
               style={{
                 color: textColor,
                 fontSize: 18,
-                color: showSetting ? '#fff' : '#333',
+                color: showSetting ? '#333' : '#fff',
               }}>
               Setting
             </Text>
@@ -1051,15 +1053,16 @@ export default function EDIT_VCARD({route}) {
             onPress={() => {
               setSetting(false);
             }}
+            disabled={!showSetting}
             style={{
               borderWidth: 1,
               alignItems: 'center',
               justifyContent: 'center',
-              backgroundColor: showSetting ? '#fff' : '#4b5563',
+              backgroundColor: showSetting ? '#4b5563':'#fff',
               width: '50%',
               height: 40,
             }}>
-            <Text style={{color: showSetting ? '#333' : '#fff', fontSize: 18}}>
+            <Text style={{color: showSetting ? '#fff' : '#333', fontSize: 18}}>
               Blocks
             </Text>
           </TouchableOpacity>
@@ -3349,6 +3352,7 @@ export default function EDIT_VCARD({route}) {
                                   fontSize: Btnurl === '@' ? 22 : 16,
                                   fontWeight: '600',
                                   color: textColor,
+                                  paddingHorizontal:5
                                 }}>
                                 {Btnurl}
                               </Text>
@@ -3415,13 +3419,7 @@ export default function EDIT_VCARD({route}) {
                       </>
                     ) : null}
 
-                    <View
-                      style={{
-                        borderWidth: 1,
-                        borderColor: '#f0f0f0',
-                        marginTop: 20,
-                      }}
-                    />
+                    
                   </View>
                 </View>
               </View>

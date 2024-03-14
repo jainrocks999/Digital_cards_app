@@ -130,7 +130,7 @@ export default function PROJECT_SCREEN() {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <Text style={{fontSize: 22, fontWeight: '600', color: textColor}}>
+          <Text style={{fontSize: 22, fontWeight: '600', color:textColor}}>
             Projects
           </Text>
         </View>
@@ -171,10 +171,12 @@ export default function PROJECT_SCREEN() {
               fontSize: 20,
               fontWeight: '600',
               marginHorizontal: 20,
+              color:textColor
             }}>
             Projects
           </Text>
-          <AntDesign name="infocirlce" size={20} color={'#000'} />
+          <AntDesign name="infocirlce" size={20} color={textColor
+          } />
         </View>
 
         <View
@@ -269,7 +271,7 @@ export default function PROJECT_SCREEN() {
               <FlatList
                 data={ProjectData}
                 renderItem={({item, index}) => (
-                  <Card style={{margin: 10, marginTop: 5}}>
+                  <Card style={{margin: 10, marginTop: 5,backgroundColor:bgColor}}>
                     <Card.Content>
                       <View style={{flexDirection: 'row'}}>
                         <View style={{width: '60%'}}>
@@ -364,7 +366,7 @@ export default function PROJECT_SCREEN() {
         )}
 
         <View style={{height: hp(20), marginTop: 20, marginHorizontal: 10}}>
-          <View style={{height: hp(10), width: '40%'}}>
+         <View style={{height: hp(10), width: '40%',backgroundColor:'#fff'}}>
             <Image
               source={require('../image/logo.png')}
               style={{height: '100%', width: '100%'}}

@@ -127,7 +127,7 @@ export default function PIXELS_SCREEN() {
       }}>
    
 
-          <Card style={{ margin: 10, marginTop: 5 }}>
+          <Card style={{ margin: 10, marginTop: 5 ,backgroundColor:theme=='light'?'#fff':'#333' }}>
             <Card.Content>
               <View style={{ flexDirection: 'row' }}>
                 <View style={{width:'70%'}}>
@@ -497,7 +497,7 @@ export default function PIXELS_SCREEN() {
         </Modal>
 
         <View style={{height: hp(20), marginTop: 20, marginHorizontal: 10}}>
-          <View style={{height: hp(10), width: '40%'}}>
+          <View style={{height: hp(10), width: '40%',backgroundColor:'#fff'}}>
             <Image
               source={require('../image/logo.png')}
               style={{height: '100%', width: '100%'}}
