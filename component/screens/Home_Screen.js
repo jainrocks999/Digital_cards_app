@@ -355,7 +355,7 @@ console.log('=>>>>>>>>>>>getCrashlyticsDetail  Called');
           }}>
           <View
             style={{
-              width: widthPrecent(60),
+              width: widthPrecent(50),
               justifyContent: 'center',
             }}>
             <Text style={{fontSize: 18, color: textColor}}>Name</Text>

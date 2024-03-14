@@ -22,12 +22,11 @@ function App() {
     const user = await firestore().collection('versions').get();
     console.log('app js', user?.docs[0]._data);
     setUpdatedVersion(user?.docs[0]._data.version);
-   setRemindMe(DeviceInfo.getVersion() === updatedVersion)
+   setRemindMe(DeviceInfo.getVersion() == updatedVersion)
 
   };
-  console.log('version ! ', DeviceInfo.getVersion() !== updatedVersion && !RemindME);
-  console.log('version match ', DeviceInfo.getVersion() === updatedVersion && RemindME);
-
+  console.log('version ! ', DeviceInfo.getVersion());
+ 
   return (
     <>
       {!RemindME && (

@@ -194,21 +194,7 @@ export default function REGISTER_SCREEN() {
               </Text>
             ) : null}
           </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginHorizontal: 10,
-              alignItems: 'center',
-              marginTop: 15,
-            }}>
-            <TouchableOpacity>
-              <Text style={{color:'grey'}}> Remember me</Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-            <Text style={{color:'grey'}}> Lost Password</Text>
-            </TouchableOpacity>
-          </View>
+      
           <TouchableOpacity
             onPress={() => {
               setError('');

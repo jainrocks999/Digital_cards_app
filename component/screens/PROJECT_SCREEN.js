@@ -296,7 +296,8 @@ export default function PROJECT_SCREEN() {
                               </Text>
                             </View>
                             <View style={{width: '40%'}}>
-                              <Text style={{color: textColor}}>
+                            <View style={{backgroundColor:item.color,height:20,width:20}} />  
+                            <Text style={{color: textColor}}>
                                 {item.color}
                               </Text>
                             </View>
